@@ -55,7 +55,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  code, pre {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
   }
 }
 

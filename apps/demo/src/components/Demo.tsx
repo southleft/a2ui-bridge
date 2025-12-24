@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Surface, useA2uiProcessor } from '@a2ui-bridge/react';
 import type { ServerToClientMessage, UserAction } from '@a2ui-bridge/core';
 import { generateUI, isConfigured } from '../services/ai';
@@ -93,6 +93,7 @@ interface ChatMessage {
 
 export function Demo() {
   const navigate = useNavigate();
+  const location = useLocation();
   const processor = useA2uiProcessor();
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -234,6 +235,19 @@ export function Demo() {
   const useScenario = useCallback((scenarioPrompt: string) => {
     handleGenerate(scenarioPrompt);
   }, [handleGenerate]);
+
+  // Auto-trigger generation if navigated with a prompt from Landing page
+  useEffect(() => {
+    const navigationPrompt = (location.state as { prompt?: string })?.prompt;
+    if (navigationPrompt && hasApiKey && !isGenerating) {
+      // Clear the state to prevent re-triggering on subsequent renders
+      window.history.replaceState({}, document.title);
+      // Small delay to ensure component is fully mounted
+      setTimeout(() => {
+        handleGenerate(navigationPrompt);
+      }, 100);
+    }
+  }, [location.state, hasApiKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <TooltipProvider>
