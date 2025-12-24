@@ -150,7 +150,7 @@ export function Landing() {
           </div>
 
           {/* Right Column - How it Works */}
-          <div className="p-8 bg-white border border-gray-200 rounded-2xl shadow-sm">
+          <div className="p-8 bg-white border border-gray-200 rounded-sm shadow-sm">
             <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide mb-8">How It Works</p>
 
             <div className="flex flex-col gap-7">
@@ -198,32 +198,32 @@ export function Landing() {
             <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide mb-8">Capabilities</p>
 
             <div className="grid grid-cols-2 gap-5">
-              <div className="p-6 bg-white border border-gray-200 rounded-xl hover:border-blue-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center mb-4">
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-blue-200 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center mb-4">
                   <Network size={28} strokeWidth={1.5} className="text-blue-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Any LLM</p>
                 <p className="text-base text-muted-foreground">Claude, GPT, Gemini, or local models</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-xl hover:border-green-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 flex items-center justify-center mb-4">
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-green-200 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-green-500/10 to-emerald-500/10 flex items-center justify-center mb-4">
                   <Component size={28} strokeWidth={1.5} className="text-green-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">React</p>
                 <p className="text-base text-muted-foreground">First-class React support with hooks</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-xl hover:border-purple-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center mb-4">
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-purple-200 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center mb-4">
                   <Layers size={28} strokeWidth={1.5} className="text-purple-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Design Systems</p>
                 <p className="text-base text-muted-foreground">Mantine, ShadCN, or your own</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-xl hover:border-orange-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 flex items-center justify-center mb-4">
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-orange-200 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-orange-500/10 to-amber-500/10 flex items-center justify-center mb-4">
                   <LayoutGrid size={28} strokeWidth={1.5} className="text-orange-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Full Layouts</p>
@@ -240,7 +240,7 @@ export function Landing() {
               {EXAMPLE_PROMPTS.map((prompt, i) => (
                 <button
                   key={i}
-                  className="group relative p-5 bg-white border border-gray-200 rounded-xl text-left transition-all hover:border-blue-400 hover:shadow-lg"
+                  className="group relative p-5 bg-white border border-gray-200 rounded-sm text-left transition-all hover:border-blue-400 hover:shadow-lg"
                   onClick={() => handlePromptClick(prompt)}
                 >
                   <div className="flex items-center justify-between gap-4">
@@ -281,7 +281,7 @@ export function Landing() {
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               {COMPONENTS.map((comp) => (
                 <div key={comp.name} className="flex items-start gap-4 py-2">
-                  <code className="text-base bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-700 px-3 py-1.5 rounded-lg font-mono min-w-[100px] border border-blue-100">
+                  <code className="text-base bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-700 px-3 py-1.5 rounded-sm font-mono min-w-[100px] border border-blue-100">
                     {comp.name}
                   </code>
                   <span className="text-base text-muted-foreground leading-relaxed">{comp.desc}</span>
@@ -302,7 +302,7 @@ export function Landing() {
                 <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide">Example A2UI JSON</p>
               </div>
               <button
-                className="px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+                className="px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-sm transition-colors flex items-center gap-2"
                 onClick={() => handleCopy(exampleJson)}
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}
@@ -310,7 +310,7 @@ export function Landing() {
               </button>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-xl">
+            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-xl">
               <div className="px-5 py-3 bg-[#161b22] border-b border-white/10 flex items-center justify-between">
                 <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">JSON</span>
                 <div className="flex gap-2">
@@ -347,7 +347,7 @@ export function Landing() {
         {/* Stacked Steps */}
         <div className="flex flex-col gap-10">
           {/* Step 1 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">1</div>
@@ -364,7 +364,7 @@ export function Landing() {
                 <Badge variant="secondary" className="text-base px-3 py-1">@a2ui-bridge/react</Badge>
               </div>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
+            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
               <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
                 <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">Terminal</span>
               </div>
@@ -373,7 +373,7 @@ export function Landing() {
           </div>
 
           {/* Step 2 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">2</div>
@@ -390,7 +390,7 @@ export function Landing() {
                 You have full control over styling and behavior.
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
+            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
               <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
                 <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">TypeScript</span>
               </div>
@@ -411,7 +411,7 @@ export function Landing() {
           </div>
 
           {/* Step 3 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">3</div>
@@ -428,7 +428,7 @@ export function Landing() {
                 Stream A2UI JSON from any LLM, and watch real components appear in real-time.
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
+            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
               <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
                 <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">React</span>
               </div>

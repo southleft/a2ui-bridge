@@ -325,7 +325,7 @@ export function Demo() {
                       onClick={() => useScenario(scenario.prompt)}
                       disabled={isGenerating}
                       className={cn(
-                        "scenario-btn flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-left transition-all",
+                        "scenario-btn flex items-center gap-2.5 px-3 py-2.5 rounded-sm text-left transition-all",
                         isDark
                           ? "bg-zinc-700/50 border border-zinc-600 hover:bg-zinc-700 hover:border-zinc-500"
                           : "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300",
@@ -349,7 +349,7 @@ export function Demo() {
                   Conversation
                 </p>
                 <ScrollArea className={cn(
-                  "flex-1 rounded-lg",
+                  "flex-1 rounded-sm",
                   isDark ? "bg-zinc-900" : "bg-zinc-50"
                 )}>
                   <div ref={chatScrollRef} className="p-3 flex flex-col gap-2">
@@ -367,7 +367,7 @@ export function Demo() {
                           )}
                         >
                           <div className={cn(
-                            "px-3 py-2 rounded-xl text-sm",
+                            "px-3 py-2 rounded-sm text-sm",
                             msg.role === 'user'
                               ? "bg-blue-600 text-white"
                               : isDark
@@ -382,7 +382,7 @@ export function Demo() {
                     {isGenerating && (
                       <div className="chat-message thinking-indicator self-start max-w-[85%]">
                         <div className={cn(
-                          "px-3 py-2 rounded-xl text-sm flex items-center gap-2",
+                          "px-3 py-2 rounded-sm text-sm flex items-center gap-2",
                           isDark
                             ? "bg-zinc-700 border border-zinc-600"
                             : "bg-white border border-zinc-200"
@@ -400,7 +400,7 @@ export function Demo() {
               <div className="mt-4">
                 {error && (
                   <div className={cn(
-                    "flex items-start gap-2 p-3 rounded-lg mb-3 text-sm",
+                    "flex items-start gap-2 p-3 rounded-sm mb-3 text-sm",
                     "bg-red-500/10 text-red-600 border border-red-500/20"
                   )}>
                     <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
@@ -412,7 +412,7 @@ export function Demo() {
                 )}
                 {!hasApiKey && (
                   <div className={cn(
-                    "p-3 rounded-lg mb-3 text-sm",
+                    "p-3 rounded-sm mb-3 text-sm",
                     "bg-orange-500/10 text-orange-600 border border-orange-500/20"
                   )}>
                     Set VITE_ANTHROPIC_API_KEY in .env
@@ -550,7 +550,7 @@ export function Demo() {
               <div ref={streamRef}>
                 {protocolStream ? (
                   <pre className={cn(
-                    "text-xs p-4 rounded-lg whitespace-pre-wrap break-words font-mono",
+                    "text-xs p-4 rounded-sm whitespace-pre-wrap break-words font-mono",
                     isDark ? "bg-zinc-900 text-zinc-300" : "bg-zinc-50 text-zinc-700"
                   )}>
                     {protocolStream}
