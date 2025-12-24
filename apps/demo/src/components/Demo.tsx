@@ -45,43 +45,31 @@ const SCENARIOS = [
     icon: Stethoscope,
     label: 'Doctor Visit',
     prompt: "I need to schedule a follow-up appointment with my doctor about my prescription refill",
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
   },
   {
     icon: ListChecks,
     label: 'Get Organized',
     prompt: "I've got a million things to do today and need to get my thoughts organized into a manageable task list",
-    color: 'text-green-500',
-    bgColor: 'bg-green-500/10',
   },
   {
     icon: ChefHat,
     label: 'Find Recipe',
     prompt: "I want to bake chocolate chip cookies this weekend and need to find a good recipe",
-    color: 'text-orange-500',
-    bgColor: 'bg-orange-500/10',
   },
   {
     icon: Plane,
     label: 'Plan Trip',
     prompt: "I'm planning a weekend getaway and need to find and book a hotel room",
-    color: 'text-violet-500',
-    bgColor: 'bg-violet-500/10',
   },
   {
     icon: Banknote,
     label: 'Send Money',
     prompt: "I need to send $50 to my roommate for my share of the utilities bill",
-    color: 'text-teal-500',
-    bgColor: 'bg-teal-500/10',
   },
   {
     icon: Target,
     label: 'Track Goals',
     prompt: "Help me track my fitness goals for this week - I want to run 3 times and drink more water",
-    color: 'text-red-500',
-    bgColor: 'bg-red-500/10',
   },
 ];
 
@@ -294,7 +282,7 @@ export function Demo() {
               <TooltipContent>Back to Home</TooltipContent>
             </Tooltip>
             <span className={cn("font-semibold", isDark ? "text-zinc-200" : "text-zinc-900")}>A2UI Bridge</span>
-            <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 border-0">
+            <Badge variant="secondary" className="bg-[hsl(var(--brand-light))] text-[hsl(var(--brand))] border-0">
               Predictive UI
             </Badge>
           </div>
@@ -405,8 +393,8 @@ export function Demo() {
                         isGenerating && "opacity-50 cursor-not-allowed"
                       )}
                     >
-                      <div className={cn("w-7 h-7 rounded flex items-center justify-center", scenario.bgColor)}>
-                        <scenario.icon className={cn("h-3.5 w-3.5", scenario.color)} />
+                      <div className="w-7 h-7 rounded flex items-center justify-center bg-[hsl(var(--brand-light))]">
+                        <scenario.icon className="h-3.5 w-3.5 text-[hsl(var(--brand))]" />
                       </div>
                       <span className={cn("text-sm font-medium", isDark ? "text-zinc-200" : "text-zinc-800")}>
                         {scenario.label}
@@ -440,12 +428,12 @@ export function Demo() {
                           )}
                         >
                           <div className={cn(
-                            "px-3 py-2 rounded-sm text-sm",
+                            "px-3 py-2 text-sm",
                             msg.role === 'user'
-                              ? "bg-blue-600 text-white"
+                              ? "bg-[hsl(var(--brand))] text-white rounded-t-lg rounded-bl-lg rounded-br-none"
                               : isDark
-                                ? "bg-zinc-700 border border-zinc-600 text-zinc-200"
-                                : "bg-white border border-zinc-200 text-zinc-800"
+                                ? "bg-zinc-700 border border-zinc-600 text-zinc-200 rounded-t-lg rounded-br-lg rounded-bl-none"
+                                : "bg-white border border-zinc-200 text-zinc-800 rounded-t-lg rounded-br-lg rounded-bl-none"
                           )}>
                             {msg.content}
                           </div>
@@ -455,7 +443,7 @@ export function Demo() {
                     {isGenerating && (
                       <div className="chat-message thinking-indicator self-start max-w-[85%]">
                         <div className={cn(
-                          "px-3 py-2 rounded-sm text-sm flex items-center gap-2",
+                          "px-3 py-2 text-sm flex items-center gap-2 rounded-t-lg rounded-br-lg rounded-bl-none",
                           isDark
                             ? "bg-zinc-700 border border-zinc-600"
                             : "bg-white border border-zinc-200"
@@ -500,14 +488,14 @@ export function Demo() {
                     onKeyDown={handleKeyDown}
                     rows={1}
                     className={cn(
-                      "flex-1 resize-none min-h-[40px] max-h-[120px]",
+                      "flex-1 resize-none min-h-[42px] max-h-[120px]",
                       isDark ? "bg-zinc-700 border-zinc-600" : "bg-zinc-50 border-zinc-300"
                     )}
                   />
                   <Button
-                    size="icon"
                     onClick={() => handleGenerate()}
                     disabled={!prompt.trim() || !availableProviders[provider] || isGenerating}
+                    className="h-[42px] w-[42px] p-0 bg-[hsl(var(--brand))] hover:bg-[hsl(var(--brand-dark))]"
                   >
                     {isGenerating ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -575,7 +563,7 @@ export function Demo() {
                     Describe what you need, and AI will create the perfect interface to help you.
                   </p>
                 </div>
-                <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 border-0 text-sm px-3 py-1">
+                <Badge variant="secondary" className="bg-[hsl(var(--brand-light))] text-[hsl(var(--brand))] border-0 text-sm px-3 py-1">
                   Powered by {PROVIDERS[provider].name.split(' ')[0]} + A2UI Protocol
                 </Badge>
               </div>

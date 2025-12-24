@@ -99,7 +99,7 @@ export function Landing() {
           {/* Left Column - Main Message */}
           <div className="flex flex-col gap-8">
             <h1 className="text-6xl font-semibold leading-[1.1] tracking-tight">
-              Let <span className="text-blue-500">AI agents</span> build<br />
+              Let <span className="text-[#006699]">AI agents</span> build<br />
               real user interfaces
             </h1>
 
@@ -110,15 +110,15 @@ export function Landing() {
             {/* Key Benefits - Inline */}
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full">
-                <Zap size={18} className="text-amber-500" />
+                <Zap size={18} className="text-[#006699]" />
                 <span className="text-base font-medium">Instant UI generation</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full">
-                <Shield size={18} className="text-green-500" />
+                <Shield size={18} className="text-[#006699]" />
                 <span className="text-base font-medium">Your design system</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full">
-                <Puzzle size={18} className="text-purple-500" />
+                <Puzzle size={18} className="text-[#006699]" />
                 <span className="text-base font-medium">Any LLM provider</span>
               </div>
             </div>
@@ -155,21 +155,21 @@ export function Landing() {
 
             <div className="flex flex-col gap-7">
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500 text-lg font-semibold">1</Badge>
+                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-lg font-semibold">1</Badge>
                 <div>
                   <p className="font-semibold text-xl mb-1">Describe your UI</p>
                   <p className="text-lg text-muted-foreground">"Create a contact card with name and email"</p>
                 </div>
               </div>
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500 text-lg font-semibold">2</Badge>
+                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-lg font-semibold">2</Badge>
                 <div>
                   <p className="font-semibold text-xl mb-1">AI generates A2UI JSON</p>
                   <p className="text-lg text-muted-foreground">A structured recipe, not framework-specific code</p>
                 </div>
               </div>
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500 text-lg font-semibold">3</Badge>
+                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-lg font-semibold">3</Badge>
                 <div>
                   <p className="font-semibold text-xl mb-1">Bridge renders components</p>
                   <p className="text-lg text-muted-foreground">Recipe becomes real components from your design system</p>
@@ -198,33 +198,33 @@ export function Landing() {
             <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide mb-8">Capabilities</p>
 
             <div className="grid grid-cols-2 gap-5">
-              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-blue-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center mb-4">
-                  <Network size={28} strokeWidth={1.5} className="text-blue-600" />
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-[#006699]/30 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-[#006699]/10 flex items-center justify-center mb-4">
+                  <Network size={28} strokeWidth={1.5} className="text-[#006699]" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Any LLM</p>
                 <p className="text-base text-muted-foreground">Claude, GPT, Gemini, or local models</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-green-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-green-500/10 to-emerald-500/10 flex items-center justify-center mb-4">
-                  <Component size={28} strokeWidth={1.5} className="text-green-600" />
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-gray-300 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gray-100 flex items-center justify-center mb-4">
+                  <Component size={28} strokeWidth={1.5} className="text-gray-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">React</p>
                 <p className="text-base text-muted-foreground">First-class React support with hooks</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-purple-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center mb-4">
-                  <Layers size={28} strokeWidth={1.5} className="text-purple-600" />
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-gray-300 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gray-100 flex items-center justify-center mb-4">
+                  <Layers size={28} strokeWidth={1.5} className="text-gray-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Design Systems</p>
                 <p className="text-base text-muted-foreground">Mantine, ShadCN, or your own</p>
               </div>
 
-              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-orange-200 hover:shadow-md transition-all">
-                <div className="w-14 h-14 rounded-sm bg-gradient-to-br from-orange-500/10 to-amber-500/10 flex items-center justify-center mb-4">
-                  <LayoutGrid size={28} strokeWidth={1.5} className="text-orange-600" />
+              <div className="p-6 bg-white border border-gray-200 rounded-sm hover:border-gray-300 hover:shadow-md transition-all">
+                <div className="w-14 h-14 rounded-sm bg-gray-100 flex items-center justify-center mb-4">
+                  <LayoutGrid size={28} strokeWidth={1.5} className="text-gray-600" />
                 </div>
                 <p className="font-semibold text-lg mb-2">Full Layouts</p>
                 <p className="text-base text-muted-foreground">Cards, forms, lists, modals, tabs</p>
@@ -240,14 +240,14 @@ export function Landing() {
               {EXAMPLE_PROMPTS.map((prompt, i) => (
                 <button
                   key={i}
-                  className="group relative p-5 bg-white border border-gray-200 rounded-sm text-left transition-all hover:border-blue-400 hover:shadow-lg"
+                  className="group relative p-5 bg-white border border-gray-200 rounded-sm text-left transition-all hover:border-[#006699] hover:shadow-lg"
                   onClick={() => handlePromptClick(prompt)}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-lg text-gray-700 group-hover:text-gray-900">
                       {prompt}
                     </span>
-                    <div className="flex items-center gap-2 text-gray-400 group-hover:text-blue-500 transition-colors flex-shrink-0">
+                    <div className="flex items-center gap-2 text-gray-400 group-hover:text-[#006699] transition-colors flex-shrink-0">
                       <Play size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       <ArrowRight
                         size={20}
@@ -259,7 +259,7 @@ export function Landing() {
               ))}
             </div>
 
-            <p className="text-base text-blue-600 mt-5 font-medium">
+            <p className="text-base text-[#006699] mt-5 font-medium">
               Click any prompt to see it generated instantly
             </p>
           </div>
@@ -281,7 +281,7 @@ export function Landing() {
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               {COMPONENTS.map((comp) => (
                 <div key={comp.name} className="flex items-start gap-4 py-2">
-                  <code className="text-base bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-700 px-3 py-1.5 rounded-sm font-mono min-w-[100px] border border-blue-100">
+                  <code className="text-base bg-[#006699]/5 text-[#006699] px-3 py-1.5 rounded-sm font-mono min-w-[100px] border border-[#006699]/10">
                     {comp.name}
                   </code>
                   <span className="text-base text-muted-foreground leading-relaxed">{comp.desc}</span>
@@ -350,7 +350,7 @@ export function Landing() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">1</div>
+                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center font-semibold">1</div>
                 <div>
                   <p className="text-2xl font-semibold">Install packages</p>
                 </div>
@@ -376,7 +376,7 @@ export function Landing() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">2</div>
+                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center font-semibold">2</div>
                 <div>
                   <p className="text-2xl font-semibold">Create adapters</p>
                 </div>
@@ -414,7 +414,7 @@ export function Landing() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-blue-500 text-white text-xl flex items-center justify-center font-semibold">3</div>
+                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center font-semibold">3</div>
                 <div>
                   <p className="text-2xl font-semibold">Render surface</p>
                 </div>
