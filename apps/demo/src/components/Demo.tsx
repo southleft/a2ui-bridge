@@ -22,7 +22,13 @@ import {
   Loader,
   Alert,
   CopyButton,
+  Drawer,
+  Transition,
+  Paper,
+  ThemeIcon,
+  UnstyledButton,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconCode,
   IconMoon,
@@ -30,36 +36,68 @@ import {
   IconBrandGithub,
   IconSend,
   IconAlertCircle,
-  IconPlayerPlay,
   IconArrowLeft,
   IconCopy,
   IconCheck,
   IconDownload,
-  IconWand,
-  IconEye,
+  IconSparkles,
+  IconStethoscope,
+  IconChecklist,
+  IconChefHat,
+  IconPlane,
+  IconCash,
+  IconTarget,
+  IconX,
 } from '@tabler/icons-react';
 
 import { mantineComponents } from '../adapters/mantine';
 
-// Example prompts for quick start
-const EXAMPLE_PROMPTS = [
+// Intent-based scenarios (user-centric, not developer-centric)
+const SCENARIOS = [
   {
-    label: 'Contact Card',
-    prompt: 'Create a contact card for John Doe, email john@example.com, with Call and Email buttons',
+    icon: IconStethoscope,
+    label: 'Doctor Visit',
+    prompt: "I need to schedule a follow-up appointment with my doctor about my prescription refill",
+    color: 'blue',
   },
   {
-    label: 'Task List',
-    prompt: 'Create a task list with 3 items: "Review PR" (done), "Write docs" (in progress), "Deploy" (pending). Include status badges.',
+    icon: IconChecklist,
+    label: 'Get Organized',
+    prompt: "I've got a million things to do today and need to get my thoughts organized into a manageable task list",
+    color: 'green',
   },
   {
-    label: 'Login Form',
-    prompt: 'Create a login form with email and password fields, a "Remember me" checkbox, and Login/Sign Up buttons',
+    icon: IconChefHat,
+    label: 'Find Recipe',
+    prompt: "I want to bake chocolate chip cookies this weekend and need to find a good recipe",
+    color: 'orange',
   },
   {
-    label: 'Weather Card',
-    prompt: 'Create a weather card showing San Francisco, 72F, partly cloudy, with a Refresh button',
+    icon: IconPlane,
+    label: 'Plan Trip',
+    prompt: "I'm planning a weekend getaway and need to find and book a hotel room",
+    color: 'violet',
+  },
+  {
+    icon: IconCash,
+    label: 'Send Money',
+    prompt: "I need to send $50 to my roommate for my share of the utilities bill",
+    color: 'teal',
+  },
+  {
+    icon: IconTarget,
+    label: 'Track Goals',
+    prompt: "Help me track my fitness goals for this week - I want to run 3 times and drink more water",
+    color: 'red',
   },
 ];
+
+// Chat message type
+interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
 
 export function Demo() {
   const navigate = useNavigate();
@@ -70,9 +108,14 @@ export function Demo() {
   const [parsedMessages, setParsedMessages] = useState<ServerToClientMessage[]>([]);
   const [actionLog, setActionLog] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
+
+  const [drawerOpened, { open: openDrawer, close: closeDrawer }] = useDisclosure(false);
 
   const streamRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
 
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
@@ -99,24 +142,41 @@ export function Demo() {
   }, [parsedMessages]);
 
   // Generate UI from prompt
-  const handleGenerate = useCallback(async () => {
-    if (!prompt.trim() || isGenerating) return;
+  const handleGenerate = useCallback(async (inputPrompt?: string) => {
+    const textToSend = inputPrompt || prompt;
+    if (!textToSend.trim() || isGenerating) return;
     if (!hasApiKey) {
       setError('API key not configured. Set VITE_ANTHROPIC_API_KEY in .env file.');
       return;
     }
+
+    // Add user message to chat
+    setChatHistory((prev) => [...prev, {
+      role: 'user',
+      content: textToSend,
+      timestamp: new Date(),
+    }]);
 
     setIsGenerating(true);
     setError(null);
     setProtocolStream('');
     setParsedMessages([]);
     setActionLog([]);
+    setPrompt('');
+    setShowPreview(false);
 
     processor.processMessages([
       { deleteSurface: { surfaceId: '@default' } },
     ]);
 
-    await generateUI(prompt, {
+    // Scroll chat to bottom
+    setTimeout(() => {
+      if (chatScrollRef.current) {
+        chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+      }
+    }, 50);
+
+    await generateUI(textToSend, {
       onChunk: (chunk) => {
         setProtocolStream((prev) => {
           const newStream = prev + chunk;
@@ -131,9 +191,17 @@ export function Demo() {
       onMessage: (messages) => {
         setParsedMessages(messages);
         processor.processMessages(messages);
+        // Trigger preview animation
+        setShowPreview(true);
       },
       onComplete: () => {
         setIsGenerating(false);
+        // Add assistant message to chat
+        setChatHistory((prev) => [...prev, {
+          role: 'assistant',
+          content: 'Here\'s an interface to help you with that.',
+          timestamp: new Date(),
+        }]);
       },
       onError: (err) => {
         setError(err.message);
@@ -145,7 +213,7 @@ export function Demo() {
   // Handle keyboard shortcuts
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleGenerate();
       }
@@ -153,11 +221,10 @@ export function Demo() {
     [handleGenerate]
   );
 
-  // Use example prompt
-  const useExample = useCallback((examplePrompt: string) => {
-    setPrompt(examplePrompt);
-    textareaRef.current?.focus();
-  }, []);
+  // Use scenario
+  const useScenario = useCallback((scenarioPrompt: string) => {
+    handleGenerate(scenarioPrompt);
+  }, [handleGenerate]);
 
   const cleanJson = parsedMessages.length > 0
     ? JSON.stringify(parsedMessages, null, 2)
@@ -165,37 +232,52 @@ export function Demo() {
 
   return (
     <AppShell
-      header={{ height: 48 }}
+      header={{ height: 56 }}
+      navbar={{ width: 340, breakpoint: 'sm' }}
       padding={0}
+      transitionDuration={300}
+      transitionTimingFunction="ease"
       styles={{
         main: {
-          backgroundColor: isDark ? 'var(--mantine-color-dark-9)' : 'var(--mantine-color-gray-1)',
+          backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
         },
       }}
     >
-      {/* Minimal Header */}
+      {/* Header */}
       <AppShell.Header
         style={{
-          borderBottom: isDark ? '1px solid var(--mantine-color-dark-6)' : '1px solid var(--mantine-color-gray-3)',
-          backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'white',
+          borderBottom: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
+          backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
         }}
       >
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
             <Tooltip label="Back to Home">
-              <ActionIcon variant="subtle" onClick={() => navigate('/')} size="sm" color="gray">
-                <IconArrowLeft size={16} />
+              <ActionIcon variant="subtle" onClick={() => navigate('/')} size="md" color="gray">
+                <IconArrowLeft size={18} />
               </ActionIcon>
             </Tooltip>
-            <Title order={5} fw={600} c={isDark ? 'gray.3' : 'dark'}>A2UI Bridge</Title>
-            <Badge variant="outline" size="xs" color="gray">
-              Mantine
+            <Group gap={8}>
+              <ThemeIcon size="md" radius="md" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
+                <IconSparkles size={16} />
+              </ThemeIcon>
+              <Title order={4} fw={600} c={isDark ? 'gray.2' : 'dark'}>A2UI</Title>
+            </Group>
+            <Badge variant="light" size="sm" color="blue">
+              Predictive UI
             </Badge>
           </Group>
-          <Group gap={4}>
+          <Group gap={8}>
+            {parsedMessages.length > 0 && (
+              <Tooltip label="View Protocol">
+                <ActionIcon variant="light" onClick={openDrawer} size="md" color="gray">
+                  <IconCode size={18} />
+                </ActionIcon>
+              </Tooltip>
+            )}
             <Tooltip label={isDark ? 'Light mode' : 'Dark mode'}>
-              <ActionIcon variant="subtle" onClick={() => toggleColorScheme()} size="sm" color="gray">
-                {isDark ? <IconSun size={16} /> : <IconMoon size={16} />}
+              <ActionIcon variant="subtle" onClick={() => toggleColorScheme()} size="md" color="gray">
+                {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
               </ActionIcon>
             </Tooltip>
             <Tooltip label="GitHub">
@@ -204,263 +286,367 @@ export function Demo() {
                 href="https://github.com/southleft/a2ui-bridge"
                 target="_blank"
                 variant="subtle"
-                size="sm"
+                size="md"
                 color="gray"
               >
-                <IconBrandGithub size={16} />
+                <IconBrandGithub size={18} />
               </ActionIcon>
             </Tooltip>
           </Group>
         </Group>
       </AppShell.Header>
 
-      <AppShell.Main>
-        <Box p="md" style={{ height: 'calc(100vh - 48px)' }}>
-          {/* Error Alert */}
-          {error && (
-            <Alert
-              icon={<IconAlertCircle size={16} />}
-              title="Error"
-              color="red"
-              mb="md"
-              withCloseButton
-              onClose={() => setError(null)}
-              styles={{ root: { borderRadius: 'var(--mantine-radius-sm)' } }}
+      {/* Left Sidebar - Chat */}
+      <AppShell.Navbar
+        p="md"
+        style={{
+          backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
+          borderRight: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
+        }}
+      >
+        <Stack h="100%" gap={0}>
+          {/* Scenarios */}
+          <Box mb="md">
+            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="sm">
+              Try a scenario
+            </Text>
+            <Stack gap={6}>
+              {SCENARIOS.map((scenario) => (
+                <UnstyledButton
+                  key={scenario.label}
+                  className="scenario-btn"
+                  onClick={() => useScenario(scenario.prompt)}
+                  disabled={isGenerating}
+                  style={{
+                    padding: '10px 12px',
+                    borderRadius: 'var(--mantine-radius-md)',
+                    backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
+                    border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
+                    opacity: isGenerating ? 0.5 : 1,
+                    cursor: isGenerating ? 'not-allowed' : 'pointer',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isGenerating) {
+                      e.currentTarget.style.backgroundColor = isDark
+                        ? 'var(--mantine-color-dark-5)'
+                        : 'var(--mantine-color-gray-1)';
+                      e.currentTarget.style.borderColor = `var(--mantine-color-${scenario.color}-5)`;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = isDark
+                      ? 'var(--mantine-color-dark-6)'
+                      : 'var(--mantine-color-gray-0)';
+                    e.currentTarget.style.borderColor = isDark
+                      ? 'var(--mantine-color-dark-5)'
+                      : 'var(--mantine-color-gray-2)';
+                  }}
+                >
+                  <Group gap="sm" wrap="nowrap">
+                    <ThemeIcon size="sm" variant="light" color={scenario.color} radius="sm">
+                      <scenario.icon size={14} />
+                    </ThemeIcon>
+                    <Text size="sm" fw={500}>{scenario.label}</Text>
+                  </Group>
+                </UnstyledButton>
+              ))}
+            </Stack>
+          </Box>
+
+          {/* Chat History */}
+          <Box style={{ flex: 1, minHeight: 0 }}>
+            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="sm">
+              Conversation
+            </Text>
+            <ScrollArea
+              h="calc(100% - 24px)"
+              viewportRef={chatScrollRef}
+              styles={{
+                root: {
+                  backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
+                  borderRadius: 'var(--mantine-radius-md)',
+                },
+              }}
             >
-              {error}
-            </Alert>
-          )}
-
-          {/* Main Layout */}
-          <Group align="flex-start" gap="md" wrap="nowrap" style={{ height: error ? 'calc(100% - 70px)' : '100%' }}>
-            {/* Left Panel - Input + JSON */}
-            <Stack style={{ flex: 1, minWidth: 400 }} h="100%" gap="md">
-              {/* Input Section */}
-              <Box
-                p="md"
-                style={{
-                  backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-                  border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-3)',
-                  borderRadius: 'var(--mantine-radius-sm)',
-                }}
-              >
-                <Stack gap="sm">
-                  <Group gap="xs">
-                    <IconWand size={14} color="var(--mantine-color-gray-6)" />
-                    <Text fw={500} size="sm" c="dimmed">Describe your UI</Text>
-                    {isGenerating && <Loader size="xs" ml="auto" />}
-                  </Group>
-
-                  <Textarea
-                    ref={textareaRef}
-                    placeholder="Create a contact card with name, email, and action buttons..."
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.currentTarget.value)}
-                    onKeyDown={handleKeyDown}
-                    minRows={2}
-                    maxRows={3}
-                    autosize
-                    styles={{
-                      input: {
-                        fontFamily: 'system-ui, sans-serif',
-                        backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
-                        border: 'none',
-                      },
-                    }}
-                  />
-
-                  <Group gap="xs">
-                    <Button
-                      onClick={handleGenerate}
-                      loading={isGenerating}
-                      disabled={!prompt.trim() || !hasApiKey}
-                      leftSection={isGenerating ? undefined : <IconSend size={14} />}
-                      size="sm"
-                      color="dark"
+              <Stack gap="sm" p="sm">
+                {chatHistory.length === 0 ? (
+                  <Text size="sm" c="dimmed" ta="center" py="xl">
+                    Tell me what you need help with...
+                  </Text>
+                ) : (
+                  chatHistory.map((msg, i) => (
+                    <Box
+                      key={i}
+                      className="chat-message"
+                      style={{
+                        alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                        maxWidth: '85%',
+                      }}
                     >
-                      {isGenerating ? 'Generating...' : 'Generate'}
-                    </Button>
-                    {EXAMPLE_PROMPTS.map((example) => (
-                      <Tooltip key={example.label} label={example.prompt} multiline w={220}>
-                        <Button
-                          variant="default"
-                          size="xs"
-                          leftSection={<IconPlayerPlay size={10} />}
-                          onClick={() => useExample(example.prompt)}
-                        >
-                          {example.label}
-                        </Button>
-                      </Tooltip>
-                    ))}
-                  </Group>
-
-                  {!hasApiKey && (
-                    <Text size="xs" c="orange" ta="center">
-                      Set VITE_ANTHROPIC_API_KEY in .env file
-                    </Text>
-                  )}
-                </Stack>
-              </Box>
-
-              {/* JSON Panel */}
-              <Box
-                p="md"
-                style={{
-                  flex: 1,
-                  backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-                  border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-3)',
-                  borderRadius: 'var(--mantine-radius-sm)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <Stack gap="sm" style={{ flex: 1, minHeight: 0 }}>
-                  <Group gap="xs" justify="space-between">
-                    <Group gap="xs">
-                      <IconCode size={14} color="var(--mantine-color-gray-6)" />
-                      <Text fw={500} size="sm" c="dimmed">A2UI JSON</Text>
-                      {parsedMessages.length > 0 && (
-                        <Badge size="xs" variant="light" color="green">
-                          {parsedMessages.length} message{parsedMessages.length !== 1 ? 's' : ''}
-                        </Badge>
-                      )}
-                    </Group>
-                    {parsedMessages.length > 0 && (
-                      <Group gap={4}>
-                        <CopyButton value={cleanJson}>
-                          {({ copied, copy }) => (
-                            <Tooltip label={copied ? 'Copied!' : 'Copy JSON'}>
-                              <ActionIcon
-                                variant="subtle"
-                                color={copied ? 'green' : 'gray'}
-                                onClick={copy}
-                                size="xs"
-                              >
-                                {copied ? <IconCheck size={12} /> : <IconCopy size={12} />}
-                              </ActionIcon>
-                            </Tooltip>
-                          )}
-                        </CopyButton>
-                        <Tooltip label="Download JSON">
-                          <ActionIcon variant="subtle" color="gray" onClick={handleDownload} size="xs">
-                            <IconDownload size={12} />
-                          </ActionIcon>
-                        </Tooltip>
-                      </Group>
-                    )}
-                  </Group>
-
-                  <ScrollArea
-                    style={{ flex: 1 }}
-                    viewportRef={streamRef}
-                    styles={{
-                      root: {
-                        backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
-                        borderRadius: 'var(--mantine-radius-xs)',
-                      },
-                    }}
-                  >
-                    {protocolStream ? (
-                      <Code
-                        block
-                        p="sm"
+                      <Paper
+                        p="xs"
+                        radius="md"
                         style={{
-                          fontSize: 11,
-                          whiteSpace: 'pre-wrap',
-                          wordBreak: 'break-word',
-                          background: 'transparent',
+                          backgroundColor: msg.role === 'user'
+                            ? 'var(--mantine-color-blue-6)'
+                            : isDark ? 'var(--mantine-color-dark-5)' : 'white',
+                          border: msg.role === 'assistant'
+                            ? isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-2)'
+                            : 'none',
                         }}
                       >
-                        {protocolStream}
-                      </Code>
-                    ) : (
-                      <Text size="sm" c="dimmed" ta="center" py="xl">
-                        {isGenerating
-                          ? 'Generating A2UI JSON...'
-                          : 'A2UI JSON will appear here'}
-                      </Text>
-                    )}
-                  </ScrollArea>
-                </Stack>
-              </Box>
-            </Stack>
-
-            {/* Right Panel - Preview */}
-            <Stack w={480} h="100%" style={{ flexShrink: 0 }} gap={0}>
-              <Box
-                p="md"
-                h="100%"
-                style={{
-                  backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-                  border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-3)',
-                  borderRadius: 'var(--mantine-radius-sm)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <Stack gap="sm" style={{ flex: 1, minHeight: 0 }}>
-                  <Group gap="xs" justify="space-between">
-                    <Group gap="xs">
-                      <IconEye size={14} color="var(--mantine-color-gray-6)" />
-                      <Text fw={500} size="sm" c="dimmed">Preview</Text>
-                    </Group>
-                    <Badge size="xs" variant="outline" color="gray">
-                      Mantine UI
-                    </Badge>
-                  </Group>
-
-                  <Box
-                    style={{
-                      flex: 1,
-                      borderRadius: 'var(--mantine-radius-xs)',
-                      border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
-                      background: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
-                      overflow: 'auto',
-                    }}
-                    p="md"
-                  >
-                    {parsedMessages.length > 0 ? (
-                      <Surface
-                        processor={processor}
-                        components={mantineComponents}
-                        onAction={handleAction}
-                      />
-                    ) : (
-                      <Stack align="center" justify="center" h="100%" gap="md">
-                        <IconEye
-                          size={32}
-                          style={{ color: 'var(--mantine-color-gray-4)' }}
-                        />
-                        <Text size="sm" c="dimmed" ta="center">
-                          {isGenerating
-                            ? 'Building interface...'
-                            : 'Your UI preview will appear here'}
+                        <Text size="sm" c={msg.role === 'user' ? 'white' : undefined}>
+                          {msg.content}
                         </Text>
-                      </Stack>
-                    )}
-                  </Box>
-
-                  {/* Action Log */}
-                  {actionLog.length > 0 && (
-                    <Box>
-                      <Text size="xs" c="dimmed" fw={500} mb={4}>Actions:</Text>
-                      <ScrollArea h={60}>
-                        <Stack gap={2}>
-                          {actionLog.map((log, i) => (
-                            <Code key={i} block style={{ fontSize: 9, padding: 4 }}>
-                              {log}
-                            </Code>
-                          ))}
-                        </Stack>
-                      </ScrollArea>
+                      </Paper>
                     </Box>
-                  )}
-                </Stack>
+                  ))
+                )}
+                {isGenerating && (
+                  <Box className="chat-message thinking-indicator" style={{ alignSelf: 'flex-start' }}>
+                    <Paper
+                      p="xs"
+                      radius="md"
+                      style={{
+                        backgroundColor: isDark ? 'var(--mantine-color-dark-5)' : 'white',
+                        border: isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-2)',
+                      }}
+                    >
+                      <Group gap="xs">
+                        <Loader size="xs" />
+                        <Text size="sm" c="dimmed">Creating your interface...</Text>
+                      </Group>
+                    </Paper>
+                  </Box>
+                )}
+              </Stack>
+            </ScrollArea>
+          </Box>
+
+          {/* Input */}
+          <Box mt="md">
+            {error && (
+              <Alert
+                icon={<IconAlertCircle size={14} />}
+                color="red"
+                mb="sm"
+                p="xs"
+                withCloseButton
+                onClose={() => setError(null)}
+              >
+                <Text size="xs">{error}</Text>
+              </Alert>
+            )}
+            {!hasApiKey && (
+              <Alert color="orange" mb="sm" p="xs">
+                <Text size="xs">Set VITE_ANTHROPIC_API_KEY in .env</Text>
+              </Alert>
+            )}
+            <Group gap="xs" align="flex-end">
+              <Textarea
+                ref={textareaRef}
+                placeholder="What do you need help with?"
+                value={prompt}
+                onChange={(e) => setPrompt(e.currentTarget.value)}
+                onKeyDown={handleKeyDown}
+                minRows={1}
+                maxRows={3}
+                autosize
+                style={{ flex: 1 }}
+                styles={{
+                  input: {
+                    backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
+                    border: isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-3)',
+                  },
+                }}
+              />
+              <ActionIcon
+                size="lg"
+                radius="md"
+                variant="filled"
+                color="blue"
+                onClick={() => handleGenerate()}
+                disabled={!prompt.trim() || !hasApiKey || isGenerating}
+                loading={isGenerating}
+              >
+                <IconSend size={18} />
+              </ActionIcon>
+            </Group>
+          </Box>
+        </Stack>
+      </AppShell.Navbar>
+
+      {/* Main Content - Preview */}
+      <AppShell.Main>
+        <Box h="100%" p="xl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Transition
+            mounted={showPreview && parsedMessages.length > 0}
+            transition="fade"
+            duration={400}
+            timingFunction="ease"
+          >
+            {(styles) => (
+              <Box
+                style={{
+                  ...styles,
+                  width: '100%',
+                  maxWidth: 600,
+                  animation: 'slideUp 0.4s ease-out',
+                }}
+                className="preview-container"
+              >
+                <Surface
+                  processor={processor}
+                  components={mantineComponents}
+                  onAction={handleAction}
+                />
+
+                {/* Action Log */}
+                {actionLog.length > 0 && (
+                  <Box mt="md">
+                    <Text size="xs" c="dimmed" fw={500} mb={4}>Recent actions:</Text>
+                    <Stack gap={2}>
+                      {actionLog.slice(-3).map((log, i) => (
+                        <Code
+                          key={i}
+                          block
+                          style={{
+                            fontSize: 10,
+                            padding: 6,
+                            backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-1)',
+                            color: isDark ? 'var(--mantine-color-gray-4)' : undefined,
+                          }}
+                        >
+                          {log}
+                        </Code>
+                      ))}
+                    </Stack>
+                  </Box>
+                )}
               </Box>
+            )}
+          </Transition>
+
+          {/* Empty State */}
+          {!showPreview && !isGenerating && parsedMessages.length === 0 && (
+            <Stack align="center" gap="lg">
+              <ThemeIcon
+                size={80}
+                radius="xl"
+                variant="light"
+                color="gray"
+                className="empty-state-icon"
+              >
+                <IconSparkles size={40} />
+              </ThemeIcon>
+              <Stack align="center" gap="xs">
+                <Title order={2} c={isDark ? 'gray.3' : 'dark'}>
+                  Predictive UI Demo
+                </Title>
+                <Text size="lg" c="dimmed" ta="center" maw={400}>
+                  Describe what you need, and AI will create the perfect interface to help you.
+                </Text>
+              </Stack>
+              <Badge size="lg" variant="light" color="blue">
+                Powered by Claude + A2UI Protocol
+              </Badge>
             </Stack>
-          </Group>
+          )}
+
+          {/* Generating State */}
+          {isGenerating && parsedMessages.length === 0 && (
+            <Stack align="center" gap="md">
+              <Loader size="lg" />
+              <Text c="dimmed">Building your interface...</Text>
+            </Stack>
+          )}
         </Box>
       </AppShell.Main>
+
+      {/* Protocol Drawer */}
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        title={
+          <Group gap="xs">
+            <IconCode size={18} />
+            <Text fw={600}>A2UI Protocol</Text>
+            {parsedMessages.length > 0 && (
+              <Badge size="xs" variant="light" color="green">
+                {parsedMessages.length} message{parsedMessages.length !== 1 ? 's' : ''}
+              </Badge>
+            )}
+          </Group>
+        }
+        position="right"
+        size="lg"
+        overlayProps={{ backgroundOpacity: 0.3, blur: 2 }}
+        styles={{
+          body: {
+            padding: 0,
+            height: 'calc(100% - 60px)',
+          },
+          content: {
+            backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
+          },
+        }}
+      >
+        <Stack h="100%" gap={0}>
+          {/* Actions */}
+          <Group gap="xs" p="md" style={{ borderBottom: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)' }}>
+            <CopyButton value={cleanJson}>
+              {({ copied, copy }) => (
+                <Button
+                  variant="light"
+                  size="xs"
+                  leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+                  onClick={copy}
+                  color={copied ? 'green' : 'gray'}
+                >
+                  {copied ? 'Copied!' : 'Copy JSON'}
+                </Button>
+              )}
+            </CopyButton>
+            <Button
+              variant="light"
+              size="xs"
+              leftSection={<IconDownload size={14} />}
+              onClick={handleDownload}
+              color="gray"
+            >
+              Download
+            </Button>
+          </Group>
+
+          {/* JSON Content */}
+          <ScrollArea
+            style={{ flex: 1 }}
+            viewportRef={streamRef}
+            p="md"
+          >
+            {protocolStream ? (
+              <Code
+                block
+                style={{
+                  fontSize: 11,
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
+                  backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
+                  color: isDark ? 'var(--mantine-color-gray-4)' : 'inherit',
+                  padding: 16,
+                  borderRadius: 'var(--mantine-radius-md)',
+                }}
+              >
+                {protocolStream}
+              </Code>
+            ) : (
+              <Text size="sm" c="dimmed" ta="center" py="xl">
+                Protocol stream will appear here
+              </Text>
+            )}
+          </ScrollArea>
+        </Stack>
+      </Drawer>
     </AppShell>
   );
 }

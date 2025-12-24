@@ -78,3 +78,153 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
+
+/* A2UI Preview Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Staggered animation for list items */
+@keyframes staggerSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply to preview container */
+.preview-container {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Staggered children animation for Mantine Stack components (Column/List) */
+.preview-container .mantine-Stack-root > * {
+  animation: staggerSlideUp 0.3s ease-out backwards;
+}
+
+.preview-container .mantine-Stack-root > *:nth-child(1) { animation-delay: 0ms; }
+.preview-container .mantine-Stack-root > *:nth-child(2) { animation-delay: 60ms; }
+.preview-container .mantine-Stack-root > *:nth-child(3) { animation-delay: 120ms; }
+.preview-container .mantine-Stack-root > *:nth-child(4) { animation-delay: 180ms; }
+.preview-container .mantine-Stack-root > *:nth-child(5) { animation-delay: 240ms; }
+.preview-container .mantine-Stack-root > *:nth-child(n+6) { animation-delay: 300ms; }
+
+/* Staggered for Mantine Group components (Row) */
+.preview-container .mantine-Group-root > * {
+  animation: staggerSlideUp 0.25s ease-out backwards;
+}
+
+.preview-container .mantine-Group-root > *:nth-child(1) { animation-delay: 0ms; }
+.preview-container .mantine-Group-root > *:nth-child(2) { animation-delay: 40ms; }
+.preview-container .mantine-Group-root > *:nth-child(3) { animation-delay: 80ms; }
+.preview-container .mantine-Group-root > *:nth-child(4) { animation-delay: 120ms; }
+.preview-container .mantine-Group-root > *:nth-child(n+5) { animation-delay: 160ms; }
+
+/* Card entrance animation */
+.preview-container .mantine-Card-root {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Badge pop animation */
+.preview-container .mantine-Badge-root {
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Button slide animation */
+.preview-container .mantine-Button-root {
+  animation: staggerSlideUp 0.3s ease-out backwards;
+  animation-delay: 150ms;
+}
+
+/* Thinking indicator pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.thinking-indicator {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Scenario button hover effect */
+.scenario-btn {
+  transition: all 0.2s ease;
+}
+
+.scenario-btn:hover:not(:disabled) {
+  transform: translateX(4px);
+}
+
+/* Chat message entrance */
+@keyframes chatSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  animation: chatSlide 0.25s ease-out;
+}
+
+/* Empty state float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.empty-state-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Text shimmer for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
