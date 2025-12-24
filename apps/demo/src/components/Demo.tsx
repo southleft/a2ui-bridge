@@ -25,7 +25,7 @@ import {
   Copy,
   Check,
   Download,
-  Sparkles,
+  MessageSquare,
   Stethoscope,
   ListChecks,
   ChefHat,
@@ -252,12 +252,7 @@ export function Demo() {
               </TooltipTrigger>
               <TooltipContent>Back to Home</TooltipContent>
             </Tooltip>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                <Sparkles className="h-4 w-4 text-white" />
-              </div>
-              <span className={cn("font-semibold", isDark ? "text-zinc-200" : "text-zinc-900")}>A2UI</span>
-            </div>
+            <span className={cn("font-semibold", isDark ? "text-zinc-200" : "text-zinc-900")}>A2UI Bridge</span>
             <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 border-0">
               Predictive UI
             </Badge>
@@ -480,7 +475,7 @@ export function Demo() {
                   "empty-state-icon w-20 h-20 rounded-full flex items-center justify-center",
                   isDark ? "bg-zinc-800" : "bg-zinc-100"
                 )}>
-                  <Sparkles className={cn("h-10 w-10", isDark ? "text-zinc-600" : "text-zinc-400")} />
+                  <MessageSquare className={cn("h-10 w-10", isDark ? "text-zinc-600" : "text-zinc-400")} />
                 </div>
                 <div className="text-center">
                   <h2 className={cn("text-2xl font-semibold mb-2", isDark ? "text-zinc-200" : "text-zinc-800")}>
