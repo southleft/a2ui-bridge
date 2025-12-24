@@ -110,7 +110,7 @@ function App() {
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
               <a
-                href="https://github.com/tpitre/a2ui-bridge"
+                href="https://github.com/southleft/a2ui-bridge"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
