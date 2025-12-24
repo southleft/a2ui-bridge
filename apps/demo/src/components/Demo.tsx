@@ -244,10 +244,20 @@ export function Demo() {
     [handleGenerate]
   );
 
-  // Use scenario
+  // Use scenario - reset conversation and start fresh
   const useScenario = useCallback((scenarioPrompt: string) => {
-    handleGenerate(scenarioPrompt);
-  }, [handleGenerate]);
+    // Clear previous conversation when starting a new scenario
+    setChatHistory([]);
+    processor.processMessages([{ deleteSurface: { surfaceId: '@default' } }]);
+    setProtocolStream('');
+    setParsedMessages([]);
+    setActionLog([]);
+    setShowPreview(false);
+    // Small delay to ensure state is cleared before generating
+    setTimeout(() => {
+      handleGenerate(scenarioPrompt);
+    }, 50);
+  }, [handleGenerate, processor]);
 
   // Auto-trigger generation if navigated with a prompt from Landing page
   useEffect(() => {
@@ -370,10 +380,10 @@ export function Demo() {
         <div className="flex flex-1 min-h-0">
           {/* Left Sidebar - Chat */}
           <aside className={cn(
-            "w-[340px] flex flex-col border-r shrink-0",
+            "w-[340px] flex flex-col border-r shrink-0 min-h-0",
             isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200"
           )}>
-            <div className="p-4 flex flex-col h-full">
+            <div className="p-4 flex flex-col flex-1 min-h-0">
               {/* Scenarios */}
               <div className="mb-4">
                 <p className={cn("text-xs font-semibold uppercase tracking-wide mb-3", isDark ? "text-zinc-400" : "text-zinc-500")}>
@@ -430,10 +440,10 @@ export function Demo() {
                           <div className={cn(
                             "px-3 py-2 text-sm",
                             msg.role === 'user'
-                              ? "bg-[hsl(var(--brand))] text-white rounded-t-lg rounded-bl-lg rounded-br-none"
+                              ? "bg-[hsl(var(--brand))] text-white rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-sm"
                               : isDark
-                                ? "bg-zinc-700 border border-zinc-600 text-zinc-200 rounded-t-lg rounded-br-lg rounded-bl-none"
-                                : "bg-white border border-zinc-200 text-zinc-800 rounded-t-lg rounded-br-lg rounded-bl-none"
+                                ? "bg-zinc-700 border border-zinc-600 text-zinc-200 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm"
+                                : "bg-white border border-zinc-200 text-zinc-800 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm"
                           )}>
                             {msg.content}
                           </div>
@@ -443,7 +453,7 @@ export function Demo() {
                     {isGenerating && (
                       <div className="chat-message thinking-indicator self-start max-w-[85%]">
                         <div className={cn(
-                          "px-3 py-2 text-sm flex items-center gap-2 rounded-t-lg rounded-br-lg rounded-bl-none",
+                          "px-3 py-2 text-sm flex items-center gap-2 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm",
                           isDark
                             ? "bg-zinc-700 border border-zinc-600"
                             : "bg-white border border-zinc-200"
@@ -510,9 +520,10 @@ export function Demo() {
 
           {/* Main Content - Preview */}
           <main className={cn(
-            "flex-1 flex items-center justify-center p-8",
+            "flex-1 min-h-0 overflow-y-auto p-8",
             isDark ? "bg-zinc-900" : "bg-zinc-50"
           )}>
+            <div className="flex flex-col items-center">
             {/* Preview with animation */}
             {showPreview && parsedMessages.length > 0 && (
               <div className="preview-container w-full max-w-[600px]">
@@ -522,14 +533,17 @@ export function Demo() {
                   onAction={handleAction}
                 />
 
-                {/* Action Log */}
+                {/* Action Log - Expandable */}
                 {actionLog.length > 0 && (
                   <div className="mt-4">
                     <p className={cn("text-xs font-medium mb-2", isDark ? "text-zinc-500" : "text-zinc-400")}>
-                      Recent actions:
+                      User Actions ({actionLog.length})
                     </p>
-                    <div className="flex flex-col gap-1">
-                      {actionLog.slice(-3).map((log, i) => (
+                    <div className={cn(
+                      "flex flex-col gap-1 max-h-[200px] overflow-y-auto rounded border p-2",
+                      isDark ? "border-zinc-700 bg-zinc-800/50" : "border-zinc-200 bg-zinc-50"
+                    )}>
+                      {actionLog.map((log, i) => (
                         <pre
                           key={i}
                           className={cn(
@@ -576,6 +590,7 @@ export function Demo() {
                 <p className={isDark ? "text-zinc-400" : "text-zinc-500"}>Building your interface...</p>
               </div>
             )}
+            </div>
           </main>
         </div>
 

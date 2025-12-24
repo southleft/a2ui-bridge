@@ -22,16 +22,72 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-// Supported A2UI Components
-const COMPONENTS = [
-  { name: 'Text', desc: 'Semantic text display' },
-  { name: 'Button', desc: 'Interactive actions' },
-  { name: 'TextField', desc: 'Text input with binding' },
-  { name: 'CheckBox', desc: 'Boolean toggles' },
-  { name: 'Badge', desc: 'Status indicators' },
-  { name: 'Card', desc: 'Content containers' },
-  { name: 'Row / Column', desc: 'Layout containers' },
-  { name: 'List', desc: 'Repeating items' },
+// Supported A2UI Components - organized by category (showing highlights, 70+ total)
+const COMPONENT_CATEGORIES = [
+  {
+    category: 'Layout',
+    components: [
+      { name: 'Row', desc: 'Horizontal flex container' },
+      { name: 'Column', desc: 'Vertical flex container' },
+      { name: 'Card', desc: 'Content container with border' },
+      { name: 'Grid', desc: 'Responsive grid layout' },
+      { name: 'Stack', desc: 'Flexible spacing' },
+      { name: 'Paper', desc: 'Surface container' },
+    ],
+  },
+  {
+    category: 'Typography',
+    components: [
+      { name: 'Text', desc: 'Semantic text display' },
+      { name: 'Title', desc: 'Heading elements' },
+      { name: 'Badge', desc: 'Status indicators' },
+      { name: 'Avatar', desc: 'User profile images' },
+      { name: 'Code', desc: 'Inline code display' },
+      { name: 'Highlight', desc: 'Text highlighting' },
+    ],
+  },
+  {
+    category: 'Form Inputs',
+    components: [
+      { name: 'Button', desc: 'Interactive actions' },
+      { name: 'TextField', desc: 'Text input with binding' },
+      { name: 'Checkbox', desc: 'Boolean toggles' },
+      { name: 'Switch', desc: 'Toggle switches' },
+      { name: 'Select', desc: 'Dropdown selection' },
+      { name: 'MultiSelect', desc: 'Multi-option selection' },
+      { name: 'DatePicker', desc: 'Date selection' },
+      { name: 'Rating', desc: 'Star ratings' },
+    ],
+  },
+  {
+    category: 'Feedback',
+    components: [
+      { name: 'Alert', desc: 'Contextual messages' },
+      { name: 'Progress', desc: 'Progress indicators' },
+      { name: 'Notification', desc: 'Toast messages' },
+      { name: 'Skeleton', desc: 'Loading placeholders' },
+      { name: 'Tooltip', desc: 'Contextual hints' },
+    ],
+  },
+  {
+    category: 'Navigation',
+    components: [
+      { name: 'Tabs', desc: 'Tabbed navigation' },
+      { name: 'NavLink', desc: 'Navigation links' },
+      { name: 'Stepper', desc: 'Step-by-step flows' },
+      { name: 'Breadcrumb', desc: 'Path navigation' },
+    ],
+  },
+  {
+    category: 'Overlays & Data',
+    components: [
+      { name: 'Modal', desc: 'Dialog overlays' },
+      { name: 'Drawer', desc: 'Side panels' },
+      { name: 'Table', desc: 'Tabular data' },
+      { name: 'Accordion', desc: 'Collapsible sections' },
+      { name: 'Timeline', desc: 'Chronological events' },
+    ],
+  },
 ];
 
 // Example prompts - clicking these will trigger generation in demo
@@ -271,26 +327,34 @@ export function Landing() {
       {/* Components + Code Section */}
       <div className="max-w-7xl mx-auto px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Components List */}
+          {/* Components List - Showing highlights from 70+ components */}
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center gap-3 mb-6">
               <Package size={24} strokeWidth={1.5} />
-              <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide">Supported Components</p>
+              <p className="text-base font-semibold text-muted-foreground uppercase tracking-wide">70+ Supported Components</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-              {COMPONENTS.map((comp) => (
-                <div key={comp.name} className="flex items-start gap-4 py-2">
-                  <code className="text-base bg-[#006699]/5 text-[#006699] px-3 py-1.5 rounded-sm font-mono min-w-[100px] border border-[#006699]/10">
-                    {comp.name}
-                  </code>
-                  <span className="text-base text-muted-foreground leading-relaxed">{comp.desc}</span>
+            <div className="flex flex-col gap-5">
+              {COMPONENT_CATEGORIES.map((cat) => (
+                <div key={cat.category}>
+                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">{cat.category}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.components.map((comp) => (
+                      <code
+                        key={comp.name}
+                        className="text-sm bg-[#006699]/5 text-[#006699] px-2.5 py-1 rounded-sm font-mono border border-[#006699]/10 hover:bg-[#006699]/10 transition-colors cursor-default"
+                        title={comp.desc}
+                      >
+                        {comp.name}
+                      </code>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
 
-            <p className="text-base text-muted-foreground mt-6">
-              Plus Image, Tabs, Modal, Slider, DatePicker, and more.
+            <p className="text-sm text-muted-foreground mt-5">
+              Case-insensitive matching + common aliases (e.g., Toggle → Switch)
             </p>
           </div>
 

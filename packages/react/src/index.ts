@@ -33,6 +33,18 @@ export type {
   ActionHandler,
 } from './types.js';
 
+// Adapter utilities - for integrating ANY component library
+export {
+  createAdapter,
+  createActionHandler,
+  createPassthroughAdapter,
+  createComponentMapping,
+  extractValue,
+  mapVariant,
+  type AdapterContext,
+  type AdapterOptions,
+} from './adapter.js';
+
 // Re-export core types for convenience
 export type {
   AnyComponentNode,

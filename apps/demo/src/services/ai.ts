@@ -23,17 +23,17 @@ export interface ProviderInfo {
 export const PROVIDERS: Record<Provider, Omit<ProviderInfo, 'configured'>> = {
   anthropic: {
     id: 'anthropic',
-    name: 'Claude (Anthropic)',
+    name: 'Claude',
     model: 'claude-opus-4-5-20251101',
   },
   openai: {
     id: 'openai',
-    name: 'GPT (OpenAI)',
+    name: 'GPT',
     model: 'gpt-5.2',
   },
   google: {
     id: 'google',
-    name: 'Gemini (Google)',
+    name: 'Gemini',
     model: 'gemini-3-flash',
   },
 };

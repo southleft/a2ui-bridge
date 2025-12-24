@@ -159,3 +159,195 @@ export interface Grid {
   justifyItems?: 'start' | 'center' | 'end' | 'stretch';
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
 }
+
+// Extended component types for ShadCN implementation
+
+export interface Switch {
+  checked?: boolean;
+  disabled?: boolean;
+  label?: StringValue;
+  onChange?: Action;
+}
+
+export interface RadioGroup {
+  value?: string;
+  options?: { label: string; value: string; disabled?: boolean }[];
+  onChange?: Action;
+}
+
+export interface Progress {
+  value?: number;
+  max?: number;
+  showLabel?: boolean;
+}
+
+export interface Spinner {
+  size?: 'sm' | 'md' | 'lg';
+  label?: string;
+}
+
+export interface Alert {
+  title?: StringValue;
+  description?: StringValue;
+  variant?: 'default' | 'info' | 'success' | 'warning' | 'error' | 'destructive';
+}
+
+export interface Avatar {
+  src?: StringValue;
+  alt?: StringValue;
+  fallback?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+export interface Tooltip {
+  content?: StringValue;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+}
+
+export interface Skeleton {
+  variant?: 'text' | 'circular' | 'rectangular';
+  width?: string;
+  height?: string;
+}
+
+export interface Separator {
+  orientation?: 'horizontal' | 'vertical';
+}
+
+export interface Link {
+  href?: StringValue;
+  text?: StringValue;
+  external?: boolean;
+  action?: Action;
+}
+
+export interface Dialog {
+  open?: boolean;
+  title?: StringValue;
+  description?: StringValue;
+  onClose?: Action;
+}
+
+export interface TabPanel {
+  value?: string;
+  label?: string;
+}
+
+export interface Accordion {
+  type?: 'single' | 'multiple';
+  defaultValue?: string | string[];
+}
+
+export interface AccordionItem {
+  value?: string;
+  title?: StringValue;
+  open?: boolean;
+}
+
+export interface Table {
+  caption?: StringValue;
+}
+
+export interface TableHeader {
+  // Container for header rows
+}
+
+export interface TableBody {
+  // Container for body rows
+}
+
+export interface TableRow {
+  selected?: boolean;
+}
+
+export interface TableCell {
+  isHeader?: boolean;
+  align?: 'left' | 'center' | 'right';
+  text?: StringValue;
+}
+
+export interface Breadcrumb {
+  items?: { label: string; href?: string; action?: Action }[];
+  separator?: string;
+}
+
+export interface Pagination {
+  currentPage?: number;
+  totalPages?: number;
+  showFirstLast?: boolean;
+  onChange?: Action;
+}
+
+export interface TextArea {
+  value?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  readOnly?: boolean;
+  rows?: number;
+  maxLength?: number;
+  onChange?: Action;
+}
+
+export interface ScrollArea {
+  height?: string;
+  width?: string;
+}
+
+export interface Sheet {
+  open?: boolean;
+  side?: 'top' | 'bottom' | 'left' | 'right';
+  title?: string;
+  description?: string;
+  onClose?: Action;
+}
+
+export interface Popover {
+  open?: boolean;
+  triggerLabel?: string;
+  align?: 'start' | 'center' | 'end';
+  side?: 'top' | 'bottom';
+  onOpenChange?: Action;
+}
+
+export interface DropdownMenu {
+  triggerLabel?: string;
+  items?: { label?: string; type?: 'separator'; action?: Action; disabled?: boolean }[];
+}
+
+export interface Toast {
+  title?: string;
+  description?: string;
+  variant?: 'default' | 'success' | 'error' | 'warning' | 'destructive';
+  duration?: number;
+  onClose?: Action;
+}
+
+export interface Label {
+  text?: string;
+  htmlFor?: string;
+  required?: boolean;
+}
+
+export interface Input {
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+  value?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  readOnly?: boolean;
+  onChange?: Action;
+}
+
+export interface AspectRatio {
+  ratio?: number;
+}
+
+export interface Collapsible {
+  open?: boolean;
+  title?: string;
+  onOpenChange?: Action;
+}
+
+export interface HoverCard {
+  triggerLabel?: string;
+  content?: string;
+}

@@ -130,6 +130,17 @@ ONLY respond with the JSON array. No explanations, no markdown code blocks, just
 3. **Be clear** - Use clear labels, helpful placeholders, and logical flow
 4. **Be complete** - Include all elements needed to complete the task
 5. **Be elegant** - Keep it clean and focused, don't over-complicate
+6. **Be professional** - NEVER use emojis in the UI. Use proper icon names instead where visual indicators are needed.
+
+## Icon Usage
+
+Instead of emojis, specify icon names using the "icon" property on components that support it. Available icons include:
+- Navigation: home, menu, chevronRight, chevronDown, externalLink
+- Actions: plus, minus, edit, trash, search, refresh, send, download, upload, share, copy
+- Status: check, alert, info, warning, close
+- Objects: user, heart, star, settings, lock, eye, mail, phone, calendar, clock, mapPin, photo, file, folder, filter, sort
+
+Example: Instead of "🏃‍♂️ Running Goal", use "Running Goal" with a relevant icon specified separately.
 
 Now, interpret what the user needs and create the perfect interface to help them.`;
 

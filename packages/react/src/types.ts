@@ -1,40 +1,18 @@
 /**
  * @a2ui-bridge/react - React-specific type definitions
- * MIT License - Copyright (c) 2024 tpitre
+ * MIT License - Copyright (c) 2024 southleft
  */
 
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import type {
   AnyComponentNode,
-  TextNode,
-  ImageNode,
-  IconNode,
-  VideoNode,
-  AudioPlayerNode,
-  BadgeNode,
-  SelectNode,
-  RowNode,
-  ColumnNode,
-  ListNode,
-  GridNode,
-  CardNode,
-  TabsNode,
-  DividerNode,
-  ModalNode,
-  ButtonNode,
-  CheckboxNode,
-  TextFieldNode,
-  DateTimeInputNode,
-  MultipleChoiceNode,
-  SliderNode,
-  CustomNode,
   UserAction,
 } from '@a2ui-bridge/core';
 
 /**
  * Props passed to every A2UI component.
  */
-export interface A2UIComponentProps<T extends AnyComponentNode = AnyComponentNode> {
+export interface A2UIComponentProps<T = AnyComponentNode> {
   /** The component node from the A2UI tree */
   node: T;
   /** Callback to dispatch user actions */
@@ -43,36 +21,22 @@ export interface A2UIComponentProps<T extends AnyComponentNode = AnyComponentNod
   components: ComponentMapping;
   /** The surface ID this component belongs to */
   surfaceId: string;
+  /** Pre-rendered children (for container components) */
+  children?: ReactNode;
 }
 
 /**
  * Mapping of A2UI component types to React components.
  * This allows design systems to provide their own implementations.
+ *
+ * The mapping uses string keys for flexibility - any component type
+ * can be mapped, not just the ones defined in the A2UI spec.
  */
 export interface ComponentMapping {
-  Text?: ComponentType<A2UIComponentProps<TextNode>>;
-  Image?: ComponentType<A2UIComponentProps<ImageNode>>;
-  Icon?: ComponentType<A2UIComponentProps<IconNode>>;
-  Video?: ComponentType<A2UIComponentProps<VideoNode>>;
-  AudioPlayer?: ComponentType<A2UIComponentProps<AudioPlayerNode>>;
-  Badge?: ComponentType<A2UIComponentProps<BadgeNode>>;
-  Select?: ComponentType<A2UIComponentProps<SelectNode>>;
-  Row?: ComponentType<A2UIComponentProps<RowNode>>;
-  Column?: ComponentType<A2UIComponentProps<ColumnNode>>;
-  List?: ComponentType<A2UIComponentProps<ListNode>>;
-  Grid?: ComponentType<A2UIComponentProps<GridNode>>;
-  Card?: ComponentType<A2UIComponentProps<CardNode>>;
-  Tabs?: ComponentType<A2UIComponentProps<TabsNode>>;
-  Divider?: ComponentType<A2UIComponentProps<DividerNode>>;
-  Modal?: ComponentType<A2UIComponentProps<ModalNode>>;
-  Button?: ComponentType<A2UIComponentProps<ButtonNode>>;
-  CheckBox?: ComponentType<A2UIComponentProps<CheckboxNode>>;
-  TextField?: ComponentType<A2UIComponentProps<TextFieldNode>>;
-  DateTimeInput?: ComponentType<A2UIComponentProps<DateTimeInputNode>>;
-  MultipleChoice?: ComponentType<A2UIComponentProps<MultipleChoiceNode>>;
-  Slider?: ComponentType<A2UIComponentProps<SliderNode>>;
-  /** Fallback for custom/unknown component types */
-  Custom?: ComponentType<A2UIComponentProps<CustomNode>>;
+  [componentType: string]: ComponentType<A2UIComponentProps<any>> | undefined;
+
+  /** Special fallback component for unknown types */
+  __fallback__?: ComponentType<A2UIComponentProps<any>>;
 }
 
 /**

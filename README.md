@@ -1,105 +1,129 @@
 # A2UI Bridge
 
-Framework adapters for Google's [Adaptive Agent UI (A2UI) Protocol](https://github.com/nickclaw/nickclaw.github.io/blob/main/agentic-ui-spec.md), enabling LLM-driven UI generation across different frameworks and design systems.
+**Let AI agents create real user interfaces using any component library.**
 
-## Overview
+A2UI Bridge implements Google's [A2UI Protocol](https://a2ui.org) for React, enabling AI-generated UIs that render with your existing design system.
 
-A2UI Bridge provides a modular architecture for rendering LLM-generated UIs:
+## What is A2UI?
 
+A2UI (Agent-to-UI) is a protocol that lets AI agents build user interfaces without writing code. Here's how it works:
+
+1. **You describe what you want** - "Create a contact card with name, email, and a call button"
+2. **The AI generates JSON** - It describes the UI structure, not actual code
+3. **A2UI Bridge renders it** - The JSON gets turned into real components from your design system
+
+The same A2UI JSON can render with **any** component library - Mantine, ShadCN, Material UI, or your own custom components. The AI doesn't need to know React or your specific library.
+
+## Why Use A2UI?
+
+- **Framework-agnostic**: Same AI response works across different component libraries
+- **Secure**: Declarative JSON, not executable code
+- **Real-time**: UI builds progressively as the AI generates it
+- **Native integration**: Uses your existing components with your styling
+
+## Installation
+
+```bash
+npm install @a2ui-bridge/core @a2ui-bridge/react
 ```
-                    A2UI Protocol (JSONL)
-                           |
-                           v
-              +------------------------+
-              |   @a2ui-bridge/core    |  <-- Framework-agnostic protocol processing
-              +------------------------+
-                           |
-                           v
-              +------------------------+
-              |   @a2ui-bridge/react   |  <-- React rendering layer
-              +------------------------+
-                           |
-                           v
-              +------------------------+
-              | @a2ui-bridge/react-    |  <-- ShadCN UI components
-              |       shadcn           |
-              +------------------------+
-```
-
-## Packages
-
-| Package | Description |
-|---------|-------------|
-| `@a2ui-bridge/core` | Protocol processing, state management, data binding |
-| `@a2ui-bridge/react` | React adapter with hooks and Surface component |
-| `@a2ui-bridge/react-shadcn` | ShadCN/Tailwind component implementations |
 
 ## Quick Start
 
-```bash
-# Install packages
-npm install @a2ui-bridge/core @a2ui-bridge/react @a2ui-bridge/react-shadcn
+### 1. Create adapters for your components
+
+Map A2UI component types to your actual components:
+
+```tsx
+import { createAdapter, extractValue } from '@a2ui-bridge/react';
+import { Button, Text, Card } from '@mantine/core'; // or any library
+
+const ButtonAdapter = createAdapter(Button, {
+  mapProps: (a2ui, ctx) => ({
+    children: ctx.renderChild(a2ui.child),
+    onClick: () => a2ui.action && ctx.onAction({ name: a2ui.action.name }),
+  }),
+});
+
+const TextAdapter = createAdapter(Text, {
+  mapProps: (a2ui) => ({
+    children: extractValue(a2ui.text),
+    size: extractValue(a2ui.usageHint) === 'h1' ? 'xl' : 'md',
+  }),
+});
+
+// Register all adapters
+const components = {
+  Button: ButtonAdapter,
+  Text: TextAdapter,
+  Card: CardAdapter,
+  // ... more adapters
+};
 ```
+
+### 2. Render A2UI surfaces
 
 ```tsx
 import { Surface, useA2uiProcessor } from '@a2ui-bridge/react';
-import { shadcnComponents } from '@a2ui-bridge/react-shadcn';
 
 function App() {
   const processor = useA2uiProcessor();
 
-  // Process messages from LLM
-  useEffect(() => {
-    processor.processMessages([
-      {
-        beginRendering: {
-          surfaceId: '@default',
-          root: 'greeting-card',
-        },
-      },
-      {
-        surfaceUpdate: {
-          surfaceId: '@default',
-          components: [
-            {
-              id: 'greeting-card',
-              component: {
-                componentType: 'Card',
-                properties: {
-                  children: ['greeting-text'],
-                },
-              },
-            },
-            {
-              id: 'greeting-text',
-              component: {
-                componentType: 'Text',
-                properties: {
-                  text: { literalString: 'Hello from A2UI!' },
-                  usageHint: 'h2',
-                },
-              },
-            },
-          ],
-        },
-      },
-    ]);
-  }, [processor]);
+  // Process A2UI messages from your AI
+  const handleAIResponse = (messages) => {
+    processor.processMessages(messages);
+  };
 
   return (
     <Surface
       processor={processor}
-      components={shadcnComponents}
-      onAction={(action) => console.log('Action:', action)}
+      components={components}
+      onAction={(action) => console.log('User action:', action)}
     />
   );
 }
 ```
 
-## Protocol Messages
+### 3. Send A2UI messages from your AI
+
+```json
+[
+  {
+    "beginRendering": {
+      "surfaceId": "@default",
+      "root": "greeting-card"
+    }
+  },
+  {
+    "surfaceUpdate": {
+      "surfaceId": "@default",
+      "components": [
+        {
+          "id": "greeting-card",
+          "component": {
+            "Card": {
+              "children": ["greeting-text"]
+            }
+          }
+        },
+        {
+          "id": "greeting-text",
+          "component": {
+            "Text": {
+              "text": { "literalString": "Hello from A2UI!" },
+              "usageHint": { "literalString": "h2" }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+## A2UI Protocol Messages
 
 ### beginRendering
-Sets up the surface and specifies the root component:
+Starts a new surface and sets the root component:
 
 ```json
 {
@@ -119,11 +143,11 @@ Updates components on the surface:
     "surfaceId": "@default",
     "components": [
       {
-        "id": "my-component",
+        "id": "my-button",
         "component": {
-          "componentType": "Text",
-          "properties": {
-            "text": { "literalString": "Hello World" }
+          "Button": {
+            "child": "button-text",
+            "action": { "name": "submit" }
           }
         }
       }
@@ -133,7 +157,7 @@ Updates components on the surface:
 ```
 
 ### dataModelUpdate
-Updates data model values for data binding:
+Updates data for data-bound components:
 
 ```json
 {
@@ -148,7 +172,7 @@ Updates data model values for data binding:
 ```
 
 ### deleteSurface
-Removes a surface entirely:
+Removes a surface:
 
 ```json
 {
@@ -162,32 +186,32 @@ Removes a surface entirely:
 
 | Component | Description |
 |-----------|-------------|
-| `Text` | Text display with usage hints (h1, h2, body, caption, etc.) |
-| `Button` | Clickable button with action callbacks |
-| `Card` | Container with elevated styling |
-| `Row` | Horizontal flex layout |
-| `Column` | Vertical flex layout |
-| `List` | Ordered/unordered list container |
+| `Text` | Text display with semantic hints (h1, h2, body, caption) |
+| `Button` | Interactive button with action callbacks |
 | `TextField` | Text input with data binding |
-| `Badge` | Small status indicator |
+| `CheckBox` | Boolean toggle |
+| `Card` | Container with border/shadow |
+| `Row` | Horizontal layout |
+| `Column` | Vertical layout |
+| `List` | Item container |
+| `Badge` | Status indicator |
 | `Divider` | Visual separator |
 | `Image` | Image display |
 
 ## Data Binding
 
-Components can bind to data model values using path references:
+Components can bind to data model values:
 
 ```json
 {
-  "componentType": "TextField",
-  "properties": {
+  "TextField": {
     "text": { "path": "form.email" },
     "label": { "literalString": "Email" }
   }
 }
 ```
 
-Actions can include context with data binding:
+Actions can include context from the data model:
 
 ```json
 {
@@ -200,28 +224,52 @@ Actions can include context with data binding:
 }
 ```
 
-## Theming
+## Packages
 
-The ShadCN components support theming via CSS variables:
+| Package | Description |
+|---------|-------------|
+| `@a2ui-bridge/core` | Protocol processing, state management, data binding |
+| `@a2ui-bridge/react` | React adapter with hooks and Surface component |
 
-```css
-:root {
-  --primary: 220 90% 56%;
-  --primary-foreground: 0 0% 100%;
-  --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  /* ... more variables */
-}
+## Architecture
 
-.dark {
-  --primary: 217 91% 60%;
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-  /* ... dark mode overrides */
-}
 ```
+AI Agent (Claude, GPT, etc.)
+         |
+         v
+    A2UI JSON Messages
+         |
+         v
++------------------+
+| @a2ui-bridge/core |  <-- Parses protocol, manages state
++------------------+
+         |
+         v
++------------------+
+| @a2ui-bridge/react|  <-- React bindings, Surface component
++------------------+
+         |
+         v
++------------------+
+|  Your Adapters   |  <-- Maps to your component library
++------------------+
+         |
+         v
+   Rendered UI (Mantine, ShadCN, Material UI, etc.)
+```
+
+## Demo
+
+Try the interactive demo that lets you describe UIs to Claude and see them render in real-time:
+
+```bash
+cd apps/demo
+cp .env.example .env  # Add your Anthropic API key
+npm install
+npm run dev
+```
+
+Visit http://localhost:5173 to start generating UIs. You can also enter your API key directly in the demo UI.
 
 ## Development
 
@@ -236,24 +284,11 @@ pnpm run build
 cd apps/demo && pnpm run dev
 ```
 
-## Architecture
+## Resources
 
-### Core Layer (`@a2ui-bridge/core`)
-- Processes A2UI protocol messages
-- Manages surface state and component trees
-- Handles data model with path-based binding
-- Framework-agnostic, design-system-agnostic
-
-### React Layer (`@a2ui-bridge/react`)
-- `useA2uiProcessor()` - Hook to create processor instance
-- `Surface` - Main rendering component
-- Uses `useSyncExternalStore` for React 18 concurrent mode compatibility
-- Pluggable component mapping
-
-### Component Layer (`@a2ui-bridge/react-shadcn`)
-- Implements A2UI components using ShadCN/Radix primitives
-- Tailwind CSS styling with full theming support
-- Accessible, production-ready components
+- [A2UI Protocol Specification](https://a2ui.org)
+- [A2UI GitHub](https://github.com/nicholaspetrov/a2ui)
+- [Mantine Components](https://mantine.dev) (used in demo)
 
 ## License
 

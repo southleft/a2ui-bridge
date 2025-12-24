@@ -1,6 +1,6 @@
 /**
  * @a2ui-bridge/react - Root component for rendering A2UI trees
- * MIT License - Copyright (c) 2024 tpitre
+ * MIT License - Copyright (c) 2024 southleft
  */
 
 import type { AnyComponentNode, UserAction } from '@a2ui-bridge/core';
@@ -57,29 +57,107 @@ function RenderNode({
   onAction,
   surfaceId,
 }: RenderNodeProps): JSX.Element | null {
+  // Look up the component by type
+  const Component = components[node.type];
+
+  // Render children for container components
+  const renderedChildren = renderChildrenFromNode(node, components, onAction, surfaceId);
+
   const props: A2UIComponentProps = {
     node,
     onAction,
     components,
     surfaceId,
+    children: renderedChildren.length > 0 ? renderedChildren : undefined,
   };
 
-  const Component = components[node.type as keyof ComponentMapping];
-
   if (Component) {
-    // @ts-expect-error - TypeScript can't infer the exact node type here
     return <Component {...props} />;
   }
 
-  // Try custom component fallback
-  if (components.Custom) {
-    // @ts-expect-error - Using custom fallback
-    return <components.Custom {...props} />;
+  // Try fallback component for unknown types
+  const FallbackComponent = components.__fallback__;
+  if (FallbackComponent) {
+    return <FallbackComponent {...props} />;
   }
 
-  // No component found, render nothing
-  console.warn(`No component found for type: ${node.type}`);
+  // No component found, log warning and render nothing
+  console.warn(`[A2UI] No component found for type: "${node.type}". Consider adding a __fallback__ component.`);
   return null;
+}
+
+/**
+ * Extract and render children from a node's properties.
+ */
+function renderChildrenFromNode(
+  node: AnyComponentNode,
+  components: ComponentMapping,
+  onAction: (action: UserAction) => void,
+  surfaceId: string
+): JSX.Element[] {
+  const properties = node.properties as Record<string, unknown>;
+  const results: JSX.Element[] = [];
+
+  // Handle 'children' array property
+  if (properties?.children && Array.isArray(properties.children)) {
+    for (const child of properties.children) {
+      if (isComponentNode(child)) {
+        results.push(
+          <RenderNode
+            key={child.id}
+            node={child}
+            components={components}
+            onAction={onAction}
+            surfaceId={surfaceId}
+          />
+        );
+      }
+    }
+  }
+
+  // Handle 'child' single property
+  if (properties?.child && isComponentNode(properties.child)) {
+    results.push(
+      <RenderNode
+        key={properties.child.id}
+        node={properties.child}
+        components={components}
+        onAction={onAction}
+        surfaceId={surfaceId}
+      />
+    );
+  }
+
+  // Handle 'tabItems' for Tabs component
+  if (properties?.tabItems && Array.isArray(properties.tabItems)) {
+    for (const tabItem of properties.tabItems) {
+      if (tabItem?.child && isComponentNode(tabItem.child)) {
+        results.push(
+          <RenderNode
+            key={tabItem.child.id}
+            node={tabItem.child}
+            components={components}
+            onAction={onAction}
+            surfaceId={surfaceId}
+          />
+        );
+      }
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Type guard to check if a value is a component node.
+ */
+function isComponentNode(value: unknown): value is AnyComponentNode {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'type' in value
+  );
 }
 
 /**
