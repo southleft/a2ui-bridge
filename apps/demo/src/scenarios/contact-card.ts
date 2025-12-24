@@ -22,8 +22,7 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'contact-card',
             component: {
-              componentType: 'Card',
-              properties: {
+              Card: {
                 children: ['contact-content'],
               },
             },
@@ -31,8 +30,7 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'contact-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 alignment: 'center',
                 children: ['avatar', 'name', 'title', 'email', 'actions'],
               },
@@ -41,48 +39,43 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'avatar',
             component: {
-              componentType: 'Image',
-              properties: {
+              Image: {
                 url: { literalString: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex' },
-                usageHint: 'avatar',
+                usageHint: { literalString: 'profile-avatar' },
               },
             },
           },
           {
             id: 'name',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Alex Jordan' },
-                usageHint: 'h2',
+                usageHint: { literalString: 'h2' },
               },
             },
           },
           {
             id: 'title',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Senior Software Engineer' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'email',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'alex.jordan@example.com' },
-                usageHint: 'caption',
+                usageHint: { literalString: 'caption' },
               },
             },
           },
           {
             id: 'actions',
             component: {
-              componentType: 'Row',
-              properties: {
+              Row: {
                 alignment: 'center',
                 children: ['call-btn', 'email-btn'],
               },
@@ -91,8 +84,7 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'call-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'call-btn-text',
                 action: { name: 'call-contact' },
               },
@@ -101,18 +93,16 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'call-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Call' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'email-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'email-btn-text',
                 action: { name: 'email-contact' },
               },
@@ -121,10 +111,9 @@ export const contactCardScenario: DemoScenario = {
           {
             id: 'email-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Email' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },

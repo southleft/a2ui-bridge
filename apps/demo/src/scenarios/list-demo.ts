@@ -22,8 +22,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'list-container',
             component: {
-              componentType: 'Card',
-              properties: {
+              Card: {
                 children: ['list-content'],
               },
             },
@@ -31,8 +30,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'list-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['list-header', 'task-list', 'add-task-row'],
               },
             },
@@ -40,9 +38,8 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'list-header',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['list-title', 'task-count'],
               },
             },
@@ -50,18 +47,16 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'list-title',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'My Tasks' },
-                usageHint: 'h2',
+                usageHint: { literalString: 'h2' },
               },
             },
           },
           {
             id: 'task-count',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: '3 items' },
               },
             },
@@ -69,9 +64,8 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-list',
             component: {
-              componentType: 'List',
-              properties: {
-                direction: 'vertical',
+              List: {
+                direction: { literalString: 'vertical' },
                 children: ['task-1', 'task-2', 'task-3'],
               },
             },
@@ -79,9 +73,8 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-1',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['task-1-badge', 'task-1-text', 'task-1-action'],
               },
             },
@@ -89,8 +82,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-1-badge',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: 'Done' },
               },
             },
@@ -98,18 +90,16 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-1-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Review pull request #42' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'task-1-action',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'task-1-action-text',
                 action: { name: 'view-task-1' },
               },
@@ -118,19 +108,17 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-1-action-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'View' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'task-2',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['task-2-badge', 'task-2-text', 'task-2-action'],
               },
             },
@@ -138,8 +126,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-2-badge',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: 'In Progress' },
               },
             },
@@ -147,18 +134,16 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-2-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Update documentation' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'task-2-action',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'task-2-action-text',
                 action: { name: 'view-task-2' },
               },
@@ -167,19 +152,17 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-2-action-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'View' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'task-3',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['task-3-badge', 'task-3-text', 'task-3-action'],
               },
             },
@@ -187,8 +170,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-3-badge',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: 'Pending' },
               },
             },
@@ -196,18 +178,16 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-3-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Deploy to production' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'task-3-action',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'task-3-action-text',
                 action: { name: 'view-task-3' },
               },
@@ -216,19 +196,17 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'task-3-action-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'View' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'add-task-row',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['add-task-btn'],
               },
             },
@@ -236,8 +214,7 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'add-task-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'add-task-btn-text',
                 action: { name: 'add-task' },
               },
@@ -246,10 +223,9 @@ export const listDemoScenario: DemoScenario = {
           {
             id: 'add-task-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Add Task' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },

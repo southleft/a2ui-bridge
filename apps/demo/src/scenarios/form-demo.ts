@@ -33,8 +33,7 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'form-card',
             component: {
-              componentType: 'Card',
-              properties: {
+              Card: {
                 children: ['form-content'],
               },
             },
@@ -42,8 +41,7 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'form-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['form-title', 'form-desc', 'name-row', 'email-field', 'divider', 'submit-row'],
               },
             },
@@ -51,28 +49,25 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'form-title',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Edit Profile' },
-                usageHint: 'h2',
+                usageHint: { literalString: 'h2' },
               },
             },
           },
           {
             id: 'form-desc',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Update your profile information below' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'name-row',
             component: {
-              componentType: 'Row',
-              properties: {
+              Row: {
                 children: ['first-name-field', 'last-name-field'],
               },
             },
@@ -80,49 +75,44 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'first-name-field',
             component: {
-              componentType: 'TextField',
-              properties: {
+              TextField: {
                 label: { literalString: 'First Name' },
                 text: { path: 'form.firstName' },
-                type: 'shortText',
+                type: { literalString: 'shortText' },
               },
             },
           },
           {
             id: 'last-name-field',
             component: {
-              componentType: 'TextField',
-              properties: {
+              TextField: {
                 label: { literalString: 'Last Name' },
                 text: { path: 'form.lastName' },
-                type: 'shortText',
+                type: { literalString: 'shortText' },
               },
             },
           },
           {
             id: 'email-field',
             component: {
-              componentType: 'TextField',
-              properties: {
+              TextField: {
                 label: { literalString: 'Email Address' },
                 text: { path: 'form.email' },
-                type: 'shortText',
+                type: { literalString: 'shortText' },
               },
             },
           },
           {
             id: 'divider',
             component: {
-              componentType: 'Divider',
-              properties: {},
+              Divider: {},
             },
           },
           {
             id: 'submit-row',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'end',
+              Row: {
+                alignment: { literalString: 'end' },
                 children: ['cancel-btn', 'save-btn'],
               },
             },
@@ -130,8 +120,7 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'cancel-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'cancel-btn-text',
                 action: { name: 'cancel-form' },
               },
@@ -140,18 +129,16 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'cancel-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Cancel' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'save-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'save-btn-text',
                 action: {
                   name: 'save-form',
@@ -167,10 +154,9 @@ export const formDemoScenario: DemoScenario = {
           {
             id: 'save-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Save Changes' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },

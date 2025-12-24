@@ -23,8 +23,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-card',
             component: {
-              componentType: 'Card',
-              properties: {
+              Card: {
                 children: ['response-content'],
               },
             },
@@ -32,8 +31,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['thinking-badge'],
               },
             },
@@ -41,8 +39,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'thinking-badge',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: 'Thinking...' },
               },
             },
@@ -58,8 +55,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['response-title', 'thinking-badge'],
               },
             },
@@ -67,10 +63,9 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-title',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Weather Report' },
-                usageHint: 'h2',
+                usageHint: { literalString: 'h2' },
               },
             },
           },
@@ -85,8 +80,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['response-title', 'location-row', 'thinking-badge'],
               },
             },
@@ -94,9 +88,8 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'location-row',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['location-badge', 'location-text'],
               },
             },
@@ -104,8 +97,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'location-badge',
             component: {
-              componentType: 'Badge',
-              properties: {
+              Badge: {
                 text: { literalString: 'San Francisco, CA' },
               },
             },
@@ -113,10 +105,9 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'location-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Current conditions' },
-                usageHint: 'caption',
+                usageHint: { literalString: 'caption' },
               },
             },
           },
@@ -131,8 +122,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['response-title', 'location-row', 'weather-details', 'thinking-badge'],
               },
             },
@@ -140,8 +130,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'weather-details',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['temp-text', 'condition-text'],
               },
             },
@@ -149,20 +138,18 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'temp-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: '72°F (22°C)' },
-                usageHint: 'h3',
+                usageHint: { literalString: 'h3' },
               },
             },
           },
           {
             id: 'condition-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Partly cloudy with mild temperatures. Perfect weather for outdoor activities.' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
@@ -177,8 +164,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'response-content',
             component: {
-              componentType: 'Column',
-              properties: {
+              Column: {
                 children: ['response-title', 'location-row', 'weather-details', 'divider', 'actions'],
               },
             },
@@ -186,16 +172,14 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'divider',
             component: {
-              componentType: 'Divider',
-              properties: {},
+              Divider: {},
             },
           },
           {
             id: 'actions',
             component: {
-              componentType: 'Row',
-              properties: {
-                alignment: 'center',
+              Row: {
+                alignment: { literalString: 'center' },
                 children: ['refresh-btn', 'details-btn'],
               },
             },
@@ -203,8 +187,7 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'refresh-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'refresh-btn-text',
                 action: { name: 'refresh-weather' },
               },
@@ -213,18 +196,16 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'refresh-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'Refresh' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
           {
             id: 'details-btn',
             component: {
-              componentType: 'Button',
-              properties: {
+              Button: {
                 child: 'details-btn-text',
                 action: { name: 'view-forecast' },
               },
@@ -233,10 +214,9 @@ export const streamingDemoScenario: DemoScenario = {
           {
             id: 'details-btn-text',
             component: {
-              componentType: 'Text',
-              properties: {
+              Text: {
                 text: { literalString: 'View Forecast' },
-                usageHint: 'body',
+                usageHint: { literalString: 'body' },
               },
             },
           },
