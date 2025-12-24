@@ -3,92 +3,84 @@ import { useNavigate } from 'react-router-dom';
 import { Surface, useA2uiProcessor } from '@a2ui-bridge/react';
 import type { ServerToClientMessage, UserAction } from '@a2ui-bridge/core';
 import { generateUI, isConfigured } from '../services/ai';
+import { cn } from '@/lib/utils';
 
+// ShadCN Components
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+
+// Lucide Icons (ShadCN's icon library)
 import {
-  AppShell,
-  Title,
-  Text,
-  Button,
-  Stack,
-  Group,
-  Badge,
   Code,
-  ScrollArea,
-  ActionIcon,
-  Tooltip,
-  useMantineColorScheme,
-  Box,
-  Textarea,
-  Loader,
-  Alert,
-  CopyButton,
-  Drawer,
-  Transition,
-  Paper,
-  ThemeIcon,
-  UnstyledButton,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import {
-  IconCode,
-  IconMoon,
-  IconSun,
-  IconBrandGithub,
-  IconSend,
-  IconAlertCircle,
-  IconArrowLeft,
-  IconCopy,
-  IconCheck,
-  IconDownload,
-  IconSparkles,
-  IconStethoscope,
-  IconChecklist,
-  IconChefHat,
-  IconPlane,
-  IconCash,
-  IconTarget,
-  IconX,
-} from '@tabler/icons-react';
+  Moon,
+  Sun,
+  Github,
+  Send,
+  AlertCircle,
+  ArrowLeft,
+  Copy,
+  Check,
+  Download,
+  Sparkles,
+  Stethoscope,
+  ListChecks,
+  ChefHat,
+  Plane,
+  Banknote,
+  Target,
+  Loader2,
+  X,
+} from 'lucide-react';
 
 import { mantineComponents } from '../adapters/mantine';
 
 // Intent-based scenarios (user-centric, not developer-centric)
 const SCENARIOS = [
   {
-    icon: IconStethoscope,
+    icon: Stethoscope,
     label: 'Doctor Visit',
     prompt: "I need to schedule a follow-up appointment with my doctor about my prescription refill",
-    color: 'blue',
+    color: 'text-blue-500',
+    bgColor: 'bg-blue-500/10',
   },
   {
-    icon: IconChecklist,
+    icon: ListChecks,
     label: 'Get Organized',
     prompt: "I've got a million things to do today and need to get my thoughts organized into a manageable task list",
-    color: 'green',
+    color: 'text-green-500',
+    bgColor: 'bg-green-500/10',
   },
   {
-    icon: IconChefHat,
+    icon: ChefHat,
     label: 'Find Recipe',
     prompt: "I want to bake chocolate chip cookies this weekend and need to find a good recipe",
-    color: 'orange',
+    color: 'text-orange-500',
+    bgColor: 'bg-orange-500/10',
   },
   {
-    icon: IconPlane,
+    icon: Plane,
     label: 'Plan Trip',
     prompt: "I'm planning a weekend getaway and need to find and book a hotel room",
-    color: 'violet',
+    color: 'text-violet-500',
+    bgColor: 'bg-violet-500/10',
   },
   {
-    icon: IconCash,
+    icon: Banknote,
     label: 'Send Money',
     prompt: "I need to send $50 to my roommate for my share of the utilities bill",
-    color: 'teal',
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-500/10',
   },
   {
-    icon: IconTarget,
+    icon: Target,
     label: 'Track Goals',
     prompt: "Help me track my fitness goals for this week - I want to run 3 times and drink more water",
-    color: 'red',
+    color: 'text-red-500',
+    bgColor: 'bg-red-500/10',
   },
 ];
 
@@ -110,17 +102,28 @@ export function Demo() {
   const [error, setError] = useState<string | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const [drawerOpened, { open: openDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
 
   const streamRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
-
   const hasApiKey = isConfigured();
+
+  // Toggle dark mode
+  const toggleDarkMode = useCallback(() => {
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
+    document.documentElement.classList.toggle('dark', newIsDark);
+  }, [isDark]);
 
   // Handle action callbacks from A2UI components
   const handleAction = useCallback((action: UserAction) => {
@@ -128,6 +131,14 @@ export function Demo() {
     const logEntry = `[${timestamp}] ${action.actionName}${action.context ? ` | ${JSON.stringify(action.context)}` : ''}`;
     setActionLog((prev) => [...prev.slice(-9), logEntry]);
   }, []);
+
+  // Copy JSON
+  const handleCopy = useCallback(() => {
+    if (!parsedMessages.length) return;
+    navigator.clipboard.writeText(JSON.stringify(parsedMessages, null, 2));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [parsedMessages]);
 
   // Download JSON
   const handleDownload = useCallback(() => {
@@ -191,12 +202,10 @@ export function Demo() {
       onMessage: (messages) => {
         setParsedMessages(messages);
         processor.processMessages(messages);
-        // Trigger preview animation
         setShowPreview(true);
       },
       onComplete: () => {
         setIsGenerating(false);
-        // Add assistant message to chat
         setChatHistory((prev) => [...prev, {
           role: 'assistant',
           content: 'Here\'s an interface to help you with that.',
@@ -226,275 +235,214 @@ export function Demo() {
     handleGenerate(scenarioPrompt);
   }, [handleGenerate]);
 
-  const cleanJson = parsedMessages.length > 0
-    ? JSON.stringify(parsedMessages, null, 2)
-    : '';
-
   return (
-    <AppShell
-      header={{ height: 56 }}
-      navbar={{ width: 340, breakpoint: 'sm' }}
-      padding={0}
-      transitionDuration={300}
-      transitionTimingFunction="ease"
-      styles={{
-        main: {
-          backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
-        },
-      }}
-    >
-      {/* Header */}
-      <AppShell.Header
-        style={{
-          borderBottom: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
-          backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-        }}
-      >
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm">
-            <Tooltip label="Back to Home">
-              <ActionIcon variant="subtle" onClick={() => navigate('/')} size="md" color="gray">
-                <IconArrowLeft size={18} />
-              </ActionIcon>
+    <TooltipProvider>
+      <div className={cn("min-h-screen flex flex-col", isDark ? "dark bg-zinc-900" : "bg-zinc-50")}>
+        {/* Header */}
+        <header className={cn(
+          "h-14 flex items-center justify-between px-4 border-b shrink-0",
+          isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200"
+        )}>
+          <div className="flex items-center gap-3">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Back to Home</TooltipContent>
             </Tooltip>
-            <Group gap={8}>
-              <ThemeIcon size="md" radius="md" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
-                <IconSparkles size={16} />
-              </ThemeIcon>
-              <Title order={4} fw={600} c={isDark ? 'gray.2' : 'dark'}>A2UI</Title>
-            </Group>
-            <Badge variant="light" size="sm" color="blue">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <Sparkles className="h-4 w-4 text-white" />
+              </div>
+              <span className={cn("font-semibold", isDark ? "text-zinc-200" : "text-zinc-900")}>A2UI</span>
+            </div>
+            <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 border-0">
               Predictive UI
             </Badge>
-          </Group>
-          <Group gap={8}>
+          </div>
+          <div className="flex items-center gap-1">
             {parsedMessages.length > 0 && (
-              <Tooltip label="View Protocol">
-                <ActionIcon variant="light" onClick={openDrawer} size="md" color="gray">
-                  <IconCode size={18} />
-                </ActionIcon>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={() => setSheetOpen(true)}>
+                    <Code className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>View Protocol</TooltipContent>
               </Tooltip>
             )}
-            <Tooltip label={isDark ? 'Light mode' : 'Dark mode'}>
-              <ActionIcon variant="subtle" onClick={() => toggleColorScheme()} size="md" color="gray">
-                {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
-              </ActionIcon>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
+                  {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{isDark ? 'Light mode' : 'Dark mode'}</TooltipContent>
             </Tooltip>
-            <Tooltip label="GitHub">
-              <ActionIcon
-                component="a"
-                href="https://github.com/southleft/a2ui-bridge"
-                target="_blank"
-                variant="subtle"
-                size="md"
-                color="gray"
-              >
-                <IconBrandGithub size={18} />
-              </ActionIcon>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="https://github.com/southleft/a2ui-bridge" target="_blank" rel="noopener noreferrer">
+                    <Github className="h-4 w-4" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>GitHub</TooltipContent>
             </Tooltip>
-          </Group>
-        </Group>
-      </AppShell.Header>
+          </div>
+        </header>
 
-      {/* Left Sidebar - Chat */}
-      <AppShell.Navbar
-        p="md"
-        style={{
-          backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-          borderRight: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
-        }}
-      >
-        <Stack h="100%" gap={0}>
-          {/* Scenarios */}
-          <Box mb="md">
-            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="sm">
-              Try a scenario
-            </Text>
-            <Stack gap={6}>
-              {SCENARIOS.map((scenario) => (
-                <UnstyledButton
-                  key={scenario.label}
-                  className="scenario-btn"
-                  onClick={() => useScenario(scenario.prompt)}
-                  disabled={isGenerating}
-                  style={{
-                    padding: '10px 12px',
-                    borderRadius: 'var(--mantine-radius-md)',
-                    backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
-                    border: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)',
-                    opacity: isGenerating ? 0.5 : 1,
-                    cursor: isGenerating ? 'not-allowed' : 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isGenerating) {
-                      e.currentTarget.style.backgroundColor = isDark
-                        ? 'var(--mantine-color-dark-5)'
-                        : 'var(--mantine-color-gray-1)';
-                      e.currentTarget.style.borderColor = `var(--mantine-color-${scenario.color}-5)`;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? 'var(--mantine-color-dark-6)'
-                      : 'var(--mantine-color-gray-0)';
-                    e.currentTarget.style.borderColor = isDark
-                      ? 'var(--mantine-color-dark-5)'
-                      : 'var(--mantine-color-gray-2)';
-                  }}
-                >
-                  <Group gap="sm" wrap="nowrap">
-                    <ThemeIcon size="sm" variant="light" color={scenario.color} radius="sm">
-                      <scenario.icon size={14} />
-                    </ThemeIcon>
-                    <Text size="sm" fw={500}>{scenario.label}</Text>
-                  </Group>
-                </UnstyledButton>
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Chat History */}
-          <Box style={{ flex: 1, minHeight: 0 }}>
-            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="sm">
-              Conversation
-            </Text>
-            <ScrollArea
-              h="calc(100% - 24px)"
-              viewportRef={chatScrollRef}
-              styles={{
-                root: {
-                  backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
-                  borderRadius: 'var(--mantine-radius-md)',
-                },
-              }}
-            >
-              <Stack gap="sm" p="sm">
-                {chatHistory.length === 0 ? (
-                  <Text size="sm" c="dimmed" ta="center" py="xl">
-                    Tell me what you need help with...
-                  </Text>
-                ) : (
-                  chatHistory.map((msg, i) => (
-                    <Box
-                      key={i}
-                      className="chat-message"
-                      style={{
-                        alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
-                        maxWidth: '85%',
-                      }}
+        <div className="flex flex-1 min-h-0">
+          {/* Left Sidebar - Chat */}
+          <aside className={cn(
+            "w-[340px] flex flex-col border-r shrink-0",
+            isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-zinc-200"
+          )}>
+            <div className="p-4 flex flex-col h-full">
+              {/* Scenarios */}
+              <div className="mb-4">
+                <p className={cn("text-xs font-semibold uppercase tracking-wide mb-3", isDark ? "text-zinc-400" : "text-zinc-500")}>
+                  Try a scenario
+                </p>
+                <div className="flex flex-col gap-1.5">
+                  {SCENARIOS.map((scenario) => (
+                    <button
+                      key={scenario.label}
+                      onClick={() => useScenario(scenario.prompt)}
+                      disabled={isGenerating}
+                      className={cn(
+                        "scenario-btn flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-left transition-all",
+                        isDark
+                          ? "bg-zinc-700/50 border border-zinc-600 hover:bg-zinc-700 hover:border-zinc-500"
+                          : "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300",
+                        isGenerating && "opacity-50 cursor-not-allowed"
+                      )}
                     >
-                      <Paper
-                        p="xs"
-                        radius="md"
-                        style={{
-                          backgroundColor: msg.role === 'user'
-                            ? 'var(--mantine-color-blue-6)'
-                            : isDark ? 'var(--mantine-color-dark-5)' : 'white',
-                          border: msg.role === 'assistant'
-                            ? isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-2)'
-                            : 'none',
-                        }}
-                      >
-                        <Text size="sm" c={msg.role === 'user' ? 'white' : undefined}>
-                          {msg.content}
-                        </Text>
-                      </Paper>
-                    </Box>
-                  ))
-                )}
-                {isGenerating && (
-                  <Box className="chat-message thinking-indicator" style={{ alignSelf: 'flex-start' }}>
-                    <Paper
-                      p="xs"
-                      radius="md"
-                      style={{
-                        backgroundColor: isDark ? 'var(--mantine-color-dark-5)' : 'white',
-                        border: isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-2)',
-                      }}
-                    >
-                      <Group gap="xs">
-                        <Loader size="xs" />
-                        <Text size="sm" c="dimmed">Creating your interface...</Text>
-                      </Group>
-                    </Paper>
-                  </Box>
-                )}
-              </Stack>
-            </ScrollArea>
-          </Box>
+                      <div className={cn("w-7 h-7 rounded flex items-center justify-center", scenario.bgColor)}>
+                        <scenario.icon className={cn("h-3.5 w-3.5", scenario.color)} />
+                      </div>
+                      <span className={cn("text-sm font-medium", isDark ? "text-zinc-200" : "text-zinc-800")}>
+                        {scenario.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          {/* Input */}
-          <Box mt="md">
-            {error && (
-              <Alert
-                icon={<IconAlertCircle size={14} />}
-                color="red"
-                mb="sm"
-                p="xs"
-                withCloseButton
-                onClose={() => setError(null)}
-              >
-                <Text size="xs">{error}</Text>
-              </Alert>
-            )}
-            {!hasApiKey && (
-              <Alert color="orange" mb="sm" p="xs">
-                <Text size="xs">Set VITE_ANTHROPIC_API_KEY in .env</Text>
-              </Alert>
-            )}
-            <Group gap="xs" align="flex-end">
-              <Textarea
-                ref={textareaRef}
-                placeholder="What do you need help with?"
-                value={prompt}
-                onChange={(e) => setPrompt(e.currentTarget.value)}
-                onKeyDown={handleKeyDown}
-                minRows={1}
-                maxRows={3}
-                autosize
-                style={{ flex: 1 }}
-                styles={{
-                  input: {
-                    backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-0)',
-                    border: isDark ? '1px solid var(--mantine-color-dark-4)' : '1px solid var(--mantine-color-gray-3)',
-                  },
-                }}
-              />
-              <ActionIcon
-                size="lg"
-                radius="md"
-                variant="filled"
-                color="blue"
-                onClick={() => handleGenerate()}
-                disabled={!prompt.trim() || !hasApiKey || isGenerating}
-                loading={isGenerating}
-              >
-                <IconSend size={18} />
-              </ActionIcon>
-            </Group>
-          </Box>
-        </Stack>
-      </AppShell.Navbar>
+              {/* Chat History */}
+              <div className="flex-1 min-h-0 flex flex-col">
+                <p className={cn("text-xs font-semibold uppercase tracking-wide mb-3", isDark ? "text-zinc-400" : "text-zinc-500")}>
+                  Conversation
+                </p>
+                <ScrollArea className={cn(
+                  "flex-1 rounded-lg",
+                  isDark ? "bg-zinc-900" : "bg-zinc-50"
+                )}>
+                  <div ref={chatScrollRef} className="p-3 flex flex-col gap-2">
+                    {chatHistory.length === 0 ? (
+                      <p className={cn("text-sm text-center py-8", isDark ? "text-zinc-500" : "text-zinc-400")}>
+                        Tell me what you need help with...
+                      </p>
+                    ) : (
+                      chatHistory.map((msg, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            "chat-message max-w-[85%]",
+                            msg.role === 'user' ? "self-end" : "self-start"
+                          )}
+                        >
+                          <div className={cn(
+                            "px-3 py-2 rounded-xl text-sm",
+                            msg.role === 'user'
+                              ? "bg-blue-600 text-white"
+                              : isDark
+                                ? "bg-zinc-700 border border-zinc-600 text-zinc-200"
+                                : "bg-white border border-zinc-200 text-zinc-800"
+                          )}>
+                            {msg.content}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                    {isGenerating && (
+                      <div className="chat-message thinking-indicator self-start max-w-[85%]">
+                        <div className={cn(
+                          "px-3 py-2 rounded-xl text-sm flex items-center gap-2",
+                          isDark
+                            ? "bg-zinc-700 border border-zinc-600"
+                            : "bg-white border border-zinc-200"
+                        )}>
+                          <Loader2 className="h-3 w-3 animate-spin text-zinc-400" />
+                          <span className="text-zinc-400">Creating your interface...</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+              </div>
 
-      {/* Main Content - Preview */}
-      <AppShell.Main>
-        <Box h="100%" p="xl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Transition
-            mounted={showPreview && parsedMessages.length > 0}
-            transition="fade"
-            duration={400}
-            timingFunction="ease"
-          >
-            {(styles) => (
-              <Box
-                style={{
-                  ...styles,
-                  width: '100%',
-                  maxWidth: 600,
-                  animation: 'slideUp 0.4s ease-out',
-                }}
-                className="preview-container"
-              >
+              {/* Input */}
+              <div className="mt-4">
+                {error && (
+                  <div className={cn(
+                    "flex items-start gap-2 p-3 rounded-lg mb-3 text-sm",
+                    "bg-red-500/10 text-red-600 border border-red-500/20"
+                  )}>
+                    <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                    <span className="flex-1">{error}</span>
+                    <button onClick={() => setError(null)}>
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+                {!hasApiKey && (
+                  <div className={cn(
+                    "p-3 rounded-lg mb-3 text-sm",
+                    "bg-orange-500/10 text-orange-600 border border-orange-500/20"
+                  )}>
+                    Set VITE_ANTHROPIC_API_KEY in .env
+                  </div>
+                )}
+                <div className="flex gap-2 items-end">
+                  <Textarea
+                    ref={textareaRef}
+                    placeholder="What do you need help with?"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    rows={1}
+                    className={cn(
+                      "flex-1 resize-none min-h-[40px] max-h-[120px]",
+                      isDark ? "bg-zinc-700 border-zinc-600" : "bg-zinc-50 border-zinc-300"
+                    )}
+                  />
+                  <Button
+                    size="icon"
+                    onClick={() => handleGenerate()}
+                    disabled={!prompt.trim() || !hasApiKey || isGenerating}
+                  >
+                    {isGenerating ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content - Preview */}
+          <main className={cn(
+            "flex-1 flex items-center justify-center p-8",
+            isDark ? "bg-zinc-900" : "bg-zinc-50"
+          )}>
+            {/* Preview with animation */}
+            {showPreview && parsedMessages.length > 0 && (
+              <div className="preview-container w-full max-w-[600px]">
                 <Surface
                   processor={processor}
                   components={mantineComponents}
@@ -503,151 +451,109 @@ export function Demo() {
 
                 {/* Action Log */}
                 {actionLog.length > 0 && (
-                  <Box mt="md">
-                    <Text size="xs" c="dimmed" fw={500} mb={4}>Recent actions:</Text>
-                    <Stack gap={2}>
+                  <div className="mt-4">
+                    <p className={cn("text-xs font-medium mb-2", isDark ? "text-zinc-500" : "text-zinc-400")}>
+                      Recent actions:
+                    </p>
+                    <div className="flex flex-col gap-1">
                       {actionLog.slice(-3).map((log, i) => (
-                        <Code
+                        <pre
                           key={i}
-                          block
-                          style={{
-                            fontSize: 10,
-                            padding: 6,
-                            backgroundColor: isDark ? 'var(--mantine-color-dark-6)' : 'var(--mantine-color-gray-1)',
-                            color: isDark ? 'var(--mantine-color-gray-4)' : undefined,
-                          }}
+                          className={cn(
+                            "text-[10px] p-1.5 rounded font-mono",
+                            isDark ? "bg-zinc-800 text-zinc-400" : "bg-zinc-100 text-zinc-600"
+                          )}
                         >
                           {log}
-                        </Code>
+                        </pre>
                       ))}
-                    </Stack>
-                  </Box>
+                    </div>
+                  </div>
                 )}
-              </Box>
+              </div>
             )}
-          </Transition>
 
-          {/* Empty State */}
-          {!showPreview && !isGenerating && parsedMessages.length === 0 && (
-            <Stack align="center" gap="lg">
-              <ThemeIcon
-                size={80}
-                radius="xl"
-                variant="light"
-                color="gray"
-                className="empty-state-icon"
-              >
-                <IconSparkles size={40} />
-              </ThemeIcon>
-              <Stack align="center" gap="xs">
-                <Title order={2} c={isDark ? 'gray.3' : 'dark'}>
-                  Predictive UI Demo
-                </Title>
-                <Text size="lg" c="dimmed" ta="center" maw={400}>
-                  Describe what you need, and AI will create the perfect interface to help you.
-                </Text>
-              </Stack>
-              <Badge size="lg" variant="light" color="blue">
-                Powered by Claude + A2UI Protocol
-              </Badge>
-            </Stack>
-          )}
-
-          {/* Generating State */}
-          {isGenerating && parsedMessages.length === 0 && (
-            <Stack align="center" gap="md">
-              <Loader size="lg" />
-              <Text c="dimmed">Building your interface...</Text>
-            </Stack>
-          )}
-        </Box>
-      </AppShell.Main>
-
-      {/* Protocol Drawer */}
-      <Drawer
-        opened={drawerOpened}
-        onClose={closeDrawer}
-        title={
-          <Group gap="xs">
-            <IconCode size={18} />
-            <Text fw={600}>A2UI Protocol</Text>
-            {parsedMessages.length > 0 && (
-              <Badge size="xs" variant="light" color="green">
-                {parsedMessages.length} message{parsedMessages.length !== 1 ? 's' : ''}
-              </Badge>
+            {/* Empty State */}
+            {!showPreview && !isGenerating && parsedMessages.length === 0 && (
+              <div className="flex flex-col items-center gap-6">
+                <div className={cn(
+                  "empty-state-icon w-20 h-20 rounded-full flex items-center justify-center",
+                  isDark ? "bg-zinc-800" : "bg-zinc-100"
+                )}>
+                  <Sparkles className={cn("h-10 w-10", isDark ? "text-zinc-600" : "text-zinc-400")} />
+                </div>
+                <div className="text-center">
+                  <h2 className={cn("text-2xl font-semibold mb-2", isDark ? "text-zinc-200" : "text-zinc-800")}>
+                    Predictive UI Demo
+                  </h2>
+                  <p className={cn("text-lg max-w-[400px]", isDark ? "text-zinc-400" : "text-zinc-500")}>
+                    Describe what you need, and AI will create the perfect interface to help you.
+                  </p>
+                </div>
+                <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 border-0 text-sm px-3 py-1">
+                  Powered by Claude + A2UI Protocol
+                </Badge>
+              </div>
             )}
-          </Group>
-        }
-        position="right"
-        size="lg"
-        overlayProps={{ backgroundOpacity: 0.3, blur: 2 }}
-        styles={{
-          body: {
-            padding: 0,
-            height: 'calc(100% - 60px)',
-          },
-          content: {
-            backgroundColor: isDark ? 'var(--mantine-color-dark-7)' : 'white',
-          },
-        }}
-      >
-        <Stack h="100%" gap={0}>
-          {/* Actions */}
-          <Group gap="xs" p="md" style={{ borderBottom: isDark ? '1px solid var(--mantine-color-dark-5)' : '1px solid var(--mantine-color-gray-2)' }}>
-            <CopyButton value={cleanJson}>
-              {({ copied, copy }) => (
-                <Button
-                  variant="light"
-                  size="xs"
-                  leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-                  onClick={copy}
-                  color={copied ? 'green' : 'gray'}
-                >
-                  {copied ? 'Copied!' : 'Copy JSON'}
-                </Button>
-              )}
-            </CopyButton>
-            <Button
-              variant="light"
-              size="xs"
-              leftSection={<IconDownload size={14} />}
-              onClick={handleDownload}
-              color="gray"
-            >
-              Download
-            </Button>
-          </Group>
 
-          {/* JSON Content */}
-          <ScrollArea
-            style={{ flex: 1 }}
-            viewportRef={streamRef}
-            p="md"
-          >
-            {protocolStream ? (
-              <Code
-                block
-                style={{
-                  fontSize: 11,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  backgroundColor: isDark ? 'var(--mantine-color-dark-8)' : 'var(--mantine-color-gray-0)',
-                  color: isDark ? 'var(--mantine-color-gray-4)' : 'inherit',
-                  padding: 16,
-                  borderRadius: 'var(--mantine-radius-md)',
-                }}
-              >
-                {protocolStream}
-              </Code>
-            ) : (
-              <Text size="sm" c="dimmed" ta="center" py="xl">
-                Protocol stream will appear here
-              </Text>
+            {/* Generating State */}
+            {isGenerating && parsedMessages.length === 0 && (
+              <div className="flex flex-col items-center gap-4">
+                <Loader2 className={cn("h-8 w-8 animate-spin", isDark ? "text-zinc-400" : "text-zinc-500")} />
+                <p className={isDark ? "text-zinc-400" : "text-zinc-500"}>Building your interface...</p>
+              </div>
             )}
-          </ScrollArea>
-        </Stack>
-      </Drawer>
-    </AppShell>
+          </main>
+        </div>
+
+        {/* Protocol Sheet */}
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetContent className={cn("w-[400px] sm:w-[540px] flex flex-col", isDark ? "bg-zinc-800 border-zinc-700" : "")}>
+            <SheetHeader>
+              <SheetTitle className="flex items-center gap-2">
+                <Code className="h-4 w-4" />
+                <span>A2UI Protocol</span>
+                {parsedMessages.length > 0 && (
+                  <Badge variant="secondary" className="bg-green-500/10 text-green-600 border-0 text-xs">
+                    {parsedMessages.length} message{parsedMessages.length !== 1 ? 's' : ''}
+                  </Badge>
+                )}
+              </SheetTitle>
+            </SheetHeader>
+
+            {/* Actions */}
+            <div className="flex gap-2 py-3 border-b border-zinc-200 dark:border-zinc-700">
+              <Button variant="outline" size="sm" onClick={handleCopy}>
+                {copied ? <Check className="h-3 w-3 mr-1" /> : <Copy className="h-3 w-3 mr-1" />}
+                {copied ? 'Copied!' : 'Copy JSON'}
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleDownload}>
+                <Download className="h-3 w-3 mr-1" />
+                Download
+              </Button>
+            </div>
+
+            {/* JSON Content */}
+            <ScrollArea className="flex-1 mt-3">
+              <div ref={streamRef}>
+                {protocolStream ? (
+                  <pre className={cn(
+                    "text-xs p-4 rounded-lg whitespace-pre-wrap break-words font-mono",
+                    isDark ? "bg-zinc-900 text-zinc-300" : "bg-zinc-50 text-zinc-700"
+                  )}>
+                    {protocolStream}
+                  </pre>
+                ) : (
+                  <p className={cn("text-sm text-center py-8", isDark ? "text-zinc-500" : "text-zinc-400")}>
+                    Protocol stream will appear here
+                  </p>
+                )}
+              </div>
+            </ScrollArea>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </TooltipProvider>
   );
 }
 

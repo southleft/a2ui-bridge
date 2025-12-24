@@ -1,34 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import {
-  Title,
-  Text,
-  Button,
-  Stack,
-  Group,
-  Badge,
-  Code,
-  SimpleGrid,
-  Box,
-  Anchor,
-  Container,
-  Grid,
-  Divider,
-} from '@mantine/core';
-import {
-  IconCode,
-  IconBrandGithub,
-  IconArrowRight,
-  IconBrandReact,
-  IconFileCode,
-  IconPackage,
-  IconTerminal,
-  IconChevronRight,
-  IconExternalLink,
-  IconRobot,
-  IconPuzzle,
-  IconLayersLinked,
-  IconLayoutGrid,
-} from '@tabler/icons-react';
+  Github,
+  ArrowRight,
+  FileCode,
+  Package,
+  Terminal,
+  ChevronRight,
+  ExternalLink,
+  Bot,
+  Puzzle,
+  Layers,
+  LayoutGrid,
+} from 'lucide-react';
 
 // Supported A2UI Components
 const COMPONENTS = [
@@ -55,218 +41,190 @@ export function Landing() {
   const navigate = useNavigate();
 
   return (
-    <Box
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#fafafa',
-      }}
-    >
+    <div className="min-h-screen bg-[#fafafa]">
       {/* Header */}
-      <Box py="md" style={{ borderBottom: '1px solid #e9ecef' }}>
-        <Container size="xl">
-          <Group justify="space-between">
-            <Title order={4} fw={600}>A2UI Bridge</Title>
-            <Group gap="lg">
-              <Anchor href="https://github.com/southleft/a2ui-bridge" target="_blank" c="dark" size="sm" style={{ textDecoration: 'none' }}>
-                <Group gap={6}>
-                  <IconBrandGithub size={18} />
-                  GitHub
-                </Group>
-              </Anchor>
-            </Group>
-          </Group>
-        </Container>
-      </Box>
+      <div className="py-4 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <h4 className="text-lg font-semibold">A2UI Bridge</h4>
+            <div className="flex items-center gap-6">
+              <a
+                href="https://github.com/southleft/a2ui-bridge"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-gray-900 hover:text-gray-600 no-underline"
+              >
+                <Github size={18} />
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Hero - Two Column Layout */}
-      <Container size="xl" py={60}>
-        <Grid gutter={60}>
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* Left Column - Main Message */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Stack gap="lg">
-              <Title
-                order={1}
-                fw={600}
-                style={{ fontSize: '3rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+          <div className="flex flex-col gap-6">
+            <h1 className="text-5xl font-semibold leading-tight tracking-tight">
+              Let <span className="text-blue-500">AI agents</span> build<br />
+              real user interfaces
+            </h1>
+
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-[480px]">
+              A protocol that lets any LLM create UIs without knowing React, Vue,
+              or your component library. Describe what you want, get working components.
+            </p>
+
+            <div className="flex items-center gap-3 mt-4">
+              <Button
+                size="lg"
+                className="bg-gray-900 hover:bg-gray-800"
+                onClick={() => navigate('/demo')}
               >
-                Let <span style={{ color: '#228be6' }}>AI agents</span> build<br />
-                real user interfaces
-              </Title>
-
-              <Text size="lg" c="dimmed" lh={1.7} maw={480}>
-                A protocol that lets any LLM create UIs without knowing React, Vue,
-                or your component library. Describe what you want, get working components.
-              </Text>
-
-              <Group gap="sm" mt="md">
-                <Button
-                  size="lg"
-                  color="dark"
-                  rightSection={<IconArrowRight size={18} />}
-                  onClick={() => navigate('/demo')}
-                >
-                  Try the Demo
-                </Button>
-                <Button
-                  size="lg"
-                  variant="default"
-                  component="a"
+                Try the Demo
+                <ArrowRight size={18} className="ml-2" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+              >
+                <a
                   href="https://github.com/nicholaspetrov/a2ui"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   View Protocol
-                </Button>
-              </Group>
-            </Stack>
-          </Grid.Col>
+                </a>
+              </Button>
+            </div>
+          </div>
 
           {/* Right Column - How it Works */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Box
-              p="xl"
-              style={{
-                backgroundColor: 'white',
-                border: '1px solid #e9ecef',
-              }}
-            >
-              <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="lg">How It Works</Text>
+          <div className="p-6 bg-white border border-gray-200">
+            <p className="text-xs font-semibold text-muted-foreground uppercase mb-6">How It Works</p>
 
-              <Stack gap="md">
-                <Group wrap="nowrap" gap="md" align="flex-start">
-                  <Badge color="blue" variant="filled" size="lg" w={28} h={28} p={0} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>1</Badge>
-                  <Box>
-                    <Text fw={500}>Describe your UI</Text>
-                    <Text size="sm" c="dimmed">"Create a contact card with name and email"</Text>
-                  </Box>
-                </Group>
-                <Group wrap="nowrap" gap="md" align="flex-start">
-                  <Badge color="blue" variant="filled" size="lg" w={28} h={28} p={0} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</Badge>
-                  <Box>
-                    <Text fw={500}>AI generates A2UI JSON</Text>
-                    <Text size="sm" c="dimmed">A structured recipe, not framework-specific code</Text>
-                  </Box>
-                </Group>
-                <Group wrap="nowrap" gap="md" align="flex-start">
-                  <Badge color="blue" variant="filled" size="lg" w={28} h={28} p={0} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>3</Badge>
-                  <Box>
-                    <Text fw={500}>Bridge renders components</Text>
-                    <Text size="sm" c="dimmed">Recipe becomes real components from your design system</Text>
-                  </Box>
-                </Group>
-              </Stack>
-            </Box>
-          </Grid.Col>
-        </Grid>
-      </Container>
+            <div className="flex flex-col gap-4">
+              <div className="flex gap-4 items-start">
+                <Badge className="w-7 h-7 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500">1</Badge>
+                <div>
+                  <p className="font-medium">Describe your UI</p>
+                  <p className="text-sm text-muted-foreground">"Create a contact card with name and email"</p>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <Badge className="w-7 h-7 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500">2</Badge>
+                <div>
+                  <p className="font-medium">AI generates A2UI JSON</p>
+                  <p className="text-sm text-muted-foreground">A structured recipe, not framework-specific code</p>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <Badge className="w-7 h-7 p-0 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-500">3</Badge>
+                <div>
+                  <p className="font-medium">Bridge renders components</p>
+                  <p className="text-sm text-muted-foreground">Recipe becomes real components from your design system</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <Divider />
+      <Separator />
 
       {/* Bento Grid Section */}
-      <Container size="xl" py={60}>
-        <Grid gutter="lg">
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left Side - Capabilities */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="lg">Capabilities</Text>
+          <div>
+            <p className="text-xs font-semibold text-muted-foreground uppercase mb-6">Capabilities</p>
 
-            <SimpleGrid cols={2} spacing="md">
-              <Box p="lg" style={{ backgroundColor: 'white', border: '1px solid #e9ecef' }}>
-                <IconRobot size={24} stroke={1.5} color="#868e96" />
-                <Text fw={500} mt="sm" mb={4}>Any LLM</Text>
-                <Text size="sm" c="dimmed">Claude, GPT, Gemini, or local models</Text>
-              </Box>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-5 bg-white border border-gray-200">
+                <Bot size={24} strokeWidth={1.5} className="text-gray-500" />
+                <p className="font-medium mt-3 mb-1">Any LLM</p>
+                <p className="text-sm text-muted-foreground">Claude, GPT, Gemini, or local models</p>
+              </div>
 
-              <Box p="lg" style={{ backgroundColor: 'white', border: '1px solid #e9ecef' }}>
-                <IconPuzzle size={24} stroke={1.5} color="#868e96" />
-                <Text fw={500} mt="sm" mb={4}>Any Framework</Text>
-                <Text size="sm" c="dimmed">React, Vue, Angular, Svelte, Lit</Text>
-              </Box>
+              <div className="p-5 bg-white border border-gray-200">
+                <Puzzle size={24} strokeWidth={1.5} className="text-gray-500" />
+                <p className="font-medium mt-3 mb-1">Any Framework</p>
+                <p className="text-sm text-muted-foreground">React, Vue, Angular, Svelte, Lit</p>
+              </div>
 
-              <Box p="lg" style={{ backgroundColor: 'white', border: '1px solid #e9ecef' }}>
-                <IconLayersLinked size={24} stroke={1.5} color="#868e96" />
-                <Text fw={500} mt="sm" mb={4}>Any Components</Text>
-                <Text size="sm" c="dimmed">Mantine, Shadcn, MUI, custom</Text>
-              </Box>
+              <div className="p-5 bg-white border border-gray-200">
+                <Layers size={24} strokeWidth={1.5} className="text-gray-500" />
+                <p className="font-medium mt-3 mb-1">Any Components</p>
+                <p className="text-sm text-muted-foreground">Mantine, Shadcn, MUI, custom</p>
+              </div>
 
-              <Box p="lg" style={{ backgroundColor: 'white', border: '1px solid #e9ecef' }}>
-                <IconLayoutGrid size={24} stroke={1.5} color="#868e96" />
-                <Text fw={500} mt="sm" mb={4}>Full Layouts</Text>
-                <Text size="sm" c="dimmed">Cards, forms, lists, modals, tabs</Text>
-              </Box>
-            </SimpleGrid>
-          </Grid.Col>
+              <div className="p-5 bg-white border border-gray-200">
+                <LayoutGrid size={24} strokeWidth={1.5} className="text-gray-500" />
+                <p className="font-medium mt-3 mb-1">Full Layouts</p>
+                <p className="text-sm text-muted-foreground">Cards, forms, lists, modals, tabs</p>
+              </div>
+            </div>
+          </div>
 
           {/* Right Side - Example Prompts */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <Text size="xs" fw={600} c="dimmed" tt="uppercase" mb="lg">Example Prompts</Text>
+          <div>
+            <p className="text-xs font-semibold text-muted-foreground uppercase mb-6">Example Prompts</p>
 
-            <Stack gap={0}>
+            <div className="flex flex-col">
               {EXAMPLE_PROMPTS.map((prompt, i) => (
-                <Box
+                <div
                   key={i}
-                  p="md"
-                  style={{
-                    backgroundColor: 'white',
-                    borderTop: i === 0 ? '1px solid #e9ecef' : 'none',
-                    borderLeft: '1px solid #e9ecef',
-                    borderRight: '1px solid #e9ecef',
-                    borderBottom: '1px solid #e9ecef',
-                    cursor: 'pointer',
-                  }}
+                  className="p-4 bg-white border-x border-b border-gray-200 cursor-pointer hover:bg-gray-50 first:border-t"
                   onClick={() => navigate('/demo')}
                 >
-                  <Group gap="sm" wrap="nowrap">
-                    <IconChevronRight size={16} color="#fa5252" />
-                    <Text size="sm">{prompt}</Text>
-                  </Group>
-                </Box>
+                  <div className="flex items-center gap-3">
+                    <ChevronRight size={16} className="text-red-500" />
+                    <span className="text-sm">{prompt}</span>
+                  </div>
+                </div>
               ))}
-            </Stack>
-          </Grid.Col>
-        </Grid>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <Divider />
+      <Separator />
 
       {/* Components + Code Section */}
-      <Container size="xl" py={60}>
-        <Grid gutter={60}>
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
           {/* Components List */}
-          <Grid.Col span={{ base: 12, md: 5 }}>
-            <Group gap="xs" mb="lg">
-              <IconPackage size={20} stroke={1.5} />
-              <Text size="xs" fw={600} c="dimmed" tt="uppercase">Supported Components</Text>
-            </Group>
+          <div className="md:col-span-5">
+            <div className="flex items-center gap-2 mb-6">
+              <Package size={20} strokeWidth={1.5} />
+              <p className="text-xs font-semibold text-muted-foreground uppercase">Supported Components</p>
+            </div>
 
-            <SimpleGrid cols={2} spacing="xs">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {COMPONENTS.map((comp) => (
-                <Group key={comp.name} gap="sm" wrap="nowrap" py={6}>
-                  <Code style={{ minWidth: 90 }}>{comp.name}</Code>
-                  <Text size="xs" c="dimmed">{comp.desc}</Text>
-                </Group>
+                <div key={comp.name} className="flex items-center gap-3 py-1.5">
+                  <code className="text-xs bg-gray-100 px-2 py-1 rounded min-w-[90px]">{comp.name}</code>
+                  <span className="text-xs text-muted-foreground">{comp.desc}</span>
+                </div>
               ))}
-            </SimpleGrid>
+            </div>
 
-            <Text size="xs" c="dimmed" mt="md">
+            <p className="text-xs text-muted-foreground mt-4">
               Plus Image, Tabs, Modal, Slider, DatePicker, and more.
-            </Text>
-          </Grid.Col>
+            </p>
+          </div>
 
           {/* Example JSON */}
-          <Grid.Col span={{ base: 12, md: 7 }}>
-            <Group gap="xs" mb="lg">
-              <IconFileCode size={20} stroke={1.5} />
-              <Text size="xs" fw={600} c="dimmed" tt="uppercase">Example A2UI JSON</Text>
-            </Group>
+          <div className="md:col-span-7">
+            <div className="flex items-center gap-2 mb-6">
+              <FileCode size={20} strokeWidth={1.5} />
+              <p className="text-xs font-semibold text-muted-foreground uppercase">Example A2UI JSON</p>
+            </div>
 
-            <Code
-              block
-              style={{
-                fontSize: 12,
-                backgroundColor: '#1a1b1e',
-                color: '#c1c2c5',
-                padding: 20,
-              }}
-            >
+            <pre className="text-xs bg-[#1a1b1e] text-[#c1c2c5] p-5 overflow-x-auto">
 {`{
   "beginRendering": { "surfaceId": "@default", "root": "card" }
 }
@@ -281,75 +239,83 @@ export function Landing() {
     ]
   }
 }`}
-            </Code>
-          </Grid.Col>
-        </Grid>
-      </Container>
+            </pre>
+          </div>
+        </div>
+      </div>
 
-      <Divider />
+      <Separator />
 
       {/* Quick Start */}
-      <Container size="xl" py={60}>
-        <Group gap="xs" mb="lg">
-          <IconTerminal size={20} stroke={1.5} />
-          <Text size="xs" fw={600} c="dimmed" tt="uppercase">Quick Start</Text>
-        </Group>
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="flex items-center gap-2 mb-6">
+          <Terminal size={20} strokeWidth={1.5} />
+          <p className="text-xs font-semibold text-muted-foreground uppercase">Quick Start</p>
+        </div>
 
-        <Grid gutter="lg">
-          <Grid.Col span={{ base: 12, md: 4 }}>
-            <Text size="sm" fw={500} mb="xs">1. Install packages</Text>
-            <Code block p="sm" style={{ backgroundColor: '#1a1b1e', color: '#c1c2c5', fontSize: 11 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <p className="text-sm font-medium mb-2">1. Install packages</p>
+            <pre className="text-[11px] bg-[#1a1b1e] text-[#c1c2c5] p-3 overflow-x-auto">
               npm install @a2ui-bridge/core @a2ui-bridge/react
-            </Code>
-          </Grid.Col>
+            </pre>
+          </div>
 
-          <Grid.Col span={{ base: 12, md: 4 }}>
-            <Text size="sm" fw={500} mb="xs">2. Create adapters</Text>
-            <Code block p="sm" style={{ backgroundColor: '#1a1b1e', color: '#c1c2c5', fontSize: 11 }}>
+          <div>
+            <p className="text-sm font-medium mb-2">2. Create adapters</p>
+            <pre className="text-[11px] bg-[#1a1b1e] text-[#c1c2c5] p-3 overflow-x-auto">
 {`const ButtonAdapter = createAdapter(
   Button, { mapProps: ... }
 );`}
-            </Code>
-          </Grid.Col>
+            </pre>
+          </div>
 
-          <Grid.Col span={{ base: 12, md: 4 }}>
-            <Text size="sm" fw={500} mb="xs">3. Render surface</Text>
-            <Code block p="sm" style={{ backgroundColor: '#1a1b1e', color: '#c1c2c5', fontSize: 11 }}>
+          <div>
+            <p className="text-sm font-medium mb-2">3. Render surface</p>
+            <pre className="text-[11px] bg-[#1a1b1e] text-[#c1c2c5] p-3 overflow-x-auto">
 {`<Surface
   processor={processor}
   components={components}
 />`}
-            </Code>
-          </Grid.Col>
-        </Grid>
-      </Container>
+            </pre>
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
-      <Box py="lg" style={{ borderTop: '1px solid #e9ecef' }}>
-        <Container size="xl">
-          <Group justify="space-between" wrap="wrap" gap="md">
-            <Group gap="lg">
-              <Anchor href="https://github.com/southleft/a2ui-bridge" target="_blank" c="dimmed" size="sm">
-                <Group gap={4}>
-                  <IconBrandGithub size={14} />
-                  Repository
-                </Group>
-              </Anchor>
-              <Anchor href="https://github.com/nicholaspetrov/a2ui" target="_blank" c="dimmed" size="sm">
-                <Group gap={4}>
-                  <IconExternalLink size={14} />
-                  A2UI Protocol
-                </Group>
-              </Anchor>
-            </Group>
-            <Text size="sm" c="dimmed">
+      <div className="py-6 border-t border-gray-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <a
+                href="https://github.com/southleft/a2ui-bridge"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Github size={14} />
+                Repository
+              </a>
+              <a
+                href="https://github.com/nicholaspetrov/a2ui"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <ExternalLink size={14} />
+                A2UI Protocol
+              </a>
+            </div>
+            <p className="text-sm text-muted-foreground">
               Built by{' '}
-              <Anchor href="https://southleft.com" target="_blank" c="dimmed">Southleft</Anchor>
-            </Text>
-          </Group>
-        </Container>
-      </Box>
-    </Box>
+              <a href="https://southleft.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+                Southleft
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
