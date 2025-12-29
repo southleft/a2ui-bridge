@@ -28,7 +28,7 @@ interface EnvKeys {
 
 // Default models for each provider
 const DEFAULT_MODELS: Record<Provider, string> = {
-  anthropic: 'claude-opus-4-5-20251101',
+  anthropic: 'claude-sonnet-4-5-20250929',
   openai: 'gpt-5.2',
   google: 'gemini-3-flash',
 };

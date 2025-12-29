@@ -78,18 +78,19 @@ export const datePickerSnippet: Snippet = {
   slots: [
     { name: 'label', type: 'string', required: true, description: 'Field label' },
     { name: 'binding', type: 'dataPath', required: true, description: 'Data model path' },
-    { name: 'placeholder', type: 'string', default: 'Select date', description: 'Placeholder text' },
+    { name: 'includeTime', type: 'boolean', default: false, description: 'Include time selection' },
   ],
   template: {
     componentIds: ['{{id}}-date'],
     components: [
       {
         id: '{{id}}-date',
-        type: 'DatePicker',
+        type: 'DateTimeInput',
         props: {
           label: { literalString: '{{label}}' },
-          placeholder: { literalString: '{{placeholder}}' },
           value: { path: '{{binding}}' },
+          enableDate: { literalBoolean: true },
+          enableTime: { literalBoolean: false },
         },
       },
     ],

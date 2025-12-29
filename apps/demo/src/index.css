@@ -67,11 +67,263 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
+    /* Slightly lighter base weight since Google Sans Flex runs larger */
+    font-optical-sizing: auto;
+    font-variation-settings:
+      'wght' 380,
+      'wdth' 100,
+      'slnt' 0,
+      'GRAD' 0,
+      'ROND' 0;
+    font-size: 15px;
+    line-height: 1.6;
   }
 
   code, pre {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  /* Headings with optical sizing and creative axis use */
+  h1, h2, h3, h4, h5, h6 {
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-variation-settings: 'wght' 580, 'wdth' 92, 'GRAD' 40, 'ROND' 15;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-variation-settings: 'wght' 540, 'wdth' 95, 'GRAD' 25, 'ROND' 10;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    font-variation-settings: 'wght' 520, 'wdth' 98, 'GRAD' 15, 'ROND' 8;
+  }
+
+  h4 {
+    font-variation-settings: 'wght' 500, 'wdth' 100, 'GRAD' 10, 'ROND' 5;
+  }
+
+  /* Paragraph text - slightly condensed for better readability */
+  p {
+    font-variation-settings: 'wght' 380, 'wdth' 98, 'GRAD' 0, 'ROND' 0;
+  }
+
+  /* Small text - slightly expanded for legibility */
+  small, .text-sm {
+    font-variation-settings: 'wght' 400, 'wdth' 102, 'GRAD' 0, 'ROND' 0;
+  }
+}
+
+/* ============================================
+   Google Sans Flex Variable Font Utilities
+   Axes: wght, wdth, opsz, slnt, GRAD, ROND
+   ============================================ */
+
+/* Weight variations (100-1000) */
+.font-thin { font-variation-settings: 'wght' 100, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-extralight { font-variation-settings: 'wght' 200, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-light { font-variation-settings: 'wght' 300, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-normal { font-variation-settings: 'wght' 400, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-medium { font-variation-settings: 'wght' 500, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-semibold { font-variation-settings: 'wght' 600, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-bold { font-variation-settings: 'wght' 700, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-extrabold { font-variation-settings: 'wght' 800, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+.font-black { font-variation-settings: 'wght' 900, 'wdth' var(--font-width, 100), 'slnt' var(--font-slant, 0), 'GRAD' var(--font-grade, 0), 'ROND' var(--font-round, 0); }
+
+/* Width variations (75-125) */
+.font-condensed { --font-width: 75; font-stretch: 75%; }
+.font-semicondensed { --font-width: 87; font-stretch: 87%; }
+.font-normal-width { --font-width: 100; font-stretch: 100%; }
+.font-semiexpanded { --font-width: 112; font-stretch: 112%; }
+.font-expanded { --font-width: 125; font-stretch: 125%; }
+
+/* Slant variations (0 to -10) */
+.font-upright { --font-slant: 0; font-style: normal; }
+.font-slight-slant { --font-slant: -3; font-style: oblique 3deg; }
+.font-slanted { --font-slant: -6; font-style: oblique 6deg; }
+.font-italic { --font-slant: -10; font-style: oblique 10deg; }
+
+/* Grade variations (-200 to 150) - affects stroke contrast */
+.font-grade-low { --font-grade: -100; }
+.font-grade-normal { --font-grade: 0; }
+.font-grade-high { --font-grade: 75; }
+.font-grade-max { --font-grade: 150; }
+
+/* Roundedness variations (0-100) */
+.font-sharp { --font-round: 0; }
+.font-slightly-round { --font-round: 25; }
+.font-rounded { --font-round: 50; }
+.font-very-round { --font-round: 75; }
+.font-super-round { --font-round: 100; }
+
+/* ============================================
+   Expressive Text Styles
+   Creative combinations of variable font axes
+   ============================================ */
+
+/* Hero headlines - condensed, bold, with presence */
+.text-hero {
+  font-variation-settings: 'wght' 620, 'wdth' 90, 'slnt' 0, 'GRAD' 50, 'ROND' 12;
+  font-optical-sizing: auto;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+/* Display text - section headers, slightly softer */
+.text-display {
+  font-variation-settings: 'wght' 560, 'wdth' 94, 'slnt' 0, 'GRAD' 30, 'ROND' 18;
+  font-optical-sizing: auto;
+  letter-spacing: -0.018em;
+  line-height: 1.15;
+}
+
+/* Headlines - card titles, feature headers */
+.text-headline {
+  font-variation-settings: 'wght' 520, 'wdth' 97, 'slnt' 0, 'GRAD' 20, 'ROND' 10;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+/* Titles - navigation, smaller headers */
+.text-title {
+  font-variation-settings: 'wght' 480, 'wdth' 100, 'slnt' 0, 'GRAD' 15, 'ROND' 8;
+  font-optical-sizing: auto;
+  letter-spacing: -0.005em;
+}
+
+/* Subtitles - secondary information */
+.text-subtitle {
+  font-variation-settings: 'wght' 420, 'wdth' 100, 'slnt' 0, 'GRAD' 0, 'ROND' 5;
+  font-optical-sizing: auto;
+  line-height: 1.5;
+}
+
+/* Body text - standard reading */
+.text-body {
+  font-variation-settings: 'wght' 380, 'wdth' 98, 'slnt' 0, 'GRAD' 0, 'ROND' 0;
+  font-optical-sizing: auto;
+  line-height: 1.6;
+}
+
+/* Lead paragraphs - intro text, larger */
+.text-lead {
+  font-variation-settings: 'wght' 360, 'wdth' 98, 'slnt' 0, 'GRAD' -10, 'ROND' 5;
+  font-optical-sizing: auto;
+  line-height: 1.7;
+}
+
+/* Caption text - supporting info */
+.text-caption {
+  font-variation-settings: 'wght' 400, 'wdth' 100, 'slnt' 0, 'GRAD' 0, 'ROND' 0;
+  font-optical-sizing: auto;
+  line-height: 1.5;
+}
+
+/* Labels - uppercase, expanded, strong */
+.text-label {
+  font-variation-settings: 'wght' 480, 'wdth' 108, 'slnt' 0, 'GRAD' 20, 'ROND' 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75em;
+}
+
+/* Brand accent - the "AI agents" style, distinctive */
+.text-brand {
+  font-variation-settings: 'wght' 580, 'wdth' 88, 'slnt' 0, 'GRAD' 50, 'ROND' 25;
+  color: hsl(var(--brand));
+  letter-spacing: -0.01em;
+}
+
+/* Strong emphasis - bold but friendly */
+.text-strong {
+  font-variation-settings: 'wght' 600, 'wdth' 98, 'slnt' 0, 'GRAD' 30, 'ROND' 15;
+}
+
+/* Technical/code-like - expanded, crisp */
+.text-technical {
+  font-variation-settings: 'wght' 420, 'wdth' 105, 'slnt' 0, 'GRAD' -30, 'ROND' 0;
+  letter-spacing: 0.01em;
+}
+
+/* Quotes - slanted, rounded, expressive */
+.text-quote {
+  font-variation-settings: 'wght' 380, 'wdth' 100, 'slnt' -8, 'GRAD' 0, 'ROND' 35;
+  line-height: 1.6;
+}
+
+/* Numbers - tabular, slightly condensed */
+.text-number {
+  font-variation-settings: 'wght' 450, 'wdth' 95, 'slnt' 0, 'GRAD' 10, 'ROND' 0;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Button text - medium weight, slightly expanded */
+.text-button {
+  font-variation-settings: 'wght' 480, 'wdth' 102, 'slnt' 0, 'GRAD' 20, 'ROND' 10;
+  letter-spacing: 0.01em;
+}
+
+/* Nav links - balanced, clear */
+.text-nav {
+  font-variation-settings: 'wght' 420, 'wdth' 100, 'slnt' 0, 'GRAD' 10, 'ROND' 5;
+  letter-spacing: 0.005em;
+}
+
+/* Badge/tag text - compact, readable */
+.text-badge {
+  font-variation-settings: 'wght' 460, 'wdth' 100, 'slnt' 0, 'GRAD' 15, 'ROND' 8;
+  letter-spacing: 0.02em;
+}
+
+/* Feature cards - slightly rounded, approachable */
+.text-feature {
+  font-variation-settings: 'wght' 400, 'wdth' 98, 'slnt' 0, 'GRAD' 5, 'ROND' 20;
+  line-height: 1.6;
+}
+
+/* CTA emphasis - attention-grabbing */
+.text-cta {
+  font-variation-settings: 'wght' 540, 'wdth' 96, 'slnt' 0, 'GRAD' 40, 'ROND' 15;
+  letter-spacing: -0.005em;
+}
+
+/* Interactive/hover effects using font variations */
+.font-hover-bold {
+  transition: font-variation-settings 0.2s ease;
+}
+.font-hover-bold:hover {
+  font-variation-settings: 'wght' 600, 'wdth' 100, 'slnt' 0, 'GRAD' 50, 'ROND' 0;
+}
+
+/* Animated weight for loading states */
+@keyframes fontPulse {
+  0%, 100% { font-variation-settings: 'wght' 400, 'wdth' 100, 'GRAD' 0; }
+  50% { font-variation-settings: 'wght' 600, 'wdth' 100, 'GRAD' 50; }
+}
+
+.font-pulse {
+  animation: fontPulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive typography using optical sizing */
+@media (max-width: 640px) {
+  body {
+    font-variation-settings: 'wght' 420, 'wdth' 100, 'GRAD' 20;
+  }
+  h1 {
+    font-variation-settings: 'wght' 650, 'wdth' 90, 'GRAD' 80, 'ROND' 25;
+  }
+}
+
+@media (min-width: 1280px) {
+  h1 {
+    font-variation-settings: 'wght' 580, 'wdth' 98, 'GRAD' 30, 'ROND' 15;
   }
 }
 

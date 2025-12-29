@@ -24,7 +24,7 @@ export const PROVIDERS: Record<Provider, Omit<ProviderInfo, 'configured'>> = {
   anthropic: {
     id: 'anthropic',
     name: 'Claude',
-    model: 'claude-opus-4-5-20251101',
+    model: 'claude-sonnet-4-5-20250929',
   },
   openai: {
     id: 'openai',
@@ -43,6 +43,7 @@ export interface StreamCallbacks {
   onChunk?: (text: string) => void;
   onComplete?: () => void;
   onError?: (error: Error) => void;
+  signal?: AbortSignal; // For request cancellation
 }
 
 /**
@@ -124,6 +125,7 @@ export async function generateUI(
           },
         ],
       }),
+      signal: callbacks.signal, // Support cancellation
     });
 
     if (!response.ok) {

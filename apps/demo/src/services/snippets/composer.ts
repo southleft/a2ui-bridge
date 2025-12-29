@@ -224,11 +224,17 @@ export function composeFromInstructions(
     }
 
     // Build A2UI messages
+    // Use a distinct font for generated content to differentiate from the demo wrapper
     const messages: ServerToClientMessage[] = [
       {
         beginRendering: {
           surfaceId,
           root: rootId,
+          styles: {
+            // Inter is a clean, modern UI font that contrasts with Google Flex Pro
+            font: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            primaryColor: '#3b82f6', // A blue accent color for generated UIs
+          },
         },
       },
       {

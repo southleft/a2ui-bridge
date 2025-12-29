@@ -265,11 +265,21 @@ Try the interactive demo that lets you describe UIs to Claude and see them rende
 ```bash
 cd apps/demo
 cp .env.example .env  # Add your Anthropic API key
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Visit http://localhost:5173 to start generating UIs. You can also enter your API key directly in the demo UI.
+
+### Demo Features
+
+- **Multi-Provider Support**: Switch between Anthropic Claude, OpenAI GPT, and Google Gemini
+- **Streaming Progress**: Real-time feedback with stage indicators, elapsed time, and cancel capability
+- **Error Recovery**: Graceful error boundaries prevent crashes and enable retry
+- **Configuration System**: Centralized, validated configuration with environment variable support
+- **Protocol Viewer**: See the A2UI JSON being generated in real-time
+
+See [apps/demo/README.md](apps/demo/README.md) for detailed documentation.
 
 ## Development
 

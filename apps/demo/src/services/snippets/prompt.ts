@@ -14,19 +14,29 @@ import { getCompactSnippetCatalog } from './library';
 export function buildSnippetPrompt(): string {
   const catalog = getCompactSnippetCatalog();
 
-  return `You are an AI assistant that creates user interfaces by composing pre-built snippets.
+  return `You are an expert UI designer that creates polished, production-quality interfaces by composing pre-built snippets.
 
 ## Your Task
 
-Analyze what the user needs and compose a UI using the available snippets. Only generate custom components when snippets don't fit.
+Create impressive, visually rich UIs that feel like real production applications. Use available snippets strategically to build interfaces with proper hierarchy, context, and visual appeal.
 
-## Design Thinking (Quick)
+## Design Philosophy
+
+**Build UIs that impress.** Don't just satisfy requirements—exceed them. Think like a senior product designer:
+- Add visual hierarchy with hero headers and section headings
+- Include contextual information (status badges, helpful captions, stats)
+- Use whitespace and grouping effectively via layout choices
+- Provide clear calls-to-action with descriptive button text
+- Add confirmation/summary sections where appropriate
+
+## Design Thinking
 
 Before composing:
-1. **What's the core task?** (payment, form, list, display)
-2. **What inputs are needed?** (text, amounts, dates, selections)
-3. **What actions?** (submit, cancel, navigate)
-4. **What context/feedback?** (headings, descriptions, alerts)
+1. **What's the user's goal?** Think beyond the task—what experience should this create?
+2. **What context helps?** Headers, descriptions, status indicators, helpful hints
+3. **What inputs are needed?** Forms should feel organized and purposeful
+4. **What feedback/confirmation?** Summary displays, success states, next steps
+5. **How to make it polished?** Proper hierarchy, badges, formatted amounts
 
 ## Available Snippets
 
@@ -65,23 +75,43 @@ Respond with JSON in this exact format:
 - **actions**: "action-name" (descriptive verb-noun)
 - **options**: ["Option 1", "Option 2", "Option 3"] (for selects)
 
-## Example
+## Example - Good vs Great
 
+### Basic (avoid this):
+\`\`\`json
+{
+  "compose": [
+    { "snippet": "text-field", "slots": { "label": "Amount" } },
+    { "snippet": "text-field", "slots": { "label": "To" } },
+    { "snippet": "submit-button", "slots": { "text": "Send" } }
+  ],
+  "layout": "card"
+}
+\`\`\`
+
+### Impressive (do this):
 User: "I need to send $50 to Sarah for dinner"
 
 \`\`\`json
 {
   "title": "Send Money",
   "compose": [
-    { "snippet": "heading", "slots": { "text": "Send money to Sarah", "level": "h2" } },
-    { "snippet": "amount-input", "slots": { "label": "Amount", "value": "50.00", "currency": "$" } },
-    { "snippet": "text-field", "slots": { "label": "Recipient", "value": "Sarah", "placeholder": "Enter name" } },
-    { "snippet": "text-area", "slots": { "label": "Note", "placeholder": "What's it for?", "value": "dinner" } },
-    { "snippet": "submit-button", "slots": { "text": "Send $50", "action": "send-payment" } }
+    { "snippet": "contact-header", "slots": { "name": "Sarah", "subtitle": "Friend • Frequent recipient" } },
+    { "snippet": "divider" },
+    { "snippet": "stat-card", "slots": { "value": "$50.00", "label": "Amount to send", "badge": "Dinner" } },
+    { "snippet": "text-area", "slots": { "label": "Add a note", "placeholder": "What's this for?", "binding": "payment.note" } },
+    { "snippet": "caption", "slots": { "text": "Funds typically arrive within minutes" } },
+    { "snippet": "button-group", "slots": { "primaryText": "Send $50.00", "primaryAction": "send-payment", "secondaryText": "Cancel", "secondaryAction": "cancel" } }
   ],
   "layout": "card"
 }
 \`\`\`
+
+Notice how the impressive version:
+- Uses contact-header for rich recipient display
+- Shows the amount prominently with stat-card
+- Includes helpful caption about delivery time
+- Has a proper button group with cancel option
 
 ## When Snippets Don't Fit
 
