@@ -1171,6 +1171,77 @@ export const TextAreaAdapter = createAdapter(Textarea, {
   displayName: 'TextAreaAdapter',
 });
 
+/** DateTimeInput adapter - Uses native date/datetime-local input with Mantine styling */
+function DateTimeInputComponent({
+  label,
+  enableDate = true,
+  enableTime = false,
+  value,
+  description,
+  error,
+  required,
+  disabled,
+  onChange,
+}: {
+  label?: string;
+  enableDate?: boolean;
+  enableTime?: boolean;
+  value?: string;
+  description?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+  onChange?: (value: string) => void;
+}) {
+  const inputType = enableTime ? 'datetime-local' : 'date';
+
+  return (
+    <Box>
+      {label && (
+        <Text size="sm" fw={500} mb={4}>
+          {label}
+          {required && <Text span c="red" ml={2}>*</Text>}
+        </Text>
+      )}
+      <TextInput
+        type={inputType}
+        defaultValue={value}
+        description={description}
+        error={error}
+        disabled={disabled}
+        onChange={(e) => onChange?.(e.target.value)}
+        styles={{
+          input: {
+            cursor: 'pointer',
+          },
+        }}
+      />
+    </Box>
+  );
+}
+
+export const DateTimeInputAdapter = createAdapter(DateTimeInputComponent as ComponentType, {
+  mapProps: (a2ui, ctx) => ({
+    label: extractValue(a2ui.label),
+    enableDate: extractValue(a2ui.enableDate) ?? true,
+    enableTime: extractValue(a2ui.enableTime) ?? false,
+    value: extractValue(a2ui.value) ?? extractValue(a2ui.defaultValue),
+    description: extractValue(a2ui.description),
+    error: extractValue(a2ui.error),
+    required: extractValue(a2ui.required) ?? false,
+    disabled: extractValue(a2ui.disabled) ?? false,
+    onChange: a2ui.onChange ? (value: string) => {
+      ctx.onAction({
+        actionName: a2ui.onChange.name,
+        sourceComponentId: ctx.componentId,
+        timestamp: new Date().toISOString(),
+        context: { value },
+      });
+    } : undefined,
+  }),
+  displayName: 'DateTimeInputAdapter',
+});
+
 /** NumberInput adapter */
 export const NumberInputAdapter = createAdapter(NumberInput, {
   mapProps: (a2ui, ctx) => ({
@@ -2208,6 +2279,7 @@ export const mantineComponents = createComponentMapping(
     TextInput: TextFieldAdapter,
     TextArea: TextAreaAdapter,
     Textarea: TextAreaAdapter,
+    DateTimeInput: DateTimeInputAdapter,
     NumberInput: NumberInputAdapter,
     PasswordInput: PasswordInputAdapter,
     ColorInput: ColorInputAdapter,
@@ -2220,6 +2292,9 @@ export const mantineComponents = createComponentMapping(
     textInput: TextFieldAdapter,
     textArea: TextAreaAdapter,
     textarea: TextAreaAdapter,
+    dateTimeInput: DateTimeInputAdapter,
+    dateInput: DateTimeInputAdapter,
+    datePicker: DateTimeInputAdapter,
     numberInput: NumberInputAdapter,
     passwordInput: PasswordInputAdapter,
     colorInput: ColorInputAdapter,
@@ -2464,6 +2539,7 @@ export const adapters = {
   Input: InputAdapter,
   TextField: TextFieldAdapter,
   TextArea: TextAreaAdapter,
+  DateTimeInput: DateTimeInputAdapter,
   NumberInput: NumberInputAdapter,
   PasswordInput: PasswordInputAdapter,
   ColorInput: ColorInputAdapter,
