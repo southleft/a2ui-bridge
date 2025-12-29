@@ -844,7 +844,7 @@ export const TextAdapter = createAdapter(asComponent(Text), {
       h6: { size: '0.875rem', fw: 600 },
       body: { size: 'md' },
       caption: { size: 'sm', c: 'dimmed' },
-      label: { size: 'sm', fw: 500 },
+      label: { size: 'sm', fw: 400 },
     };
 
     const hintStyle = usageHint ? usageHintStyles[usageHint] : {};
@@ -1121,6 +1121,11 @@ export const ActionIconAdapter = createAdapter(asComponent(ActionIcon), {
 // TEXT INPUT ADAPTERS
 // ============================================================================
 
+// Shared label styles for lighter input labels (better visual hierarchy)
+const inputLabelStyles = {
+  label: { fontWeight: 400 },
+};
+
 /** TextField/Input adapter */
 export const TextFieldAdapter = createAdapter(TextInput, {
   mapProps: (a2ui, ctx) => {
@@ -1137,6 +1142,7 @@ export const TextFieldAdapter = createAdapter(TextInput, {
       readOnly: extractValue(a2ui.readOnly) ?? false,
       defaultValue: extractValue(a2ui.defaultValue) ?? extractValue(a2ui.value),
       leftSection: IconComponent ? <IconComponent size={16} /> : undefined,
+      styles: inputLabelStyles,
       onChange: a2ui.onChange ? (e: React.ChangeEvent<HTMLInputElement>) => {
         ctx.onAction({
           actionName: a2ui.onChange.name,
@@ -1167,6 +1173,7 @@ export const TextAreaAdapter = createAdapter(Textarea, {
     maxRows: extractValue(a2ui.maxRows),
     autosize: extractValue(a2ui.autosize) ?? true,
     defaultValue: extractValue(a2ui.defaultValue) ?? extractValue(a2ui.value),
+    styles: inputLabelStyles,
   }),
   displayName: 'TextAreaAdapter',
 });
@@ -1198,7 +1205,7 @@ function DateTimeInputComponent({
   return (
     <Box>
       {label && (
-        <Text size="sm" fw={500} mb={4}>
+        <Text size="sm" fw={400} mb={4}>
           {label}
           {required && <Text span c="red" ml={2}>*</Text>}
         </Text>
@@ -1259,6 +1266,7 @@ export const NumberInputAdapter = createAdapter(NumberInput, {
     suffix: extractValue(a2ui.suffix) ?? extractValue(a2ui.unit),
     allowDecimal: extractValue(a2ui.allowDecimal) ?? true,
     allowNegative: extractValue(a2ui.allowNegative) ?? true,
+    styles: inputLabelStyles,
     onChange: a2ui.onChange ? (value: number | string) => {
       ctx.onAction({
         actionName: a2ui.onChange.name,
@@ -1281,6 +1289,7 @@ export const PasswordInputAdapter = createAdapter(PasswordInput, {
     required: extractValue(a2ui.required) ?? false,
     disabled: extractValue(a2ui.disabled) ?? false,
     defaultValue: extractValue(a2ui.defaultValue) ?? extractValue(a2ui.value),
+    styles: inputLabelStyles,
     onChange: a2ui.onChange ? (e: React.ChangeEvent<HTMLInputElement>) => {
       ctx.onAction({
         actionName: a2ui.onChange.name,
@@ -1305,6 +1314,7 @@ export const ColorInputAdapter = createAdapter(ColorInput, {
     format: extractValue(a2ui.format) ?? 'hex',
     defaultValue: extractValue(a2ui.defaultValue) ?? extractValue(a2ui.value),
     swatches: extractValue(a2ui.swatches),
+    styles: inputLabelStyles,
     onChange: a2ui.onChange ? (value: string) => {
       ctx.onAction({
         actionName: a2ui.onChange.name,
@@ -1329,6 +1339,7 @@ export const FileInputAdapter = createAdapter(FileInput, {
     accept: extractValue(a2ui.accept),
     multiple: extractValue(a2ui.multiple) ?? false,
     clearable: extractValue(a2ui.clearable) ?? true,
+    styles: inputLabelStyles,
     onChange: a2ui.onChange ? (file: File | File[] | null) => {
       ctx.onAction({
         actionName: a2ui.onChange.name,
@@ -1478,6 +1489,7 @@ export const SelectAdapter = createAdapter(Select, {
       clearable: extractValue(a2ui.clearable) ?? false,
       searchable: extractValue(a2ui.searchable) ?? false,
       required: extractValue(a2ui.required) ?? false,
+      styles: inputLabelStyles,
       onChange: a2ui.onChange ? (value: string | null) => {
         ctx.onAction({
           actionName: a2ui.onChange.name,
@@ -1522,6 +1534,7 @@ export const MultiSelectAdapter = createAdapter(MultiSelect, {
       clearable: extractValue(a2ui.clearable) ?? true,
       searchable: extractValue(a2ui.searchable) ?? true,
       maxValues: extractValue(a2ui.maxValues) ?? extractValue(a2ui.max),
+      styles: inputLabelStyles,
       onChange: a2ui.onChange ? (value: string[]) => {
         ctx.onAction({
           actionName: a2ui.onChange.name,
