@@ -25,6 +25,7 @@ export {
 export {
   generateUIWithSnippets,
   composeQuick,
+  type ChatMessage,
   type SnippetStreamCallbacks,
   type GenerationStats,
 } from './ai-integration';

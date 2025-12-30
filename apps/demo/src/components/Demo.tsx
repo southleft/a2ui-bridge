@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Surface, useA2uiProcessor } from '@a2ui-bridge/react';
 import type { ServerToClientMessage, UserAction } from '@a2ui-bridge/core';
 import { generateUI, isConfigured, getConfiguredProviders, PROVIDERS, type Provider } from '../services/ai';
-import { generateUIWithSnippets, type GenerationStats } from '../services/snippets';
+import { generateUIWithSnippets, type GenerationStats, type ChatMessage as AIChatMessage } from '../services/snippets';
 import { cn } from '@/lib/utils';
 
 // ShadCN Components
@@ -230,6 +230,12 @@ export function Demo() {
       }
     }, 50);
 
+    // Convert chat history to format needed by AI (exclude timestamps)
+    const conversationHistory: AIChatMessage[] = chatHistory.map(msg => ({
+      role: msg.role,
+      content: msg.content,
+    }));
+
     // Use snippet-aware generation if enabled, otherwise fallback to traditional
     if (useSnippets) {
       await generateUIWithSnippets(textToSend, {
@@ -255,11 +261,15 @@ export function Demo() {
           setIsGenerating(false);
           setGenerationStats(stats);
           const timeStr = (stats.timeMs / 1000).toFixed(1);
-          setChatHistory((prev) => [...prev, {
-            role: 'assistant',
-            content: `Here's an interface to help you with that. (${timeStr}s, ${stats.snippetsUsed} snippets)`,
-            timestamp: new Date(),
-          }]);
+          // Include generated JSON in assistant message for context in follow-up requests
+          setProtocolStream((currentStream) => {
+            setChatHistory((prev) => [...prev, {
+              role: 'assistant',
+              content: currentStream || `Generated UI (${timeStr}s, ${stats.snippetsUsed} snippets)`,
+              timestamp: new Date(),
+            }]);
+            return currentStream;
+          });
         },
         onError: (err) => {
           abortControllerRef.current = null;
@@ -268,7 +278,7 @@ export function Demo() {
           }
           setIsGenerating(false);
         },
-      }, provider);
+      }, provider, conversationHistory);
     } else {
       await generateUI(textToSend, {
         signal: abortControllerRef.current.signal,

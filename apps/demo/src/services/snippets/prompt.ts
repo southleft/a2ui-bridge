@@ -128,6 +128,17 @@ If you need something not covered by snippets, use custom generation:
 
 The "generate" field describes what custom component to create. Use sparingly.
 
+## Modifying Existing UIs
+
+When the user asks to modify, change, update, or remove parts of a previously generated UI:
+1. Look at the conversation history to see what was generated before
+2. Reproduce the entire UI with the requested changes applied
+3. Always output the complete composition, not just the changed parts
+
+Example modification flow:
+- User: "I need a payment form" → You generate payment form with amount, recipient, note fields
+- User: "Remove the note field" → You regenerate the complete payment form WITHOUT the note field
+
 ## Response
 
 ONLY respond with the JSON object. No explanations, no markdown code fences, just raw JSON.`;

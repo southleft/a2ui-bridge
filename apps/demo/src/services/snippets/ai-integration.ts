@@ -13,6 +13,11 @@ import type { AICompositionOutput } from './types';
 
 const PROXY_URL = '/api/generate';
 
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 export interface SnippetStreamCallbacks {
   onMessage: (messages: ServerToClientMessage[]) => void;
   onChunk?: (text: string) => void;
@@ -76,7 +81,8 @@ function estimateTokens(text: string): number {
 export async function generateUIWithSnippets(
   prompt: string,
   callbacks: SnippetStreamCallbacks,
-  provider: 'anthropic' | 'openai' | 'google' = 'anthropic'
+  provider: 'anthropic' | 'openai' | 'google' = 'anthropic',
+  conversationHistory: ChatMessage[] = []
 ): Promise<void> {
   ensureInitialized();
 
@@ -85,6 +91,12 @@ export async function generateUIWithSnippets(
 
   try {
     const snippetPrompt = getSnippetPrompt();
+
+    // Build messages array with conversation history for context
+    const messages: ChatMessage[] = [
+      ...conversationHistory,
+      { role: 'user', content: prompt },
+    ];
 
     const response = await fetch(PROXY_URL, {
       method: 'POST',
@@ -96,12 +108,7 @@ export async function generateUIWithSnippets(
         model: provider === 'anthropic' ? 'claude-sonnet-4-5-20250929' : undefined,
         maxTokens: 2048, // Much smaller - snippets need fewer tokens
         system: snippetPrompt,
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+        messages,
       }),
       signal: callbacks.signal,
     });
