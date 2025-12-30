@@ -1,0 +1,29 @@
+{
+  "name": "@a2ui-bridge/catalog-mcp",
+  "version": "0.1.0",
+  "description": "A2UI Catalog MCP Server - Provides component intelligence for AI agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "a2ui-catalog-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.6.3"
+  },
+  "files": [
+    "dist",
+    "data"
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "version": "0.8",
+  "components": [
+    {
+      "name": "Card",
+      "category": "Layout",
+      "description": "A container with optional border, shadow, and padding. Use for grouping related content.",
+      "props": {
+        "children": { "type": "array", "description": "Child component IDs" },
+        "padding": { "type": "string", "enum": ["none", "xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "shadow": { "type": "string", "enum": ["none", "sm", "md", "lg"], "default": "sm" },
+        "radius": { "type": "string", "enum": ["none", "sm", "md", "lg"], "default": "md" }
+      },
+      "examples": [
+        { "description": "Basic card", "json": { "id": "card1", "component": { "Card": { "children": ["content"] } } } }
+      ]
+    },
+    {
+      "name": "Column",
+      "category": "Layout",
+      "description": "Vertical flex container. Stacks children vertically with configurable spacing.",
+      "props": {
+        "children": { "type": "array", "description": "Child component IDs" },
+        "gap": { "type": "string", "enum": ["none", "xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "align": { "type": "string", "enum": ["start", "center", "end", "stretch"], "default": "stretch" },
+        "justify": { "type": "string", "enum": ["start", "center", "end", "space-between", "space-around"], "default": "start" }
+      },
+      "examples": [
+        { "description": "Column with spacing", "json": { "id": "col1", "component": { "Column": { "children": ["a", "b"], "gap": "md" } } } }
+      ]
+    },
+    {
+      "name": "Row",
+      "category": "Layout",
+      "description": "Horizontal flex container. Arranges children horizontally with configurable spacing.",
+      "props": {
+        "children": { "type": "array", "description": "Child component IDs" },
+        "gap": { "type": "string", "enum": ["none", "xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "align": { "type": "string", "enum": ["start", "center", "end", "stretch"], "default": "center" },
+        "justify": { "type": "string", "enum": ["start", "center", "end", "space-between", "space-around"], "default": "start" },
+        "wrap": { "type": "boolean", "default": false }
+      },
+      "examples": [
+        { "description": "Row with buttons", "json": { "id": "row1", "component": { "Row": { "children": ["btn1", "btn2"], "gap": "sm" } } } }
+      ]
+    },
+    {
+      "name": "Grid",
+      "category": "Layout",
+      "description": "CSS Grid layout container. Use for multi-column layouts.",
+      "props": {
+        "children": { "type": "array", "description": "Child component IDs" },
+        "columns": { "type": "number", "default": 2, "description": "Number of columns" },
+        "gap": { "type": "string", "enum": ["none", "xs", "sm", "md", "lg", "xl"], "default": "md" }
+      },
+      "examples": [
+        { "description": "2-column grid", "json": { "id": "grid1", "component": { "Grid": { "children": ["a", "b", "c", "d"], "columns": 2 } } } }
+      ]
+    },
+    {
+      "name": "Stack",
+      "category": "Layout",
+      "description": "Flexible spacing container. Similar to Column but with more control.",
+      "props": {
+        "children": { "type": "array", "description": "Child component IDs" },
+        "spacing": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" }
+      }
+    },
+    {
+      "name": "Text",
+      "category": "Typography",
+      "description": "Text display component. Supports various sizes and semantic variants.",
+      "props": {
+        "text": { "type": "object", "description": "Text content - use literalString or dataBinding" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "weight": { "type": "string", "enum": ["normal", "medium", "semibold", "bold"], "default": "normal" },
+        "color": { "type": "string", "description": "Text color" },
+        "align": { "type": "string", "enum": ["left", "center", "right"], "default": "left" }
+      },
+      "examples": [
+        { "description": "Simple text", "json": { "id": "txt1", "component": { "Text": { "text": { "literalString": "Hello" } } } } }
+      ]
+    },
+    {
+      "name": "Title",
+      "category": "Typography",
+      "description": "Heading component for section titles. Maps to h1-h6 elements.",
+      "props": {
+        "text": { "type": "object", "description": "Title content" },
+        "order": { "type": "number", "enum": [1, 2, 3, 4, 5, 6], "default": 2, "description": "Heading level (1-6)" }
+      }
+    },
+    {
+      "name": "Badge",
+      "category": "Typography",
+      "description": "Small status indicator or label. Use for tags, counts, or status.",
+      "props": {
+        "text": { "type": "object", "description": "Badge text" },
+        "color": { "type": "string", "enum": ["gray", "blue", "green", "yellow", "red", "purple"], "default": "gray" },
+        "variant": { "type": "string", "enum": ["filled", "outline", "light"], "default": "light" }
+      }
+    },
+    {
+      "name": "Avatar",
+      "category": "Typography",
+      "description": "User avatar or profile image with fallback to initials.",
+      "props": {
+        "src": { "type": "string", "description": "Image URL" },
+        "alt": { "type": "string", "description": "Alt text" },
+        "name": { "type": "string", "description": "Name for initials fallback" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" }
+      }
+    },
+    {
+      "name": "Button",
+      "category": "Form Inputs",
+      "description": "Interactive button with action support. Primary UI action element.",
+      "props": {
+        "child": { "type": "string", "description": "Child component ID for button label" },
+        "action": { "type": "object", "description": "Action to trigger on click" },
+        "variant": { "type": "string", "enum": ["filled", "outline", "subtle", "light"], "default": "filled" },
+        "color": { "type": "string", "default": "blue" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "disabled": { "type": "boolean", "default": false },
+        "loading": { "type": "boolean", "default": false },
+        "fullWidth": { "type": "boolean", "default": false }
+      },
+      "examples": [
+        { "description": "Primary button", "json": { "id": "btn1", "component": { "Button": { "child": "btn-text", "action": { "name": "submit" } } } } }
+      ]
+    },
+    {
+      "name": "TextField",
+      "category": "Form Inputs",
+      "description": "Text input field with label support. Use for user text entry.",
+      "props": {
+        "label": { "type": "string", "description": "Input label" },
+        "placeholder": { "type": "string", "description": "Placeholder text" },
+        "value": { "type": "object", "description": "Data binding for value" },
+        "required": { "type": "boolean", "default": false },
+        "disabled": { "type": "boolean", "default": false },
+        "type": { "type": "string", "enum": ["text", "email", "password", "number", "tel", "url"], "default": "text" }
+      }
+    },
+    {
+      "name": "Checkbox",
+      "category": "Form Inputs",
+      "description": "Boolean toggle input. Use for yes/no choices.",
+      "props": {
+        "label": { "type": "string", "description": "Checkbox label" },
+        "checked": { "type": "object", "description": "Data binding for checked state" },
+        "disabled": { "type": "boolean", "default": false }
+      }
+    },
+    {
+      "name": "Switch",
+      "category": "Form Inputs",
+      "description": "Toggle switch. Alternative to checkbox for on/off settings.",
+      "props": {
+        "label": { "type": "string", "description": "Switch label" },
+        "checked": { "type": "object", "description": "Data binding for checked state" },
+        "disabled": { "type": "boolean", "default": false }
+      }
+    },
+    {
+      "name": "Select",
+      "category": "Form Inputs",
+      "description": "Dropdown selection. Use for choosing from predefined options.",
+      "props": {
+        "label": { "type": "string", "description": "Select label" },
+        "options": { "type": "array", "description": "Array of {value, label} options" },
+        "value": { "type": "object", "description": "Data binding for selected value" },
+        "placeholder": { "type": "string", "description": "Placeholder text" }
+      }
+    },
+    {
+      "name": "MultiSelect",
+      "category": "Form Inputs",
+      "description": "Multi-option selection. Use when user can choose multiple items.",
+      "props": {
+        "label": { "type": "string", "description": "Select label" },
+        "options": { "type": "array", "description": "Array of {value, label} options" },
+        "value": { "type": "object", "description": "Data binding for selected values array" }
+      }
+    },
+    {
+      "name": "DatePicker",
+      "category": "Form Inputs",
+      "description": "Date selection input. Use for choosing dates.",
+      "props": {
+        "label": { "type": "string", "description": "Label" },
+        "value": { "type": "object", "description": "Data binding for date value" },
+        "minDate": { "type": "string", "description": "Minimum selectable date" },
+        "maxDate": { "type": "string", "description": "Maximum selectable date" }
+      }
+    },
+    {
+      "name": "Rating",
+      "category": "Form Inputs",
+      "description": "Star rating input. Use for collecting ratings.",
+      "props": {
+        "value": { "type": "object", "description": "Data binding for rating value" },
+        "count": { "type": "number", "default": 5, "description": "Number of stars" },
+        "readOnly": { "type": "boolean", "default": false }
+      }
+    },
+    {
+      "name": "Slider",
+      "category": "Form Inputs",
+      "description": "Range slider input. Use for selecting values within a range.",
+      "props": {
+        "value": { "type": "object", "description": "Data binding for value" },
+        "min": { "type": "number", "default": 0 },
+        "max": { "type": "number", "default": 100 },
+        "step": { "type": "number", "default": 1 },
+        "label": { "type": "string" }
+      }
+    },
+    {
+      "name": "Alert",
+      "category": "Feedback",
+      "description": "Contextual feedback message. Use for success, error, warning, info.",
+      "props": {
+        "title": { "type": "string", "description": "Alert title" },
+        "children": { "type": "array", "description": "Alert content" },
+        "color": { "type": "string", "enum": ["blue", "green", "yellow", "red"], "default": "blue" },
+        "variant": { "type": "string", "enum": ["filled", "light", "outline"], "default": "light" }
+      }
+    },
+    {
+      "name": "Progress",
+      "category": "Feedback",
+      "description": "Progress bar indicator. Use for showing completion status.",
+      "props": {
+        "value": { "type": "number", "description": "Progress value 0-100" },
+        "color": { "type": "string", "default": "blue" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" },
+        "striped": { "type": "boolean", "default": false },
+        "animated": { "type": "boolean", "default": false }
+      }
+    },
+    {
+      "name": "Skeleton",
+      "category": "Feedback",
+      "description": "Loading placeholder. Use while content is loading.",
+      "props": {
+        "height": { "type": "number", "description": "Height in pixels" },
+        "width": { "type": "string", "description": "Width (e.g., '100%', '200px')" },
+        "radius": { "type": "string", "default": "md" }
+      }
+    },
+    {
+      "name": "Tooltip",
+      "category": "Feedback",
+      "description": "Contextual hint on hover. Use for additional info.",
+      "props": {
+        "label": { "type": "string", "description": "Tooltip text" },
+        "children": { "type": "array", "description": "Trigger element" },
+        "position": { "type": "string", "enum": ["top", "bottom", "left", "right"], "default": "top" }
+      }
+    },
+    {
+      "name": "Tabs",
+      "category": "Navigation",
+      "description": "Tabbed navigation container. Use for switching between views.",
+      "props": {
+        "tabs": { "type": "array", "description": "Array of tab definitions" },
+        "defaultValue": { "type": "string", "description": "Default active tab" }
+      }
+    },
+    {
+      "name": "Stepper",
+      "category": "Navigation",
+      "description": "Step-by-step progress indicator. Use for multi-step workflows.",
+      "props": {
+        "active": { "type": "number", "description": "Current step index" },
+        "steps": { "type": "array", "description": "Array of step definitions" }
+      }
+    },
+    {
+      "name": "Breadcrumb",
+      "category": "Navigation",
+      "description": "Navigation breadcrumb trail. Shows current location in hierarchy.",
+      "props": {
+        "items": { "type": "array", "description": "Array of breadcrumb items" }
+      }
+    },
+    {
+      "name": "Modal",
+      "category": "Overlays",
+      "description": "Dialog overlay. Use for confirmations, forms, or focused content.",
+      "props": {
+        "title": { "type": "string", "description": "Modal title" },
+        "children": { "type": "array", "description": "Modal content" },
+        "opened": { "type": "boolean", "description": "Control open state" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" }
+      }
+    },
+    {
+      "name": "Drawer",
+      "category": "Overlays",
+      "description": "Side panel overlay. Use for secondary navigation or details.",
+      "props": {
+        "title": { "type": "string", "description": "Drawer title" },
+        "children": { "type": "array", "description": "Drawer content" },
+        "position": { "type": "string", "enum": ["left", "right", "top", "bottom"], "default": "right" },
+        "size": { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl"], "default": "md" }
+      }
+    },
+    {
+      "name": "Table",
+      "category": "Data Display",
+      "description": "Tabular data display. Use for structured data.",
+      "props": {
+        "columns": { "type": "array", "description": "Column definitions" },
+        "data": { "type": "object", "description": "Data binding for rows" },
+        "striped": { "type": "boolean", "default": false },
+        "highlightOnHover": { "type": "boolean", "default": false }
+      }
+    },
+    {
+      "name": "Accordion",
+      "category": "Data Display",
+      "description": "Collapsible content sections. Use for FAQ or grouped content.",
+      "props": {
+        "items": { "type": "array", "description": "Array of accordion items" },
+        "multiple": { "type": "boolean", "default": false, "description": "Allow multiple open" }
+      }
+    },
+    {
+      "name": "Timeline",
+      "category": "Data Display",
+      "description": "Chronological event display. Use for history or activity feeds.",
+      "props": {
+        "items": { "type": "array", "description": "Timeline items" },
+        "active": { "type": "number", "description": "Active item index" }
+      }
+    },
+    {
+      "name": "Image",
+      "category": "Media",
+      "description": "Image display with loading states.",
+      "props": {
+        "src": { "type": "string", "description": "Image URL" },
+        "alt": { "type": "string", "description": "Alt text" },
+        "width": { "type": "string", "description": "Width" },
+        "height": { "type": "string", "description": "Height" },
+        "radius": { "type": "string", "default": "md" }
+      }
+    },
+    {
+      "name": "Icon",
+      "category": "Media",
+      "description": "Icon display from icon library.",
+      "props": {
+        "name": { "type": "string", "description": "Icon name" },
+        "size": { "type": "number", "default": 24 },
+        "color": { "type": "string" }
+      }
+    },
+    {
+      "name": "Divider",
+      "category": "Layout",
+      "description": "Visual separator between content sections.",
+      "props": {
+        "orientation": { "type": "string", "enum": ["horizontal", "vertical"], "default": "horizontal" },
+        "label": { "type": "string", "description": "Optional center label" }
+      }
+    }
+  ],
+  "patterns": [
+    {
+      "name": "ContactCard",
+      "description": "A card displaying contact information with action buttons",
+      "intent": ["contact", "profile", "user"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "Row"],
+        "structure": "Card > Column[Avatar, Text(name), Text(email)] + Row[Button, Button]"
+      }
+    },
+    {
+      "name": "TaskList",
+      "description": "A list of tasks with status indicators",
+      "intent": ["task", "todo", "list", "checklist"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "Row", "Checkbox", "Badge"],
+        "structure": "Card > Column[...Row[Checkbox, Text, Badge]]"
+      }
+    },
+    {
+      "name": "LoginForm",
+      "description": "Authentication form with email and password",
+      "intent": ["login", "auth", "signin"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "TextField", "Checkbox", "Button"],
+        "structure": "Card > Column[Title, TextField(email), TextField(password), Checkbox(remember), Button]"
+      }
+    },
+    {
+      "name": "ProductCard",
+      "description": "E-commerce product display with price and action",
+      "intent": ["product", "item", "ecommerce", "shop"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "Image", "Text", "Badge", "Button"],
+        "structure": "Card > Column[Image, Text(name), Row[Text(price), Badge(status)], Button(action)]"
+      }
+    },
+    {
+      "name": "SettingsForm",
+      "description": "Settings or preferences form with toggles",
+      "intent": ["settings", "preferences", "config"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "Switch", "Divider"],
+        "structure": "Card > Column[Title, ...Row[Text(label), Switch], Divider, Button(save)]"
+      }
+    },
+    {
+      "name": "Dashboard",
+      "description": "Statistics or metrics dashboard layout",
+      "intent": ["dashboard", "stats", "metrics", "analytics"],
+      "template": {
+        "root": "Column",
+        "children": ["Grid", "Card", "Text"],
+        "structure": "Column[Title, Grid[...Card[Text(metric), Text(value)]]]"
+      }
+    },
+    {
+      "name": "Wizard",
+      "description": "Multi-step form or process",
+      "intent": ["wizard", "steps", "multi-step", "flow"],
+      "template": {
+        "root": "Card",
+        "children": ["Column", "Stepper", "Button"],
+        "structure": "Card > Column[Stepper, content area, Row[Button(back), Button(next)]]"
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { MantineProvider, createTheme } from '@mantine/core';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Scroll to top on route change and page load (like traditional page behavior)
 function ScrollToTop() {
@@ -26,6 +27,7 @@ import { Demo } from './components/Demo';
 import { Learn } from './components/Learn';
 import { UseCases } from './components/UseCases';
 import { Teams } from './components/Teams';
+import { Architecture } from './components/Architecture';
 import './index.css';
 
 // Minimal theme with reduced visual noise
@@ -54,17 +56,20 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MantineProvider theme={theme} defaultColorScheme="light">
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/demo" element={<Demo />} />
-          <Route path="/learn" element={<Learn />} />
-          <Route path="/use-cases" element={<UseCases />} />
-          <Route path="/teams" element={<Teams />} />
-        </Routes>
-      </BrowserRouter>
-    </MantineProvider>
+    <HelmetProvider>
+      <MantineProvider theme={theme} defaultColorScheme="light">
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/demo" element={<Demo />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/architecture" element={<Architecture />} />
+            <Route path="/use-cases" element={<UseCases />} />
+            <Route path="/teams" element={<Teams />} />
+          </Routes>
+        </BrowserRouter>
+      </MantineProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

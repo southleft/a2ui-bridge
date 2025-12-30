@@ -105,7 +105,8 @@ function parseA2UIMessages(text: string): ServerToClientMessage[] {
 export async function generateUI(
   prompt: string,
   callbacks: StreamCallbacks,
-  provider: Provider = 'anthropic'
+  provider: Provider = 'anthropic',
+  useMcpTools: boolean = false
 ): Promise<void> {
   try {
     const response = await fetch(PROXY_URL, {
@@ -124,6 +125,7 @@ export async function generateUI(
             content: prompt,
           },
         ],
+        useMcpTools, // Enable MCP tool use for component intelligence
       }),
       signal: callbacks.signal, // Support cancellation
     });

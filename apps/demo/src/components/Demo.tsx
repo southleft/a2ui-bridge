@@ -38,11 +38,13 @@ import {
   ChevronDown,
   Zap,
   Clock,
+  Brain,
 } from 'lucide-react';
 
 import { mantineComponents } from '../adapters/mantine';
 import { StreamingProgress, StreamingProgressCompact } from './StreamingProgress';
 import { A2UIErrorBoundary } from './ErrorBoundary';
+import { SEO } from '@/components/shared/SEO';
 
 // Intent-based scenarios (user-centric, not developer-centric)
 const SCENARIOS = [
@@ -107,6 +109,7 @@ export function Demo() {
   });
   const [providerDropdownOpen, setProviderDropdownOpen] = useState(false);
   const [useSnippets, setUseSnippets] = useState(true); // Enable snippet mode by default
+  const [useMcpTools, setUseMcpTools] = useState(false); // MCP tool use for component intelligence
   const [generationStats, setGenerationStats] = useState<GenerationStats | null>(null);
 
   const [isDark, setIsDark] = useState(() => {
@@ -290,7 +293,9 @@ export function Demo() {
           setIsGenerating(false);
           setChatHistory((prev) => [...prev, {
             role: 'assistant',
-            content: 'Here\'s an interface to help you with that.',
+            content: useMcpTools
+              ? 'Here\'s an interface built with component intelligence.'
+              : 'Here\'s an interface to help you with that.',
             timestamp: new Date(),
           }]);
         },
@@ -301,9 +306,9 @@ export function Demo() {
           }
           setIsGenerating(false);
         },
-      }, provider);
+      }, provider, useMcpTools);
     }
-  }, [prompt, availableProviders, provider, isGenerating, processor, useSnippets]);
+  }, [prompt, availableProviders, provider, isGenerating, processor, useSnippets, useMcpTools]);
 
   // Handle keyboard shortcuts
   const handleKeyDown = useCallback(
@@ -348,6 +353,11 @@ export function Demo() {
 
   return (
     <TooltipProvider>
+      <SEO
+        title="Interactive Demo"
+        description="Try A2UI Bridge live. Describe your UI in natural language and watch as AI generates real, interactive React components using your design system."
+        path="/demo"
+      />
       <div className={cn("min-h-screen flex flex-col", isDark ? "dark bg-zinc-900" : "bg-zinc-50")}>
         {/* Header */}
         <header className={cn(
@@ -393,6 +403,33 @@ export function Demo() {
                   : 'Traditional full generation (slower, more flexible)'}
               </TooltipContent>
             </Tooltip>
+
+            {/* MCP Tools Toggle - Only visible when not using snippets */}
+            {!useSnippets && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={useMcpTools ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setUseMcpTools(!useMcpTools)}
+                    className={cn(
+                      "gap-1.5 text-xs h-8",
+                      useMcpTools
+                        ? "bg-violet-500 hover:bg-violet-600 text-white"
+                        : isDark ? "border-zinc-600" : ""
+                    )}
+                  >
+                    <Brain className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">{useMcpTools ? 'MCP Enhanced' : 'Basic'}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {useMcpTools
+                    ? 'AI uses MCP tools to discover components and validate output'
+                    : 'Traditional generation without component intelligence'}
+                </TooltipContent>
+              </Tooltip>
+            )}
 
             {/* Provider Selector */}
             <div className="relative">

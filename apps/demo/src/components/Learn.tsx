@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PageLayout } from './shared/PageLayout';
+import { SEO } from '@/components/shared/SEO';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -15,11 +16,18 @@ import {
   XCircle,
   ExternalLink,
   Workflow,
+  Server,
+  Sparkles,
 } from 'lucide-react';
 
 export function Learn() {
   return (
     <PageLayout>
+      <SEO
+        title="What is A2UI?"
+        description="Learn about A2UI (Agent-to-User Interface), Google's open protocol that enables AI agents to generate rich, interactive user interfaces safely and declaratively."
+        path="/learn"
+      />
       {/* Hero */}
       <div className="max-w-7xl mx-auto px-8 py-20">
         <div className="max-w-4xl">
@@ -189,8 +197,90 @@ export function Learn() {
 
       <Separator />
 
-      {/* Why Declarative Matters */}
+      {/* MCP Integration Preview */}
       <div className="max-w-7xl mx-auto px-8 py-20">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-3 mb-5">
+            <Server size={28} strokeWidth={1.5} className="text-[#8b5cf6]" />
+            <p className="text-muted-foreground text-label">
+              Enterprise Enhancement
+            </p>
+          </div>
+          <h2 className="text-4xl mb-5 text-display">
+            Supercharge with <span className="text-[#8b5cf6]">MCP</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
+            A2UI works beautifully on its own. Add the Model Context Protocol (MCP) for
+            component intelligence, validation, and enterprise-grade reliability.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="p-8 bg-gradient-to-br from-[#8b5cf6]/5 to-[#8b5cf6]/10 border border-[#8b5cf6]/20 rounded-sm">
+            <div className="w-16 h-16 rounded-sm bg-[#8b5cf6] flex items-center justify-center mb-6">
+              <Layers size={32} strokeWidth={1.5} className="text-white" />
+            </div>
+            <h3 className="text-2xl mb-3 text-headline">Catalog MCP</h3>
+            <p className="text-lg text-muted-foreground mb-4 text-feature">
+              Expose your component catalog to AI via queryable tools. Get validated
+              components, consistent layouts, and fewer errors.
+            </p>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-[#8b5cf6]" />
+                <code className="text-sm bg-[#8b5cf6]/10 px-2 py-0.5 rounded">list_components()</code>
+              </li>
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-[#8b5cf6]" />
+                <code className="text-sm bg-[#8b5cf6]/10 px-2 py-0.5 rounded">get_component_schema()</code>
+              </li>
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-[#8b5cf6]" />
+                <code className="text-sm bg-[#8b5cf6]/10 px-2 py-0.5 rounded">validate_a2ui()</code>
+              </li>
+            </ul>
+          </div>
+
+          <div className="p-8 bg-white border border-gray-200 rounded-sm">
+            <div className="w-16 h-16 rounded-sm bg-gray-900 flex items-center justify-center mb-6">
+              <Sparkles size={32} strokeWidth={1.5} className="text-white" />
+            </div>
+            <h3 className="text-2xl mb-3 text-headline">The Benefits</h3>
+            <p className="text-lg text-muted-foreground mb-4 text-feature">
+              MCP makes AI smarter about your design system, so the A2UI it
+              produces is less guessy and more correct.
+            </p>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-green-600" />
+                No hallucinated components
+              </li>
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-green-600" />
+                Consistent layout patterns
+              </li>
+              <li className="flex items-center gap-2 text-base text-muted-foreground">
+                <CheckCircle size={16} className="text-green-600" />
+                Pre-render validation
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="text-center mt-12">
+          <Button size="lg" variant="outline" className="text-lg h-14 px-8" asChild>
+            <Link to="/architecture">
+              Deep Dive: A2UI + MCP Architecture
+              <ArrowRight size={20} className="ml-2" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Why Declarative Matters */}
+      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">Why Declarative Matters</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
