@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader, PageFooter } from '@/components/shared/PageLayout';
+import { SEO } from '@/components/shared/SEO';
+import { CodeBlock } from '@/components/shared/CodeBlock';
 import {
   ArrowRight,
   FileCode,
@@ -132,6 +134,7 @@ export function Landing() {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
+      <SEO />
       <PageHeader />
 
       {/* Hero - Two Column Layout */}
@@ -453,20 +456,13 @@ export function Landing() {
               </button>
             </div>
 
-            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-xl">
-              <div className="px-5 py-3 bg-[#161b22] border-b border-white/10 flex items-center justify-between">
-                <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">JSON</span>
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-                </div>
-              </div>
-
-              <pre className="text-base text-[#e6edf3] p-6 overflow-x-auto font-mono leading-relaxed">
-                {exampleJson}
-              </pre>
-            </div>
+            <CodeBlock
+              language="json"
+              label="JSON"
+              code={exampleJson}
+              showWindowControls
+              className="shadow-xl"
+            />
           </div>
         </div>
       </div>
@@ -507,12 +503,11 @@ export function Landing() {
                 <Badge variant="secondary" className="text-base px-3 py-1">@a2ui-bridge/react</Badge>
               </div>
             </div>
-            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
-              <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
-                <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">Terminal</span>
-              </div>
-              <pre className="text-base text-[#e6edf3] p-5 font-mono overflow-x-auto">npm install @a2ui-bridge/core @a2ui-bridge/react</pre>
-            </div>
+            <CodeBlock
+              language="bash"
+              label="Terminal"
+              code="npm install @a2ui-bridge/core @a2ui-bridge/react"
+            />
           </div>
 
           {/* Step 2 */}
@@ -533,11 +528,10 @@ export function Landing() {
                 You have full control over styling and behavior.
               </p>
             </div>
-            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
-              <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
-                <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">TypeScript</span>
-              </div>
-              <pre className="text-base text-[#e6edf3] p-5 font-mono overflow-x-auto leading-relaxed">{`const adapters = {
+            <CodeBlock
+              language="typescript"
+              label="TypeScript"
+              code={`const adapters = {
   Button: createAdapter(
     MantineButton,
     { mapProps: (p) => ({
@@ -549,8 +543,8 @@ export function Landing() {
   Card: createAdapter(MantineCard),
   Text: createAdapter(MantineText),
   // ... more adapters
-};`}</pre>
-            </div>
+};`}
+            />
           </div>
 
           {/* Step 3 */}
@@ -571,11 +565,10 @@ export function Landing() {
                 Stream A2UI JSON from any LLM, and watch real components appear in real-time.
               </p>
             </div>
-            <div className="rounded-sm border border-gray-200 bg-[#1a1b1e] overflow-hidden shadow-lg">
-              <div className="px-5 py-3 bg-[#161b22] border-b border-white/10">
-                <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">React</span>
-              </div>
-              <pre className="text-base text-[#e6edf3] p-5 font-mono overflow-x-auto leading-relaxed">{`function App() {
+            <CodeBlock
+              language="tsx"
+              label="React"
+              code={`function App() {
   const processor = useA2uiProcessor();
 
   // Feed A2UI JSON from your LLM
@@ -592,8 +585,8 @@ export function Landing() {
       onAction={handleUserAction}
     />
   );
-}`}</pre>
-            </div>
+}`}
+            />
           </div>
         </div>
       </div>
