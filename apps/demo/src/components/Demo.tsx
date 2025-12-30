@@ -358,7 +358,7 @@ export function Demo() {
         description="Try A2UI Bridge live. Describe your UI in natural language and watch as AI generates real, interactive React components using your design system."
         path="/demo"
       />
-      <div className={cn("min-h-screen flex flex-col", isDark ? "dark bg-zinc-900" : "bg-zinc-50")}>
+      <div className={cn("h-screen flex flex-col overflow-hidden", isDark ? "dark bg-zinc-900" : "bg-zinc-50")}>
         {/* Header */}
         <header className={cn(
           "h-14 flex items-center justify-between px-4 border-b shrink-0",
