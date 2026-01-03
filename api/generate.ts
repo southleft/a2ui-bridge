@@ -1,10 +1,12 @@
 /**
- * Vercel Edge Function: /api/generate
+ * Vercel Serverless Function: /api/generate
  * Proxies requests to LLM APIs (Anthropic, OpenAI, Google)
  */
 
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
 export const config = {
-  runtime: 'edge',
+  maxDuration: 60, // Allow up to 60 seconds for MCP Enhanced mode
 };
 
 type Provider = 'anthropic' | 'openai' | 'google';
@@ -30,43 +32,29 @@ const ENV_KEYS: Record<Provider, string> = {
   google: 'VITE_GOOGLE_API_KEY',
 };
 
-export default async function handler(request: Request) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   // Handle CORS preflight
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
   }
 
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' },
-    });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const requestData: GenerateRequest = await request.json();
+  const requestData: GenerateRequest = req.body;
   const provider = requestData.provider || 'anthropic';
   const apiKey = requestData.apiKey || process.env[ENV_KEYS[provider]];
 
   if (!apiKey) {
-    return new Response(
-      JSON.stringify({
-        error: `API key required for ${provider}. Set ${ENV_KEYS[provider]} in environment.`,
-      }),
-      {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
-    );
+    return res.status(400).json({
+      error: `API key required for ${provider}. Set ${ENV_KEYS[provider]} in environment.`,
+    });
   }
 
   try {
@@ -81,30 +69,13 @@ export default async function handler(request: Request) {
     } else if (provider === 'google') {
       data = await callGoogle(apiKey, model, maxTokens, requestData.system, requestData.messages);
     } else {
-      return new Response(JSON.stringify({ error: `Unknown provider: ${provider}` }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
+      return res.status(400).json({ error: `Unknown provider: ${provider}` });
     }
 
-    return new Response(JSON.stringify(data), {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return res.json(data);
   } catch (error) {
     console.error(`${provider} API error:`, error);
-    return new Response(JSON.stringify({ error: String(error) }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return res.status(500).json({ error: String(error) });
   }
 }
 
