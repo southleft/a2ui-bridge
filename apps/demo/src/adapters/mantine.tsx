@@ -1472,15 +1472,15 @@ export const SelectAdapter = createAdapter(Select, {
         if (typeof opt === 'string') {
           return { value: opt, label: opt };
         }
-        // Handle object options - ensure values are primitives, not nested objects
-        const rawValue = opt.value ?? opt.id ?? opt.label ?? '';
-        const value = typeof rawValue === 'object' ? JSON.stringify(rawValue) : String(rawValue);
-        const rawLabel = opt.label ?? opt.text ?? opt.value ?? value;
-        const label = typeof rawLabel === 'object' ? JSON.stringify(rawLabel) : String(rawLabel);
+        // Handle object options - use extractValue to unwrap literalString/literalNumber etc.
+        const rawValue = extractValue(opt.value) ?? extractValue(opt.id) ?? extractValue(opt.label) ?? '';
+        const value = String(rawValue);
+        const rawLabel = extractValue(opt.label) ?? extractValue(opt.text) ?? extractValue(opt.value) ?? value;
+        const label = String(rawLabel);
         return {
           value,
           label,
-          disabled: opt.disabled,
+          disabled: extractValue(opt.disabled),
         };
       })
       .filter((opt: any) => opt.value && opt.label);
@@ -1520,15 +1520,15 @@ export const MultiSelectAdapter = createAdapter(MultiSelect, {
         if (typeof opt === 'string') {
           return { value: opt, label: opt };
         }
-        // Handle object options - ensure values are primitives, not nested objects
-        const rawValue = opt.value ?? opt.id ?? opt.label ?? '';
-        const value = typeof rawValue === 'object' ? JSON.stringify(rawValue) : String(rawValue);
-        const rawLabel = opt.label ?? opt.text ?? opt.value ?? value;
-        const label = typeof rawLabel === 'object' ? JSON.stringify(rawLabel) : String(rawLabel);
+        // Handle object options - use extractValue to unwrap literalString/literalNumber etc.
+        const rawValue = extractValue(opt.value) ?? extractValue(opt.id) ?? extractValue(opt.label) ?? '';
+        const value = String(rawValue);
+        const rawLabel = extractValue(opt.label) ?? extractValue(opt.text) ?? extractValue(opt.value) ?? value;
+        const label = String(rawLabel);
         return {
           value,
           label,
-          disabled: opt.disabled,
+          disabled: extractValue(opt.disabled),
         };
       })
       .filter((opt: any) => opt.value && opt.label);
