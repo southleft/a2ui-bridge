@@ -260,11 +260,11 @@ export function Demo() {
           abortControllerRef.current = null;
           setIsGenerating(false);
           setGenerationStats(stats);
-          const timeStr = (stats.timeMs / 1000).toFixed(1);
           // Show friendly message in chat (JSON is still visible in protocol stream panel)
+          const timeStr = (stats.timeMs / 1000).toFixed(1);
           setChatHistory((prev) => [...prev, {
             role: 'assistant',
-            content: `Here's an interface to help you with that.`,
+            content: `Here's an interface to help you with that. (Generated in ${timeStr}s)`,
             timestamp: new Date(),
           }]);
         },

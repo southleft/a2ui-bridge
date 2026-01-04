@@ -107,7 +107,7 @@ export const selectSnippet: Snippet = {
     { name: 'label', type: 'string', required: true, description: 'Field label' },
     { name: 'binding', type: 'dataPath', required: true, description: 'Data model path' },
     { name: 'placeholder', type: 'string', default: 'Select...', description: 'Placeholder text' },
-    { name: 'options', type: 'array', description: 'Array of option strings' },
+    { name: 'options', type: 'string', description: 'Array of option strings (passed as array at runtime)' },
   ],
   template: {
     componentIds: ['{{id}}-select'],
