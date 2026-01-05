@@ -24,6 +24,18 @@ function generateId(prefix: string, index: number): string {
 }
 
 /**
+ * Strip markdown code fences from AI responses
+ * Handles ```json, ```typescript, ``` etc.
+ */
+function stripMarkdownCodeFences(text: string): string {
+  // Remove opening code fences with optional language specifier
+  let cleaned = text.replace(/```(?:json|typescript|javascript|ts|js)?\s*\n?/gi, '');
+  // Remove closing code fences
+  cleaned = cleaned.replace(/\n?```/g, '');
+  return cleaned.trim();
+}
+
+/**
  * Replace slot placeholders in a string
  * Placeholders are in the format {{slotName}}
  * NOTE: Array/object slots are skipped here and handled separately in processComponent
@@ -297,8 +309,11 @@ export function composeFromAIResponse(
   surfaceId: string = '@default'
 ): CompositionResult {
   try {
+    // Strip markdown code fences before parsing
+    const cleanedResponse = stripMarkdownCodeFences(aiResponse);
+
     // Try to extract JSON from the response
-    const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+    const jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return {
         success: false,

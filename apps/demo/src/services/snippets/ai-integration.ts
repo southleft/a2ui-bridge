@@ -45,12 +45,27 @@ function ensureInitialized(): void {
 }
 
 /**
+ * Strip markdown code fences from AI responses
+ * Handles ```json, ```typescript, ``` etc.
+ */
+function stripMarkdownCodeFences(text: string): string {
+  // Remove opening code fences with optional language specifier
+  let cleaned = text.replace(/```(?:json|typescript|javascript|ts|js)?\s*\n?/gi, '');
+  // Remove closing code fences
+  cleaned = cleaned.replace(/\n?```/g, '');
+  return cleaned.trim();
+}
+
+/**
  * Parse AI response as AICompositionOutput
  */
 function parseCompositionOutput(text: string): AICompositionOutput | null {
   try {
+    // Strip markdown code fences before parsing
+    const cleanedText = stripMarkdownCodeFences(text);
+
     // Try to extract JSON from the response
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return null;
 
     const parsed = JSON.parse(jsonMatch[0]);
@@ -186,7 +201,8 @@ export async function generateUIWithSnippets(
 
     // If all else fails, try direct JSON parse as A2UI array
     try {
-      const jsonMatch = fullText.match(/\[[\s\S]*\]/);
+      const cleanedText = stripMarkdownCodeFences(fullText);
+      const jsonMatch = cleanedText.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
         const messages = JSON.parse(jsonMatch[0]) as ServerToClientMessage[];
         callbacks.onMessage(messages);

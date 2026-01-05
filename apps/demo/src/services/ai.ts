@@ -13,6 +13,18 @@ import { initializeSnippetLibrary } from './snippets/library';
 const PROXY_URL = '/api/generate';
 const PROVIDERS_URL = '/api/providers';
 
+/**
+ * Strip markdown code fences from AI responses
+ * Handles ```json, ```typescript, ``` etc.
+ */
+function stripMarkdownCodeFences(text: string): string {
+  // Remove opening code fences with optional language specifier
+  let cleaned = text.replace(/```(?:json|typescript|javascript|ts|js)?\s*\n?/gi, '');
+  // Remove closing code fences
+  cleaned = cleaned.replace(/\n?```/g, '');
+  return cleaned.trim();
+}
+
 export type Provider = 'anthropic' | 'openai' | 'google';
 
 export interface ProviderInfo {
@@ -91,8 +103,11 @@ function ensureSnippetsInitialized(): void {
  */
 function tryParseSnippetComposition(text: string): ServerToClientMessage[] | null {
   try {
+    // Strip markdown code fences before parsing
+    const cleanedText = stripMarkdownCodeFences(text);
+
     // Try to find JSON object in the response
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return null;
 
     const parsed = JSON.parse(jsonMatch[0]);
@@ -129,8 +144,11 @@ function parseA2UIMessages(text: string): ServerToClientMessage[] {
     return snippetMessages;
   }
 
+  // Strip markdown code fences before parsing
+  const cleanedText = stripMarkdownCodeFences(text);
+
   // Fall back to direct A2UI array format
-  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  const jsonMatch = cleanedText.match(/\[[\s\S]*\]/);
   if (!jsonMatch) {
     console.warn('No JSON array found in response');
     return [];
