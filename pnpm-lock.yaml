@@ -23,6 +23,9 @@ importers:
       '@a2ui-bridge/react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@a2ui-bridge/react-mantine':
+        specifier: workspace:*
+        version: link:../../packages/react-mantine
       '@a2ui-bridge/react-shadcn':
         specifier: workspace:*
         version: link:../../packages/react-shadcn
@@ -121,6 +124,34 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.27
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/react-mantine:
+    dependencies:
+      '@a2ui-bridge/core':
+        specifier: workspace:*
+        version: link:../core
+      '@a2ui-bridge/react':
+        specifier: workspace:*
+        version: link:../react
+    devDependencies:
+      '@mantine/core':
+        specifier: ^8.3.10
+        version: 8.3.10(@mantine/hooks@8.3.10(react@18.3.1))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/hooks':
+        specifier: ^8.3.10
+        version: 8.3.10(react@18.3.1)
+      '@tabler/icons-react':
+        specifier: ^3.31.0
+        version: 3.36.0(react@18.3.1)
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.27
