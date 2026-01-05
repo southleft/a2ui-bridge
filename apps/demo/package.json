@@ -12,6 +12,7 @@
   "dependencies": {
     "@a2ui-bridge/core": "workspace:*",
     "@a2ui-bridge/react": "workspace:*",
+    "@a2ui-bridge/react-mantine": "workspace:*",
     "@a2ui-bridge/react-shadcn": "workspace:*",
     "@mantine/core": "^8.3.10",
     "@mantine/hooks": "^8.3.10",
