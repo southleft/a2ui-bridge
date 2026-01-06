@@ -36,3 +36,4 @@ coverage
 
 # Vercel
 .vercel
+.playwright-mcp/
