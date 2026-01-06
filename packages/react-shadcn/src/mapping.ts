@@ -151,6 +151,8 @@ export const shadcnComponents: ComponentMapping = {
   IconButton: ActionIcon,
   TextInput: TextField,
   Textarea: TextArea,
+  CheckBox: Checkbox,
+  Toggle: Switch,
 
   // Feedback & Status (5)
   Alert,
