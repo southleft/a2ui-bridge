@@ -159,7 +159,7 @@ export function Teams() {
         path="/teams"
       />
       {/* Hero */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 mb-6">
             <Users size={20} className="text-[#006699]" />
@@ -175,7 +175,7 @@ export function Teams() {
             exploring a proof of concept or planning enterprise deployment, here's how to get started.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-gray-900 hover:bg-gray-800 text-lg h-14 px-8"
@@ -202,7 +202,7 @@ export function Teams() {
       <Separator />
 
       {/* Video Placeholder */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-3 mb-6">
             <Play size={24} className="text-[#006699]" />
@@ -239,7 +239,7 @@ export function Teams() {
       <Separator />
 
       {/* Role-Based Value */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">Value by Role</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -305,7 +305,7 @@ export function Teams() {
       <Separator />
 
       {/* Adoption Timeline */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Clock size={24} strokeWidth={1.5} />
@@ -326,9 +326,9 @@ export function Teams() {
 
             <div className="space-y-8">
               {TIMELINE.map((phase, index) => (
-                <div key={phase.phase} className="relative flex gap-8">
+                <div key={phase.phase} className="relative flex gap-4 sm:gap-8">
                   {/* Timeline dot */}
-                  <div className="hidden md:flex w-12 h-12 rounded-full bg-[#006699] text-white items-center justify-center font-semibold text-lg flex-shrink-0 z-10">
+                  <div className="hidden md:flex w-12 h-12 min-w-[3rem] rounded-full bg-[#006699] text-white items-center justify-center font-semibold text-lg flex-shrink-0 z-10">
                     {index + 1}
                   </div>
 
@@ -366,7 +366,7 @@ export function Teams() {
       <Separator />
 
       {/* Security Section */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Shield size={24} strokeWidth={1.5} className="text-green-600" />
@@ -443,14 +443,14 @@ export function Teams() {
       <Separator />
 
       {/* CTA */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center">
           <h2 className="text-4xl mb-6 text-display">Ready to get started?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8 text-subtitle">
             Try the interactive demo to see A2UI in action, then check out the quick start guide
             to begin your integration.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-[#006699] hover:bg-[#005580] text-lg h-14 px-8"

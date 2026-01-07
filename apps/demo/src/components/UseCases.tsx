@@ -132,7 +132,7 @@ export function UseCases() {
         path="/use-cases"
       />
       {/* Hero */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 mb-6">
             <Sparkles size={20} className="text-[#006699]" />
@@ -164,7 +164,7 @@ export function UseCases() {
       <Separator />
 
       {/* Use Cases Grid */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="flex flex-col gap-16">
           {USE_CASES.map((useCase, index) => {
             const Icon = useCase.icon;
@@ -235,7 +235,7 @@ export function UseCases() {
       <Separator />
 
       {/* Integration Patterns */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">Integration Patterns</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -265,7 +265,7 @@ export function UseCases() {
       <Separator />
 
       {/* CTA */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center">
           <h2 className="text-4xl mb-6 text-display">
             See how these use cases come to life
@@ -274,7 +274,7 @@ export function UseCases() {
             The interactive demo showcases how natural language becomes working UI components.
             Try different prompts and see A2UI in action.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-[#006699] hover:bg-[#005580] text-lg h-14 px-8"

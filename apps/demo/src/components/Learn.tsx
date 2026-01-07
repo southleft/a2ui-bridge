@@ -29,7 +29,7 @@ export function Learn() {
         path="/learn"
       />
       {/* Hero */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="max-w-4xl">
           <div className="flex items-center gap-3 mb-6">
             <Badge className="bg-[#006699]/10 text-[#006699] hover:bg-[#006699]/10 text-base px-3 py-1">
@@ -50,7 +50,7 @@ export function Learn() {
             generating code, agents describe UIs as structured data that clients render natively.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-gray-900 hover:bg-gray-800 text-lg h-14 px-8"
@@ -74,7 +74,7 @@ export function Learn() {
       <Separator />
 
       {/* The Core Concept */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">The Core Concept</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -122,7 +122,7 @@ export function Learn() {
       <Separator />
 
       {/* Architecture Diagram */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Workflow size={28} strokeWidth={1.5} />
@@ -135,49 +135,49 @@ export function Learn() {
 
         {/* Flow Diagram */}
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-0">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-0">
             {/* Step 1 */}
             <div className="flex flex-col items-center text-center max-w-[180px]">
-              <div className="w-20 h-20 rounded-full bg-[#006699] text-white flex items-center justify-center mb-4">
+              <div className="w-20 h-20 min-w-[5rem] rounded-full bg-[#006699] text-white flex items-center justify-center mb-4 flex-shrink-0">
                 <span className="text-2xl text-strong">LLM</span>
               </div>
               <p className="text-lg text-headline">AI Agent</p>
               <p className="text-sm text-muted-foreground mt-1 text-caption">Generates A2UI JSON</p>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden lg:block flex-shrink-0">
               <ArrowRight size={32} className="text-gray-300" />
             </div>
 
             {/* Step 2 */}
             <div className="flex flex-col items-center text-center max-w-[180px]">
-              <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+              <div className="w-20 h-20 min-w-[5rem] rounded-full bg-gray-100 flex items-center justify-center mb-4 flex-shrink-0">
                 <FileJson size={32} strokeWidth={1.5} className="text-gray-600" />
               </div>
               <p className="text-lg text-headline">A2UI JSON</p>
               <p className="text-sm text-muted-foreground mt-1 text-caption">Declarative UI recipe</p>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden lg:block flex-shrink-0">
               <ArrowRight size={32} className="text-gray-300" />
             </div>
 
             {/* Step 3 */}
             <div className="flex flex-col items-center text-center max-w-[180px]">
-              <div className="w-20 h-20 rounded-full bg-[#006699]/10 flex items-center justify-center mb-4">
+              <div className="w-20 h-20 min-w-[5rem] rounded-full bg-[#006699]/10 flex items-center justify-center mb-4 flex-shrink-0">
                 <span className="text-lg text-[#006699] text-strong">Bridge</span>
               </div>
               <p className="text-lg text-headline">A2UI Bridge</p>
               <p className="text-sm text-muted-foreground mt-1 text-caption">Maps to your components</p>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden lg:block flex-shrink-0">
               <ArrowRight size={32} className="text-gray-300" />
             </div>
 
             {/* Step 4 */}
             <div className="flex flex-col items-center text-center max-w-[180px]">
-              <div className="w-20 h-20 rounded-full bg-gray-900 text-white flex items-center justify-center mb-4">
+              <div className="w-20 h-20 min-w-[5rem] rounded-full bg-gray-900 text-white flex items-center justify-center mb-4 flex-shrink-0">
                 <span className="text-lg text-strong">UI</span>
               </div>
               <p className="text-lg text-headline">Native Components</p>
@@ -198,7 +198,7 @@ export function Learn() {
       <Separator />
 
       {/* MCP Integration Preview */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Server size={28} strokeWidth={1.5} className="text-[#8b5cf6]" />
@@ -280,7 +280,7 @@ export function Learn() {
       <Separator />
 
       {/* Why Declarative Matters */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">Why Declarative Matters</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -347,7 +347,7 @@ export function Learn() {
       <Separator />
 
       {/* Comparison */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">Compared to Alternatives</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -356,63 +356,65 @@ export function Learn() {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="border border-gray-200 rounded-sm overflow-hidden">
-            {/* Header */}
-            <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200">
-              <div className="p-4 text-lg text-headline">Approach</div>
-              <div className="p-4 text-lg text-center text-headline">Security</div>
-              <div className="p-4 text-lg text-center text-headline">Design System</div>
-              <div className="p-4 text-lg text-center text-headline">Performance</div>
-            </div>
+          <div className="border border-gray-200 rounded-sm overflow-hidden overflow-x-auto">
+            <div className="min-w-[500px]">
+              {/* Header */}
+              <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200">
+                <div className="p-3 sm:p-4 text-base sm:text-lg text-headline">Approach</div>
+                <div className="p-3 sm:p-4 text-base sm:text-lg text-center text-headline">Security</div>
+                <div className="p-3 sm:p-4 text-base sm:text-lg text-center text-headline">Design System</div>
+                <div className="p-3 sm:p-4 text-base sm:text-lg text-center text-headline">Performance</div>
+              </div>
 
-            {/* A2UI Row */}
-            <div className="grid grid-cols-4 border-b border-gray-200 bg-[#006699]/5">
-              <div className="p-4">
-                <p className="text-[#006699] text-strong">A2UI Protocol</p>
-                <p className="text-sm text-muted-foreground text-caption">Declarative JSON</p>
+              {/* A2UI Row */}
+              <div className="grid grid-cols-4 border-b border-gray-200 bg-[#006699]/5">
+                <div className="p-3 sm:p-4">
+                  <p className="text-[#006699] text-strong">A2UI Protocol</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground text-caption">Declarative JSON</p>
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <CheckCircle size={24} className="text-green-500" />
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <CheckCircle size={24} className="text-green-500" />
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <CheckCircle size={24} className="text-green-500" />
+                </div>
               </div>
-              <div className="p-4 flex justify-center">
-                <CheckCircle size={24} className="text-green-500" />
-              </div>
-              <div className="p-4 flex justify-center">
-                <CheckCircle size={24} className="text-green-500" />
-              </div>
-              <div className="p-4 flex justify-center">
-                <CheckCircle size={24} className="text-green-500" />
-              </div>
-            </div>
 
-            {/* Code Generation Row */}
-            <div className="grid grid-cols-4 border-b border-gray-200">
-              <div className="p-4">
-                <p className="text-strong">Code Generation</p>
-                <p className="text-sm text-muted-foreground text-caption">LLM writes React/Vue/etc.</p>
+              {/* Code Generation Row */}
+              <div className="grid grid-cols-4 border-b border-gray-200">
+                <div className="p-3 sm:p-4">
+                  <p className="text-strong">Code Generation</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground text-caption">LLM writes React/Vue/etc.</p>
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <XCircle size={24} className="text-red-400" />
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <span className="text-yellow-500 font-medium text-sm">Partial</span>
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <CheckCircle size={24} className="text-green-500" />
+                </div>
               </div>
-              <div className="p-4 flex justify-center">
-                <XCircle size={24} className="text-red-400" />
-              </div>
-              <div className="p-4 flex justify-center">
-                <span className="text-yellow-500 font-medium">Partial</span>
-              </div>
-              <div className="p-4 flex justify-center">
-                <CheckCircle size={24} className="text-green-500" />
-              </div>
-            </div>
 
-            {/* Iframe Embedding Row */}
-            <div className="grid grid-cols-4">
-              <div className="p-4">
-                <p className="text-strong">Iframe Embedding</p>
-                <p className="text-sm text-muted-foreground text-caption">Remote rendered UIs</p>
-              </div>
-              <div className="p-4 flex justify-center">
-                <span className="text-yellow-500 font-medium">Partial</span>
-              </div>
-              <div className="p-4 flex justify-center">
-                <XCircle size={24} className="text-red-400" />
-              </div>
-              <div className="p-4 flex justify-center">
-                <XCircle size={24} className="text-red-400" />
+              {/* Iframe Embedding Row */}
+              <div className="grid grid-cols-4">
+                <div className="p-3 sm:p-4">
+                  <p className="text-strong">Iframe Embedding</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground text-caption">Remote rendered UIs</p>
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <span className="text-yellow-500 font-medium text-sm">Partial</span>
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <XCircle size={24} className="text-red-400" />
+                </div>
+                <div className="p-3 sm:p-4 flex justify-center items-center">
+                  <XCircle size={24} className="text-red-400" />
+                </div>
               </div>
             </div>
           </div>
@@ -427,14 +429,14 @@ export function Learn() {
       <Separator />
 
       {/* CTA */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center">
           <h2 className="text-4xl mb-6 text-display">Ready to see it in action?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8 text-subtitle">
             Try the interactive demo to see how natural language becomes native UI components
             rendered from a real design system.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-[#006699] hover:bg-[#005580] text-lg h-14 px-8"

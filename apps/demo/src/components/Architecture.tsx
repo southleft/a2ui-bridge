@@ -200,7 +200,7 @@ export function Architecture() {
       />
 
       {/* Hero */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="max-w-4xl">
           <div className="flex items-center gap-3 mb-6">
             <Badge className="bg-[#8b5cf6]/10 text-[#8b5cf6] hover:bg-[#8b5cf6]/10 text-base px-3 py-1">
@@ -221,7 +221,7 @@ export function Architecture() {
             Model Context Protocol.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             <Button
               size="lg"
               className="bg-gray-900 hover:bg-gray-800 text-lg h-14 px-8"
@@ -245,7 +245,7 @@ export function Architecture() {
       <Separator />
 
       {/* The Key Insight */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <h2 className="text-4xl mb-5 text-display">The Key Insight</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -317,7 +317,7 @@ export function Architecture() {
       <Separator />
 
       {/* Integration Levels */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Layers size={24} className="text-[#006699]" />
@@ -334,9 +334,9 @@ export function Architecture() {
           {INTEGRATION_LEVELS.map((level) => (
             <div key={level.level} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
               {/* Header Section */}
-              <div className="p-8 border-b border-gray-100">
+              <div className="p-4 sm:p-8 border-b border-gray-100">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full bg-[#006699] text-white text-2xl font-medium flex items-center justify-center">
+                  <div className="w-14 h-14 min-w-[3.5rem] rounded-full bg-[#006699] text-white text-2xl font-medium flex items-center justify-center flex-shrink-0">
                     {level.level}
                   </div>
                   <div>
@@ -397,7 +397,7 @@ export function Architecture() {
       <Separator />
 
       {/* Sequence Diagram */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <GitBranch size={24} className="text-[#006699]" />
@@ -418,7 +418,7 @@ export function Architecture() {
       <Separator />
 
       {/* Catalog MCP API */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Package size={24} className="text-[#8b5cf6]" />
@@ -458,7 +458,7 @@ export function Architecture() {
       <Separator />
 
       {/* Two Types of MCPs */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Database size={24} className="text-[#006699]" />
@@ -519,7 +519,7 @@ export function Architecture() {
       <Separator />
 
       {/* Security */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Shield size={24} className="text-[#006699]" />
@@ -570,14 +570,14 @@ export function Architecture() {
       <Separator />
 
       {/* CTA */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="text-center">
           <h2 className="text-4xl mb-5 text-display">Ready to Go Deeper?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Start with the basics and add MCP integration when you're ready.
             The demo shows both approaches side by side.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-lg h-14 px-8" asChild>
               <Link to="/demo">
                 Try the Demo

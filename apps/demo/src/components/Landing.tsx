@@ -138,7 +138,7 @@ export function Landing() {
       <PageHeader />
 
       {/* Hero - Two Column Layout */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left Column - Main Message */}
           <div className="flex flex-col gap-8">
@@ -151,7 +151,7 @@ export function Landing() {
               A React implementation of Google's A2UI protocol. Describe what you want in natural language, and get working UI components rendered from your design system.
             </p>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Button
                 size="lg"
                 className="bg-gray-900 hover:bg-gray-800 text-lg h-14 px-8"
@@ -183,21 +183,21 @@ export function Landing() {
 
             <div className="flex flex-col gap-7">
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg">1</Badge>
+                <Badge className="w-9 h-9 min-w-[2.25rem] p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg flex-shrink-0">1</Badge>
                 <div>
                   <p className="text-lg mb-1 text-headline">Express intent</p>
                   <p className="text-base text-muted-foreground text-quote">"I need to collect contact information"</p>
                 </div>
               </div>
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg">2</Badge>
+                <Badge className="w-9 h-9 min-w-[2.25rem] p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg flex-shrink-0">2</Badge>
                 <div>
                   <p className="text-lg mb-1 text-headline">AI composes a solution</p>
                   <p className="text-base text-muted-foreground text-feature">Declarative JSON—safe, portable, framework-agnostic</p>
                 </div>
               </div>
               <div className="flex gap-5 items-start">
-                <Badge className="w-9 h-9 p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg">3</Badge>
+                <Badge className="w-9 h-9 min-w-[2.25rem] p-0 flex items-center justify-center rounded-full bg-[#006699] hover:bg-[#006699] text-white text-lg flex-shrink-0">3</Badge>
                 <div>
                   <p className="text-lg mb-1 text-headline">Interface materializes</p>
                   <p className="text-base text-muted-foreground text-feature">Real components from your design system, ready to use</p>
@@ -211,7 +211,7 @@ export function Landing() {
       <Separator />
 
       {/* Vision Section - The Future of UI */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-gradient-to-b from-white to-[#006699]/5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-gradient-to-b from-white to-[#006699]/5">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-base font-semibold text-[#006699] uppercase tracking-wide mb-4">
             The Future of Interface
@@ -254,7 +254,7 @@ export function Landing() {
       <Separator />
 
       {/* Video Walkthrough Placeholder */}
-      <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-3 mb-6">
             <Play size={24} className="text-[#006699]" />
@@ -291,7 +291,7 @@ export function Landing() {
       <Separator />
 
       {/* Who Is This For? */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Users size={24} className="text-[#006699]" />
@@ -364,7 +364,7 @@ export function Landing() {
       <Separator />
 
       {/* Value Proposition Section */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <h2 className="text-3xl mb-5 text-display">Why A2UI Bridge?</h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-subtitle">
@@ -450,7 +450,7 @@ export function Landing() {
       <Separator />
 
       {/* Components + Code Section */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Components List - Protocol types with adapter implementations */}
           <div className="lg:col-span-5">
@@ -517,7 +517,7 @@ export function Landing() {
       <Separator />
 
       {/* Quick Start - Stacked Vertical Layout */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-5">
             <Terminal size={28} strokeWidth={1.5} />
@@ -533,10 +533,10 @@ export function Landing() {
         {/* Stacked Steps */}
         <div className="flex flex-col gap-10">
           {/* Step 1 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-4 sm:p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center">1</div>
+                <div className="w-12 h-12 min-w-[3rem] rounded-full bg-[#006699] text-white text-xl flex items-center justify-center flex-shrink-0">1</div>
                 <div>
                   <p className="text-2xl text-headline">Clone the repository</p>
                 </div>
@@ -559,10 +559,10 @@ cd a2ui-bridge && pnpm install && pnpm build`}
           </div>
 
           {/* Step 2 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-4 sm:p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center">2</div>
+                <div className="w-12 h-12 min-w-[3rem] rounded-full bg-[#006699] text-white text-xl flex items-center justify-center flex-shrink-0">2</div>
                 <div>
                   <p className="text-2xl text-headline">Create adapters</p>
                 </div>
@@ -596,10 +596,10 @@ cd a2ui-bridge && pnpm install && pnpm build`}
           </div>
 
           {/* Step 3 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-8 bg-white border border-gray-200 rounded-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start p-4 sm:p-8 bg-white border border-gray-200 rounded-sm">
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#006699] text-white text-xl flex items-center justify-center">3</div>
+                <div className="w-12 h-12 min-w-[3rem] rounded-full bg-[#006699] text-white text-xl flex items-center justify-center flex-shrink-0">3</div>
                 <div>
                   <p className="text-2xl text-headline">Render surface</p>
                 </div>
