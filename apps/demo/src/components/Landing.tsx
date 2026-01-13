@@ -253,7 +253,7 @@ export function Landing() {
 
       <Separator />
 
-      {/* Video Walkthrough Placeholder */}
+      {/* Video Walkthrough */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-3 mb-6">
@@ -265,25 +265,24 @@ export function Landing() {
 
           <h2 className="text-4xl mb-6 text-display">See A2UI Bridge in Action</h2>
 
-          {/* Video Placeholder */}
-          <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-sm overflow-hidden mb-6">
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-[#006699] flex items-center justify-center mb-4 shadow-lg">
-                <Play size={36} className="text-white ml-1" />
-              </div>
-              <p className="text-xl font-semibold text-gray-700 mb-2">Coming Soon</p>
-              <p className="text-base text-muted-foreground max-w-md">
-                A step-by-step walkthrough of integrating A2UI Bridge into your workflow
-              </p>
-            </div>
+          {/* YouTube Video Embed */}
+          <div className="relative aspect-video bg-black border border-gray-300 rounded-sm overflow-hidden mb-6">
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/6Z4vP0xbjt8?start=219"
+              title="A2UI Bridge Demo Walkthrough"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
           </div>
 
           <p className="text-lg text-muted-foreground">
-            In the meantime, try the{' '}
+            Watch the walkthrough above, then{' '}
             <Link to="/demo" className="text-[#006699] hover:underline font-medium">
-              interactive demo
+              try the interactive demo
             </Link>{' '}
-            to experience A2UI in action.
+            to experience A2UI firsthand.
           </p>
         </div>
       </div>
